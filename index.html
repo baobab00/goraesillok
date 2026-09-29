@@ -215,6 +215,17 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .isle.pixel:not(.day) .px-day, .isle.pixel.day .px-night { display: none; }
 .isle.day { background: #8FD0F6; }
 
+.classbar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: -4px 0 8px; }
+.cls-info { display: none; flex: 1; font-size: 13px; color: var(--ink-soft); }
+.clsbtn { border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft); border-radius: 7px; padding: 4px 10px; font-family: "Gowun Batang", serif; font-size: 13px; cursor: pointer; }
+.clsbtn[aria-pressed="true"] { border-color: var(--lilac); color: var(--ink); font-weight: 700; }
+#p-quick.classmode .cls-info { display: block; }
+#p-quick.classmode .isle, #p-quick.classmode #today, #p-quick.classmode .modes, #p-quick.classmode #goodBtn, #p-quick.classmode .seal { display: none !important; }
+#p-quick.classmode .card { border-color: color-mix(in srgb, var(--lilac) 45%, var(--line)); }
+#p-quick.classmode #input { min-height: 84px; color: transparent; text-shadow: 0 0 9px color-mix(in srgb, var(--ink) 75%, transparent); caret-color: var(--ink); }
+#p-quick.classmode #input::placeholder { color: var(--ink-soft); text-shadow: none; }
+#p-quick.classmode .now { font-weight: 700; color: var(--ink); font-size: 14px; }
+
 /* timeline records */
 .day { font-size: 12.5px; color: var(--ink-soft); font-weight: 500; margin: 16px 2px 6px; }
 .list { position: relative; padding-left: 16px; }
@@ -560,6 +571,10 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   <!-- 퀵록 -->
   <section class="panel" id="p-quick" role="tabpanel">
+    <div class="classbar">
+      <span class="cls-info" id="clsInfo">🤫 수업 중 · 글자가 흐리게 보여요</span>
+      <button type="button" class="clsbtn" id="classBtn" aria-pressed="false">🤫 수업 중</button>
+    </div>
     <div class="isle" id="isle">
       <svg class="art-illust" viewBox="0 70 360 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
@@ -1126,7 +1141,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     renderToday();
   });
 
-  function tickNow() { var n = new Date(); $("now").textContent = dateStr(n, true) + " " + timeStr(n); }
+  function tickNow() {
+    if (typeof classOn !== "undefined" && classOn && eventAt) { $("now").textContent = timeStr(eventAt) + "에 있었던 일"; return; } var n = new Date(); $("now").textContent = dateStr(n, true) + " " + timeStr(n); }
   function renderToday() {
     var k = dayKey(new Date());
     var n = records.filter(function (r) { return dayKey(new Date(r.createdAt)) === k; }).length;
@@ -1143,6 +1159,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var rec = { id: now.getTime().toString(36) + Math.random().toString(36).slice(2, 6), createdAt: now.toISOString() };
     if (goodOn) rec.good = true;
     else rec.autoType = classify(mode === "detail" ? [detailValues().situation, detailValues().response].join(" ") : input.value);
+    if (classOn && eventAt && (now - eventAt) >= 30000) rec.eventAt = eventAt.toISOString();
+    if (classOn) rec.inClass = true;
+    var wasClass = classOn;
     var wasGood = goodOn;
     if (mode === "detail") {
       var v = detailValues();
@@ -1156,6 +1175,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var seal = $("seal"); seal.classList.remove("on"); void seal.offsetWidth; seal.classList.add("on");
     afterChange();
     showToast(timeStr(now) + "에 기록했어요", true);
+    if (wasClass) { eventAt = null; updateClassInfo(); } else
     whaleSay(wasGood ? ["좋은 날이 하나 늘었어요. 이런 기록이 쌓이면 아이의 역사가 돼요.", "곱게 적어 두었어요. 나중에 보호자와 이야기할 때 꺼내 드릴게요.", "이런 날도 꼭 남겨야죠. 잘했어요!"][Math.floor(Math.random() * 3)] : AFTER[Math.floor(Math.random() * AFTER.length)]); typedOnce = false;
     focusFirst();
   }
@@ -1181,6 +1201,27 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function ctrlEnter(e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); doSave(); } }
   var typedOnce = false;
   function onTypeStart() { if (!typedOnce) { typedOnce = true; whaleSay(TYPING[Math.floor(Math.random() * TYPING.length)]); } }
+  var CLASS_KEY = "goraesillok.classmode", classOn = false, eventAt = null;
+  function setClass(on) {
+    classOn = !!on;
+    $("p-quick").classList.toggle("classmode", classOn);
+    $("classBtn").setAttribute("aria-pressed", classOn ? "true" : "false");
+    $("classBtn").textContent = classOn ? "수업 끝" : "🤫 수업 중";
+    if (classOn) { setMode("simple", true); setGood(false); input.placeholder = "글자는 흐리게 보여요. 짧게 적어 두세요."; }
+    else input.placeholder = "지금 있었던 일을 그냥 적어두세요.\n이름만 들어가 있으면 나중에 찾을 수 있어요.";
+    eventAt = null; updateClassInfo();
+    try { localStorage.setItem(CLASS_KEY, classOn ? "1" : ""); } catch (e) {}
+  }
+  function updateClassInfo() {
+    $("clsInfo").textContent = eventAt ? "🤫 " + timeStr(eventAt) + " 일 · 적는 중" : "🤫 수업 중 · 글자가 흐리게 보여요";
+    tickNow();
+  }
+  $("classBtn").addEventListener("click", function () { setClass(!classOn); focusFirst(); });
+  input.addEventListener("input", function () {
+    if (!classOn) return;
+    if (input.value.trim() && !eventAt) { eventAt = new Date(); updateClassInfo(); }
+    if (!input.value.trim()) { eventAt = null; updateClassInfo(); }
+  });
   input.addEventListener("input", updateSave);
   input.addEventListener("input", onTypeStart);
   input.addEventListener("keydown", ctrlEnter);
@@ -1194,7 +1235,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var d = new Date(r.createdAt), item = document.createElement("div"), b = document.createElement("button"), extra = document.createElement("div");
     item.className = "item"; extra.className = "extra";
     b.className = "rec" + (r.good ? " good" : ""); b.type = "button"; b.setAttribute("aria-expanded", "false");
-    b.innerHTML = '<span class="time">' + (showDate ? dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " : "") + timeStr(d) +
+    b.innerHTML = '<span class="time">' + (showDate ? dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " : "") + (r.eventAt ? timeStr(new Date(r.eventAt)) + " 일 (" + timeStr(d) + " 기록)" : timeStr(d)) + (r.inClass ? " · 🤫" : "") +
       (r.good ? " · 🌟 좋은 날" : recType(r) ? " · " + esc(recType(r)) + (typeInfo(r).src === "auto" ? " 후보" : "") : "") + (r.summary ? " · 정리본 있음" : "") + (r.memos && r.memos.length ? " · 메모 " + r.memos.length : "") + "</span>" +
       '<span class="text veil">' + bodyHtml(r, ts) + "</span>";
     b.addEventListener("click", function () {
@@ -2065,6 +2106,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         if (have[r.id]) { skipped++; return; }
         var c = { id: r.id, text: r.text, createdAt: r.createdAt };
         if (r.good === true) c.good = true;
+        if (typeof r.eventAt === "string") c.eventAt = r.eventAt;
+        if (r.inClass === true) c.inClass = true;
         if (typeof r.userType === "string") c.userType = r.userType;
         if (r.fields) { c.fields = { type: String(r.fields.type || "") }; FIELDS.forEach(function (f) { c.fields[f.key] = String(r.fields[f.key] || ""); }); }
         if (Array.isArray(r.memos)) c.memos = r.memos.filter(function (m) { return m && typeof m.text === "string"; }).map(function (m) { return { id: String(m.id || ""), at: String(m.at || r.createdAt), text: m.text }; });
@@ -2127,6 +2170,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   setMode(m, true);
   tickNow(); setInterval(tickNow, 15000);
   loadCases();
+  try { if (localStorage.getItem(CLASS_KEY)) setClass(true); } catch (e) {}
   applyUI();
   setTimeout(function () { sampleChecked = true; aiNote(); }, 11000);
   loadNotes();
