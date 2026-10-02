@@ -1140,7 +1140,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     updateSave();
     if (!keepFocus) focusFirst();
   }
-  function focusFirst() { (mode === "detail" ? $("f_students") : input).focus({ preventScroll: true }); }
+  function focusFirst() { if (!$("curtain").hidden) return; (mode === "detail" ? $("f_students") : input).focus({ preventScroll: true }); }
   function detailValues() {
     var v = { type: selectedType || "" };
     FIELDS.forEach(function (f) { v[f.key] = $(f.id).value.trim(); });
@@ -1405,6 +1405,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   $("classBtn").addEventListener("click", function () { setClass(!classOn); focusFirst(); });
   function cover(on) {
     $("curtain").hidden = !on;
+    var wrap = document.querySelector(".wrap");
+    if (wrap) { wrap.inert = !!on; if (on) wrap.setAttribute("aria-hidden", "true"); else wrap.removeAttribute("aria-hidden"); }
     if (on) { $("ctDone").textContent = ""; try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (e) {} }
     if (!on) { try { focusFirst(); } catch (e) {} }
   }
