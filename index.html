@@ -31,7 +31,7 @@
 }
 *, *::before, *::after { box-sizing: inherit; }
 input, textarea, select, button, .textfield, details, summary { box-sizing: border-box; max-width: 100%; }
-html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); scrollbar-gutter: stable; overflow-y: scroll; }
 body {
   margin: 0; min-height: 100%; background: var(--sea); color: var(--ink);
   font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
@@ -56,6 +56,7 @@ body {
 .tab.due .dot { display: block; }
 .tab:focus-visible { outline: 2px solid var(--tide); outline-offset: -2px; border-radius: 6px; }
 .panel { padding-top: 16px; }
+#p-quick { padding-top: 10px; }
 .panel[hidden] { display: none; }
 
 /* shared */
@@ -217,8 +218,8 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 
 .classbar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: -4px 0 8px; }
 .cls-info { display: none; flex: 1; font-size: 13px; color: var(--ink-soft); }
-.clsbtn { border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft); border-radius: 7px; padding: 4px 10px; font-family: "Gowun Batang", serif; font-size: 13px; cursor: pointer; }
-.clsbtn[aria-pressed="true"] { border-color: var(--lilac); color: var(--ink); font-weight: 700; }
+.clsbtn { margin-left: auto; align-self: center; border: 1px solid rgba(255,246,213,.35); background: transparent; color: rgba(255,246,213,.85); border-radius: 7px; padding: 3px 10px; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 12.5px; cursor: pointer; white-space: nowrap; }
+.clsbtn[aria-pressed="true"] { background: #C3A6FF; border-color: #C3A6FF; color: #1B1F52; }
 #p-quick.classmode .cls-info { display: block; }
 #p-quick.classmode .isle, #p-quick.classmode #today, #p-quick.classmode .modes, #p-quick.classmode #goodBtn, #p-quick.classmode .seal { display: none !important; }
 #p-quick.classmode .card { border-color: color-mix(in srgb, var(--lilac) 45%, var(--line)); }
@@ -246,9 +247,7 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .text .lbl { font-family: "Noto Sans KR", sans-serif; font-size: 12px; color: var(--ink-soft); margin-right: 6px; }
 .veil { filter: blur(6px); transition: filter .18s ease; user-select: none; }
 .rec:focus-visible .veil, .rec.open .veil, .pick.reveal .veil, .doc-wrap.reveal .veil { filter: none; user-select: text; }
-@media (hover: hover) and (pointer: fine) {
-  .rec:hover .veil, .pick:hover .veil, .doc-wrap:hover .veil, .caseitem:hover .veil { filter: none; user-select: text; }
-}
+
 .item { margin-bottom: 8px; }
 .item .rec { margin-bottom: 0; }
 .extra { display: none; margin: 6px 0 0; }
@@ -405,7 +404,8 @@ input[type="date"].textfield { padding: 0 8px; }
 .brand { color: var(--star); display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
 .brand small { font-family: "Gowun Batang", serif; font-weight: 400; font-size: 12px; color: #BDB3E6; letter-spacing: .04em; }
 .tabs { border-bottom: 0; gap: 0; }
-.tab { color: rgba(255,246,213,.62); font-size: 14.5px; padding: 8px 8px 18px; }
+.tab { color: rgba(255,246,213,.62); font-size: 14.5px; font-weight: 700; padding: 8px 5px 18px; flex: 1 1 auto; min-width: 0; }
+.tab[aria-selected="true"] { font-weight: 700; }
 .tab[aria-selected="true"] { color: var(--star); }
 .tab[aria-selected="true"]::after { left: 50%; right: auto; bottom: 5px; width: 6px; height: 6px; margin-left: -3px; border-radius: 1.5px; background: #C3A6FF; transform: rotate(45deg); box-shadow: 0 0 8px rgba(195,166,255,.8); }
 .tab:focus-visible { outline-color: var(--star); }
@@ -554,12 +554,124 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 .typerow button { border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft); border-radius: 6px; padding: 2px 9px; font: inherit; font-size: 12.5px; cursor: pointer; }
 .typerow button[aria-pressed="true"] { border-color: var(--lilac); color: var(--ink); font-weight: 700; box-shadow: inset 0 0 0 1px var(--lilac); }
 .typerow .tn { flex-basis: 100%; font-size: 11.5px; color: var(--ink-soft); }
+
+/* 유형별 파스텔 테두리 */
+:root { --t-grow: #EBC35E; --t-hak: #EE9A9A; --t-kyo: #B79AEC; --t-min: #8FBCEB; --t-life: #8FD1A8; --t-etc: #C9C9C9; }
+.typerow button[data-t="성장"], #tfilter button[data-v="good"] { border-color: var(--t-grow); }
+.typerow button[data-t="학폭"], #tfilter button[data-v="학폭"] { border-color: var(--t-hak); }
+.typerow button[data-t="교권"], #tfilter button[data-v="교권"] { border-color: var(--t-kyo); }
+.typerow button[data-t="민원"], #tfilter button[data-v="민원"] { border-color: var(--t-min); }
+.typerow button[data-t="생활지도"], #tfilter button[data-v="생활지도"] { border-color: var(--t-life); }
+.typerow button[data-t="기타"] { border-color: var(--t-etc); }
+.typerow button, #tfilter button { border-width: 1.5px; }
+.typerow button[aria-pressed="true"], #tfilter button[aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px currentColor !important; }
+.typerow button[data-t="성장"][aria-pressed="true"], #tfilter button[data-v="good"][aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--t-grow) !important; }
+.typerow button[data-t="학폭"][aria-pressed="true"], #tfilter button[data-v="학폭"][aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--t-hak) !important; }
+.typerow button[data-t="교권"][aria-pressed="true"], #tfilter button[data-v="교권"][aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--t-kyo) !important; }
+.typerow button[data-t="민원"][aria-pressed="true"], #tfilter button[data-v="민원"][aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--t-min) !important; }
+.typerow button[data-t="생활지도"][aria-pressed="true"], #tfilter button[data-v="생활지도"][aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--t-life) !important; }
+.typerow button[data-t="기타"][aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--t-etc) !important; }
+.typerow button[data-t=""][aria-pressed="true"], #tfilter button[data-v=""][aria-pressed="true"] { border-color: var(--lilac); box-shadow: inset 0 0 0 1.5px var(--lilac) !important; }
+.rec.good { background: color-mix(in srgb, var(--t-grow) 14%, var(--paper)); }
+.rec.good::before { border-color: var(--t-grow); background: var(--t-grow); }
+
+.hidebtn { margin-left: auto; align-self: center; border: 1px solid rgba(255,246,213,.35); background: transparent; color: rgba(255,246,213,.85); border-radius: 7px; padding: 3px 10px; font-family: "Gowun Batang", serif; font-size: 12.5px; cursor: pointer; }
+.curtain { cursor: pointer; position: fixed; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px;
+  background: radial-gradient(1.4px 1.4px at 20% 25%, rgba(255,246,213,.8) 50%, transparent 51%), radial-gradient(1.2px 1.2px at 75% 18%, rgba(255,246,213,.6) 50%, transparent 51%), radial-gradient(1.4px 1.4px at 62% 70%, rgba(255,246,213,.5) 50%, transparent 51%), linear-gradient(180deg, #1B1F52, #2F2E78); color: #FFF6D5; text-align: center; }
+.curtain[hidden] { display: none; }
+.ct-whale { font-size: 44px; line-height: 1; animation: bob 4s ease-in-out infinite; }
+.ct-title { font-family: "Gowun Batang", serif; font-weight: 700; font-size: 18px; letter-spacing: .06em; }
+.ct-open { border: 1px solid rgba(255,246,213,.45); background: transparent; color: #FFF6D5; border-radius: 8px; padding: 9px 22px; font-family: "Gowun Batang", serif; font-size: 15px; cursor: pointer; }
+.ct-quick { border: 0; background: rgba(255,246,213,.12); color: #FFF6D5; border-radius: 8px; padding: 8px 18px; font-family: "Gowun Batang", serif; font-size: 14px; cursor: pointer; }
+.ct-note { word-break: keep-all; font-size: 12px; color: rgba(255,246,213,.6); line-height: 1.6; max-width: 260px; }
+@media (prefers-reduced-motion: reduce) { .ct-whale { animation: none; } }
+
+.rec.tonly { border: 1.5px dashed color-mix(in srgb, var(--lilac) 55%, var(--line)); background: transparent; }
+.rec.tonly .text { filter: none; color: var(--ink-soft); font-size: 13.5px; }
+.rec.tonly .text::after { content: " · 눌러서 추가 메모로 내용을 채워 주세요"; }
+
+.stampbtn { display: flex; align-items: center; justify-content: center; gap: 8px; width: auto; margin: 6px 0 0; padding: 11px 20px;
+  border: 1.5px dashed rgba(195,166,255,.75); background: rgba(255,246,213,.1); color: #FFF6D5; border-radius: 10px;
+  font-family: "Gowun Batang", serif; font-weight: 700; font-size: 15px; cursor: pointer; }
+.stampbtn small { font-family: "Noto Sans KR", sans-serif; font-weight: 400; font-size: 12px; color: rgba(255,246,213,.65); }
+.stampbtn .sb-dot { background: #C3A6FF !important; }
+.ct-done { min-height: 20px; font-size: 13px; color: #FFF6D5; }
+.ct-done button { border: 0; background: none; color: #FFD76A; font: inherit; font-weight: 700; cursor: pointer; padding: 0 0 0 6px; }
+.stampbtn .sb-dot { width: 7px; height: 7px; border-radius: 1.5px; background: var(--lilac); transform: rotate(45deg); }
+.stampbtn:active { transform: scale(.98); }
+
+.rulebook { margin-top: 10px; background: var(--paper); border: 1px solid color-mix(in srgb, var(--lilac) 30%, var(--line)); border-radius: 10px; padding: 4px 14px 12px; }
+.rulebook h4 { display: flex; align-items: center; gap: 7px; margin: 12px 0 4px; font-family: "Gowun Batang", serif; font-size: 14px; color: var(--ink); }
+.rulebook h4::before { content: ""; width: 6px; height: 6px; border-radius: 1.5px; background: var(--lilac); transform: rotate(45deg); }
+.rulebook ul { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.65; color: var(--ink); }
+.rulebook li { margin-bottom: 2px; word-break: keep-all; }
+.rulebook .src { margin: 12px 0 0; font-size: 11.5px; color: var(--ink-soft); line-height: 1.5; word-break: keep-all; }
+
+.cmode { display: flex; gap: 14px; margin: 0 2px 6px; }
+.cmode button { border: 0; background: none; padding: 2px 0; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 13.5px; color: var(--ink-soft); cursor: pointer; border-bottom: 2px solid transparent; }
+.cmode button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--lilac); }
+.composer.asking .composer-row .seg { visibility: hidden; }
+.qbub { margin: 14px 0 0 60px; background: var(--paper); border: 1px dashed color-mix(in srgb, var(--lilac) 55%, var(--line)); border-radius: 14px 4px 14px 14px; padding: 8px 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-break: keep-all; }
+.qbub .who { display: block; font-size: 11.5px; color: var(--ink-soft); margin-bottom: 2px; }
+.ans .say { margin-top: 8px; padding: 7px 10px; border-radius: 8px; background: var(--paper); border: 1px solid var(--line); font-family: "Noto Sans KR", sans-serif; font-size: 13.5px; line-height: 1.6; }
+.ans .say b { display: block; font-size: 11.5px; color: var(--ink-soft); font-weight: 500; margin-bottom: 2px; }
+.ans .acts { margin-top: 6px; }
+
+.daysep { display: flex; align-items: center; gap: 10px; margin: 18px 0 2px; font-size: 12px; color: var(--ink-soft); }
+.daysep::before, .daysep::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+.daysep span { font-family: "Gowun Batang", serif; font-weight: 700; }
+.case .tx { padding: 2px 4px 10px; }
+.doc table { table-layout: fixed; }
+.doc th:first-child { width: 22%; }
+.doc table.grow th:first-child { width: 24%; }
+#s_mode button { font-size: 13px; padding: 7px 4px; }
+#authorShow { color: var(--ink); font-weight: 500; }
+
+.fcard { margin-top: 10px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px 8px; }
+.frow { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.frow .fl { flex-shrink: 0; width: 34px; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 13.5px; color: var(--ink); }
+.frow .textfield { height: 36px; background: var(--sea); }
+.frow input[type="date"] { flex: 1; min-width: 0; font-size: 13px; padding: 0 6px; }
+.frow .tilde { color: var(--ink-soft); }
+.fopts { margin: 0; padding: 8px 0 2px; border-top: 1px dashed var(--line); }
+.fopts summary { font-size: 13px; }
+.fopts .chk { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--ink); margin-top: 8px; cursor: pointer; }
+.fopts .chk input { accent-color: var(--lilac); width: 16px; height: 16px; }
+#s_opts[hidden] { display: none; }
+
+.cturn { display: flex; gap: 10px; align-items: center; width: 100%; margin-top: 8px; padding: 8px 12px; text-align: left; cursor: pointer;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; font: inherit; }
+.ct-wx { font-size: 16px; flex-shrink: 0; }
+.ct-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.ct-a, .ct-b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
+.ct-a b { font-weight: 700; font-size: 12px; color: var(--ink-soft); margin-right: 2px; }
+.ct-b { color: var(--ink-soft); }
+.foldbtn { display: block; margin: 6px 0 0 auto; border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: 12px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.wnote .why { margin-top: 6px; }
+.wnote .why summary { cursor: pointer; font-family: "Noto Sans KR", sans-serif; font-size: 12px; color: var(--ink-soft); }
+.wnote .why p { margin: 6px 0 0; font-family: "Noto Sans KR", sans-serif; font-size: 13px; line-height: 1.6; }
+.mine-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.mine-h .who { margin: 0; }
+.copybtn { border: 0; background: var(--ink); color: var(--paper); border-radius: 7px; padding: 5px 14px; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 13px; cursor: pointer; }
+#p-reply.chat .bub.mine textarea.draftta { min-height: 60px; overflow: hidden; resize: none; }
+.mine-f { display: flex; gap: 12px; margin-top: 6px; }
+.mine-f button { border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: 12.5px; padding: 2px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.tips { margin-top: 6px; font-size: 13px; }
+.tips h4 { font-size: 12.5px; margin: 10px 0 4px; color: var(--ink-soft); font-weight: 500; }
+.tips ul { margin: 0; padding-left: 16px; }
+.tips[hidden] { display: none; }
+.isel { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-family: "Noto Sans KR", sans-serif; font-size: 12px; color: var(--ink-soft); }
+.isel select { font: inherit; font-size: 12.5px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; max-width: 60%; }
+.outp { margin: 0 0 8px; }
+.outp button { font-size: 12.5px; padding: 3px 10px; }
+.outp[hidden] { display: none; }
+.outbub { border-style: solid; border-color: color-mix(in srgb, var(--whale) 45%, var(--line)); }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="top">
-    <div class="brand"><span>🐋 고래실록</span><small>기억보다 먼저, 기록.</small></div>
+    <div class="brand"><span>🐋 고래실록</span><small>기억보다 먼저, 기록.</small><button type="button" class="clsbtn" id="classBtn" aria-pressed="false">수업 중</button></div>
     <nav class="tabs" role="tablist" aria-label="고래실록 메뉴">
       <button class="tab" role="tab" data-tab="quick" aria-selected="true">퀵록</button>
       <button class="tab" role="tab" data-tab="timeline" aria-selected="false">타임라인</button>
@@ -571,10 +683,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   <!-- 퀵록 -->
   <section class="panel" id="p-quick" role="tabpanel">
-    <div class="classbar">
-      <span class="cls-info" id="clsInfo">🤫 수업 중 · 글자가 흐리게 보여요</span>
-      <button type="button" class="clsbtn" id="classBtn" aria-pressed="false">🤫 수업 중</button>
-    </div>
+    <span id="clsInfo" hidden></span>
     <div class="isle" id="isle">
       <svg class="art-illust" viewBox="0 70 360 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
@@ -707,7 +816,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         <textarea id="input" placeholder="지금 있었던 일을 그냥 적어두세요.&#10;이름만 들어가 있으면 나중에 찾을 수 있어요." aria-label="기록 내용"></textarea>
       </div>
       <div class="detail">
-        <label class="field"><span>관련 학생</span><input id="f_students" type="text" placeholder="예: 김민수, 박철수" autocomplete="off"></label>
+        <label class="field"><span>관련 학생</span><input id="f_students" type="text" placeholder="예: 한고래, 윤바다" autocomplete="off"></label>
         <label class="field"><span>장소·시간</span><input id="f_place" type="text" placeholder="예: 과학실, 3교시" autocomplete="off"></label>
         <label class="field"><span>상황</span><textarea id="f_situation" placeholder="무슨 일이 있었는지"></textarea></label>
         <label class="field"><span>교사 대응</span><textarea id="f_response" placeholder="어떻게 지도하거나 조치했는지"></textarea></label>
@@ -722,7 +831,6 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         </div>
       </div>
       <div class="saverow">
-        <button type="button" class="goodbtn" id="goodBtn" aria-pressed="false">🌟 좋은 날</button>
         <span class="hint" id="hint" style="flex:1">Ctrl + Enter로도 기록돼요</span>
         <button class="primary" id="save" disabled>기록</button>
       </div>
@@ -733,21 +841,21 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   <!-- 타임라인 -->
   <section class="panel" id="p-timeline" role="tabpanel" hidden>
-    <input id="q" class="textfield" type="search" placeholder="이름이나 단어로 찾기 (예: 민수)" aria-label="기록 검색" autocomplete="off">
+    <input id="q" class="textfield" type="search" placeholder="이름이나 단어로 찾기 (예: 고래)" aria-label="기록 검색" autocomplete="off">
     <div class="chips" id="tfilter" role="group" aria-label="유형 필터" style="margin-top:10px">
       <button type="button" aria-pressed="true" data-v="">전체</button>
+      <button type="button" aria-pressed="false" data-v="good">성장</button>
       <button type="button" aria-pressed="false" data-v="학폭">학폭</button>
       <button type="button" aria-pressed="false" data-v="교권">교권</button>
       <button type="button" aria-pressed="false" data-v="민원">민원</button>
       <button type="button" aria-pressed="false" data-v="생활지도">생활지도</button>
-      <button type="button" aria-pressed="false" data-v="good">🌟 좋은 날</button>
     </div>
     <div class="section-title" style="margin-top:18px">
       <h2 id="listTitle">전체 기록</h2>
       <small id="listMeta"></small>
     </div>
     <div id="list"></div>
-    <p class="desc" style="text-align:center;margin-top:20px">기록 내용은 커서를 올리거나 탭해야 보여요.<br>원본은 저장된 뒤 고칠 수 없어요.</p>
+    <p class="desc" style="text-align:center;margin-top:20px">기록 내용은 누르면 보이고, 다시 누르면 가려져요.<br>원본은 저장된 뒤 고칠 수 없어요.</p>
   </section>
 
   <!-- 보호자 응대 -->
@@ -771,11 +879,11 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     <p class="ainote" id="aiNote" hidden></p>
     <div id="setup" class="step">
       <div class="step-h"><span class="ico">👤</span>누구에 대한 연락인가요?</div>
-      <input id="r_name" class="textfield" type="search" placeholder="학생 이름 (예: 김민수)" autocomplete="off">
+      <input id="r_name" class="textfield" type="search" placeholder="학생 이름 (예: 한고래)" autocomplete="off">
       <div id="r_list"></div>
       <details class="mini" id="maskBox">
         <summary>🔒 AI에 보낼 때 가릴 이름 · <span id="maskPreview">없음</span></summary>
-        <input id="r_mask" class="textfield" type="text" placeholder="예: 김민수, 박철수" autocomplete="off" style="margin-top:8px">
+        <input id="r_mask" class="textfield" type="text" placeholder="예: 한고래, 윤바다" autocomplete="off" style="margin-top:8px">
         <p class="desc" style="margin:6px 2px 0">적은 이름은 학생A, 학생B로 바꿔서 보내요. 나머지 기록과 보호자 말은 AI(Claude)로 전송돼요.</p>
       </details>
     </div>
@@ -786,6 +894,17 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
     <div class="step composer">
       <div class="step-h"><span class="ico" id="msgNum">💬</span><span id="msgLabel">보호자가 뭐라고 했나요?</span></div>
+      <div class="cmode" role="group" aria-label="입력 종류">
+        <button type="button" data-m="parent" aria-pressed="true">보호자가 한 말</button>
+        <button type="button" data-m="ask" aria-pressed="false">고래에게 묻기</button>
+        <button type="button" data-m="out" aria-pressed="false">내가 먼저 연락</button>
+      </div>
+      <div class="chips outp" id="outP" role="group" aria-label="연락 목적" hidden>
+        <button type="button" data-p="상담" aria-pressed="true">상담 요청</button>
+        <button type="button" data-p="안내" aria-pressed="false">생활 안내·협조</button>
+        <button type="button" data-p="성장" aria-pressed="false">성장 소식</button>
+        <button type="button" data-p="사안" aria-pressed="false">사안 알림</button>
+      </div>
       <textarea id="r_msg" class="textfield" style="height:auto;min-height:72px;padding:9px 12px;resize:vertical;line-height:1.55" placeholder="문자를 붙여넣거나, 통화 내용을 요약해 적어 주세요."></textarea>
       <div class="composer-row">
       <div class="modes seg" id="r_way" role="group" aria-label="응대 방식" style="margin-top:10px">
@@ -802,38 +921,61 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     </div>
     <details class="mini" style="margin:14px 2px 0">
       <summary>응대 원칙 보기</summary>
-      <ul class="rules">
-        <li>민원은 교사 개인이 아니라 학교가 대응해요. 개인 번호나 SNS로 온 민원은 학교 공식 창구로 안내해요. (2026년 3월 교육부 방안)</li>
-        <li>상담은 미리 협의해서 하고, 근무시간 밖 상담은 거절할 수 있어요. 폭언·협박이 있으면 중단할 수 있어요. (교원의 학생생활지도에 관한 고시)</li>
-        <li>기록에 있는 사실만 말해요. 사과나 유감 표현은 쓰지 않아요.</li>
-        <li>그 자리에서 결론, 면담, 약속을 먼저 꺼내지 않아요.</li>
-        <li>폭언, 위협, 부당한 요구가 반복되면 대화를 멈추고 기록해요. 교육활동 침해에 해당할 수 있어요.</li>
-        <li>연락이 끝나면 그 내용도 퀵록으로 남겨요.</li>
-        <li>짧게, 정보 위주로, 친근하게, 단호하게(BIFF). 화난 보호자에겐 설명보다 공감을 먼저 해요. (교육부 「학교 민원 응대 안내자료」)</li>
-        <li>폭언은 2단계로: 진정 요청과 녹음 고지 → 계속되면 법적 조치 경고 후 종료. 통화 30분이 넘거나 같은 민원이 3번 넘게 반복되면 정중히 마칠 수 있어요.</li>
-        <li>교육활동 침해가 있었다면 교권침해 직통번호 1395에서 신고·법률·심리 지원을 받을 수 있어요.</li>
-      </ul>
+      <div class="rulebook">
+        <h4>기본 자세</h4>
+        <ul>
+          <li>짧게, 사실 위주로, 친절하지만 단호하게 말해요.</li>
+          <li>화난 보호자에겐 설명보다 공감을 먼저 해요.</li>
+          <li>사과나 유감 표현은 쓰지 않아요. 실수가 분명할 때만 그 일에 한해 짧게 사과해요.</li>
+          <li>그 자리에서 결론, 면담, 약속을 꺼내지 않아요. 다른 학생 이야기는 하지 않아요.</li>
+        </ul>
+        <h4>창구와 시간</h4>
+        <ul>
+          <li>민원은 교사 개인이 아니라 학교가 대응해요. 개인 번호나 SNS로 온 민원은 학교 공식 창구로 안내해요.</li>
+          <li>상담은 미리 약속해서 하고, 근무시간 밖 연락은 거절할 수 있어요.</li>
+        </ul>
+        <h4>선을 넘을 때</h4>
+        <ul>
+          <li>폭언은 두 단계로: 진정 요청과 녹음 안내 → 계속되면 경고 후 종료.</li>
+          <li>30분이 넘는 통화, 세 번 넘게 반복되는 같은 민원은 정중히 마칠 수 있어요.</li>
+        </ul>
+        <h4>끝난 뒤</h4>
+        <ul>
+          <li>주고받은 내용을 퀵록에 남기고, 필요하면 특이민원 발생보고서를 써요.</li>
+          <li>교권침해 직통번호 1395에서 신고·법률·심리 지원을 받을 수 있어요.</li>
+        </ul>
+        <p class="src">근거: 교원의 학생생활지도에 관한 고시, 교육부 「학교 민원 응대 안내자료」(2024), 학교 민원 대응 개선 방안(2026)</p>
+      </div>
     </details>
     </div>
   </section>
 
   <!-- 한눈에 쏙 -->
   <section class="panel" id="p-summary" role="tabpanel" hidden>
-    <p class="desc">기록을 표 한 장으로 모아 PDF로 저장해요. 교권보호위원회나 사안 보고 자료에 붙일 수 있어요.</p>
-    <label class="lbl-sm" for="s_name">학생 이름 (비우면 전체)</label>
-    <input id="s_name" class="textfield" type="search" placeholder="예: 김민수" autocomplete="off">
-    <span class="lbl-sm">기간 (비우면 전체)</span>
-    <div class="row2">
-      <input id="s_from" class="textfield" type="date" aria-label="시작일">
-      <input id="s_to" class="textfield" type="date" aria-label="종료일">
+    <div class="modes seg" id="s_mode" role="group" aria-label="내보낼 내용">
+      <button type="button" data-sm="all" aria-pressed="true">기록 전체</button>
+      <button type="button" data-sm="grow" aria-pressed="false">성장 기록만</button>
+      <button type="button" data-sm="cases" aria-pressed="false">보호자 응대만</button>
     </div>
-    <label class="desc" style="display:flex;gap:8px;align-items:center;margin-top:12px;cursor:pointer"><input type="checkbox" id="s_useSum" checked style="accent-color:var(--tide)">정리본이 있는 기록은 정리본으로 싣기</label>
-    <label class="desc" style="display:flex;gap:8px;align-items:center;margin-top:4px;cursor:pointer"><input type="checkbox" id="s_useGood" style="accent-color:var(--tide)">🌟 좋은 날 기록도 싣기 (상담 자료용)</label>
-    <label class="desc" style="display:flex;gap:8px;align-items:center;margin-top:4px;cursor:pointer"><input type="checkbox" id="s_useCases" checked style="accent-color:var(--tide)">보호자 응대 기록도 함께 싣기</label>
+    <p class="desc" id="s_desc" style="margin:8px 2px 0">교권보호위원회나 사안 보고에 붙일 기록 표를 만들어요.</p>
+    <div class="fcard">
+      <div class="frow"><label class="fl" for="s_name">학생</label><input id="s_name" class="textfield" type="search" placeholder="비우면 전체 (예: 한고래)" autocomplete="off"></div>
+      <div class="frow"><span class="fl">기간</span><input id="s_from" class="textfield" type="date" aria-label="시작일"><span class="tilde">~</span><input id="s_to" class="textfield" type="date" aria-label="종료일"></div>
+      <details class="mini fopts" id="s_opts">
+        <summary>싣는 내용</summary>
+        <label class="chk"><input type="checkbox" id="s_useSum" checked>정리본이 있으면 정리본으로</label>
+        <label class="chk"><input type="checkbox" id="s_useGood">성장 기록도 함께 (상담용)</label>
+        <label class="chk"><input type="checkbox" id="s_useCases" checked>보호자 응대 기록도 함께</label>
+      </details>
+      <details class="mini fopts authorbox" id="authorBox">
+        <summary>작성자 · <span id="authorShow">아직 없어요</span></summary>
+        <input id="s_author" class="textfield" type="text" placeholder="예: 과학 교사 홍길동" autocomplete="off" style="margin-top:8px">
+      </details>
+    </div>
     <div class="section-title" style="margin-top:14px"><h2>미리보기</h2><small id="s_count"></small></div>
     <div class="doc-wrap" id="docWrap" tabindex="0"><div class="doc veil" id="doc"></div></div>
     <div class="row2" style="margin-top:10px"><button class="primary" id="s_pdf" style="flex:1">PDF로 저장</button></div>
-    <p class="desc" style="margin-top:10px">미리보기도 커서를 올리거나 탭해야 보여요. PDF에는 가림 없이 저장돼요.</p>
+    <p class="desc" style="margin-top:10px">미리보기도 누르면 보이고, 다시 누르면 가려져요. PDF에는 가림 없이 저장돼요.</p>
   </section>
 
   <!-- 백업 -->
@@ -853,8 +995,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     <div class="sheet-h"><b id="bTitle">💌 소원 유리병</b><button type="button" class="x" id="bClose" aria-label="닫기">✕</button></div>
     <div id="bNote"></div>
     <div class="acts" id="bActs"><button type="button" id="bAnother">다른 쪽지 꺼내기</button></div>
-    <label class="lbl-sm" for="bInput" style="margin-top:18px">좋았던 순간 담기</label>
-    <textarea id="bInput" class="textfield" style="height:auto;min-height:78px;padding:9px 12px;resize:vertical;line-height:1.6" placeholder="아이가 고맙다고 한 말, 뿌듯했던 수업, 동료의 따뜻한 한마디…"></textarea>
+    <label class="lbl-sm" for="bInput" style="margin-top:18px">나에게 남기는 쪽지</label>
+    <textarea id="bInput" class="textfield" style="height:auto;min-height:78px;padding:9px 12px;resize:vertical;line-height:1.6" placeholder="뿌듯했던 순간, 동료의 따뜻한 한마디, 나에게 해 주고 싶은 말…"></textarea>
     <button class="primary" id="bSave" style="width:100%;margin-top:8px" disabled>유리병에 넣기</button>
     <p class="desc" id="bCount" style="margin-top:10px;text-align:center"></p>
   </div>
@@ -874,6 +1016,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     <button class="ghost" id="cReport" style="width:100%;margin-top:8px">특이민원 발생보고서 초안 복사</button>
     <button class="ghost" id="cClose" style="width:100%;margin-top:8px">조금 쉬었다 할게요</button>
   </div>
+</div>
+
+<div class="curtain" id="curtain" hidden>
+  <div class="ct-whale" aria-hidden="true">🐋</div>
+  <div class="ct-title">고래실록</div>
+  <button type="button" class="stampbtn" id="stampBtn"><span class="sb-dot"></span>시간만 찍기<small>내용은 나중에</small></button>
+  <div class="ct-done" id="ctDone"></div>
+  <div class="ct-note">다른 곳을 누르면 열려요</div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
@@ -994,8 +1144,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   }
   function updateSave() { save.disabled = !hasContent(); }
   var goodOn = false;
-  function setGood(v) { goodOn = !!v; $("goodBtn").setAttribute("aria-pressed", goodOn ? "true" : "false"); $("quick").classList.toggle("is-good", goodOn); }
-  $("goodBtn").addEventListener("click", function () { setGood(!goodOn); if (goodOn) whaleSay("좋은 날이군요! 아이의 좋은 모습, 실록에 곱게 적어 둘게요."); focusFirst(); });
+  function setGood(v) { goodOn = false; }
   function clearForm() { input.value = ""; FIELDS.forEach(function (f) { $(f.id).value = ""; }); setType(null); setGood(false); }
   var LINES = [
     "오늘도 많이 애쓰셨어요. 여기엔 있는 그대로 적어도 괜찮아요.",
@@ -1143,31 +1292,51 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   function tickNow() {
     if (typeof classOn !== "undefined" && classOn && eventAt) { $("now").textContent = timeStr(eventAt) + "에 있었던 일"; return; } var n = new Date(); $("now").textContent = dateStr(n, true) + " " + timeStr(n); }
+  $("stampBtn").addEventListener("click", function (e) {
+    e.stopPropagation();
+    var now = new Date();
+    var rec = { id: now.getTime().toString(36) + Math.random().toString(36).slice(2, 6), createdAt: now.toISOString(), text: "(시간만 기록)", timeOnly: true, cv: 2, autoType: "" };
+    if (classOn) rec.inClass = true;
+    records.push(rec);
+    if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요.", false); return; }
+    afterChange();
+    $("ctDone").innerHTML = timeStr(now) + " 시간을 찍었어요<button type=\"button\" id=\"ctUndo\">되돌리기</button>";
+    $("ctUndo").addEventListener("click", function (ev) {
+      ev.stopPropagation();
+      var i = records.findIndex(function (r) { return r.id === rec.id; });
+      if (i !== -1) { records.splice(i, 1); persist(); afterChange(); }
+      $("ctDone").textContent = "찍은 시간을 지웠어요";
+    });
+  });
+  function pendingList() { return records.filter(function (r) { return r.timeOnly && !(r.memos && r.memos.length); }); }
   function renderToday() {
     var k = dayKey(new Date());
     var n = records.filter(function (r) { return dayKey(new Date(r.createdAt)) === k; }).length;
     $("today").innerHTML = (n ? "오늘 " + n + "건 기록했어요. " : "오늘은 아직 기록이 없어요. ") +
       (records.length ? '<button type="button" id="goTimeline">타임라인에서 보기</button> · ' : "") +
-      '<button type="button" id="goBottle">좋았던 순간 담기</button>';
+      '<button type="button" id="goBottle">💌 나에게 쪽지</button>' +
+      (pendingList().length ? '<br><button type="button" id="goPending">시간만 찍은 기록 ' + pendingList().length + "개 채우기</button>" : "");
     var g = $("goTimeline"); if (g) g.addEventListener("click", function () { openTab("timeline"); });
     $("goBottle").addEventListener("click", function () { openBottle(true); });
+    var gp = $("goPending"); if (gp) gp.addEventListener("click", function () { $("q").value = "시간만 기록"; openTab("timeline"); });
   }
 
   function doSave() {
+    var timeOnly = false;
     if (!hasContent()) return;
     var now = new Date();
     var rec = { id: now.getTime().toString(36) + Math.random().toString(36).slice(2, 6), createdAt: now.toISOString() };
-    if (goodOn) rec.good = true;
-    else rec.autoType = classify(mode === "detail" ? [detailValues().situation, detailValues().response].join(" ") : input.value);
+    rec.cv = 2; rec.autoType = classify(mode === "detail" ? [detailValues().situation, detailValues().response].join(" ") : input.value);
     if (classOn && eventAt && (now - eventAt) >= 30000) rec.eventAt = eventAt.toISOString();
     if (classOn) rec.inClass = true;
     var wasClass = classOn;
-    var wasGood = goodOn;
+    var wasGood = !rec.userType && rec.autoType === "성장";
     if (mode === "detail") {
       var v = detailValues();
       rec.fields = v;
       rec.text = [v.type].concat(FIELDS.map(function (f) { return v[f.key]; })).filter(Boolean).join("\n");
-    } else rec.text = input.value.trim();
+    } else rec.text = timeOnly ? "(시간만 기록)" : input.value.trim();
+    if (timeOnly) rec.timeOnly = true;
     records.push(rec);
     if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요. 브라우저 설정을 확인해 주세요.", false); return; }
     lastSavedId = rec.id;
@@ -1176,7 +1345,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     afterChange();
     showToast(timeStr(now) + "에 기록했어요", true);
     if (wasClass) { eventAt = null; updateClassInfo(); } else
-    whaleSay(wasGood ? ["좋은 날이 하나 늘었어요. 이런 기록이 쌓이면 아이의 역사가 돼요.", "곱게 적어 두었어요. 나중에 보호자와 이야기할 때 꺼내 드릴게요.", "이런 날도 꼭 남겨야죠. 잘했어요!"][Math.floor(Math.random() * 3)] : AFTER[Math.floor(Math.random() * AFTER.length)]); typedOnce = false;
+    whaleSay(wasGood ? ["아이의 성장이 하나 적혔어요. 이런 기록이 쌓이면 아이의 역사가 돼요.", "곱게 적어 두었어요. 나중에 보호자와 이야기할 때 꺼내 드릴게요.", "이런 모습도 꼭 남겨야죠. 잘했어요!"][Math.floor(Math.random() * 3)] : AFTER[Math.floor(Math.random() * AFTER.length)]); typedOnce = false;
     focusFirst();
   }
   $("undo").addEventListener("click", function () {
@@ -1190,13 +1359,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         setGood(r.good);
         FIELDS.forEach(function (f) { $(f.id).value = r.fields[f.key] || ""; });
         setType(r.fields.type || null);
-      } else { setMode("simple", true); input.value = r.text; setGood(r.good); }
+      } else { setMode("simple", true); input.value = r.timeOnly ? "" : r.text; setGood(r.good); }
+      var wasTime = r.timeOnly;
       updateSave();
     }
     lastSavedId = null;
     afterChange();
     openTab("quick");
-    showToast("기록을 되돌렸어요. 내용은 입력칸에 남아 있어요.", false);
+    showToast(typeof wasTime !== "undefined" && wasTime ? "찍은 시간을 지웠어요." : "기록을 되돌렸어요. 내용은 입력칸에 남아 있어요.", false);
   });
   function ctrlEnter(e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); doSave(); } }
   var typedOnce = false;
@@ -1206,10 +1376,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     classOn = !!on;
     $("p-quick").classList.toggle("classmode", classOn);
     $("classBtn").setAttribute("aria-pressed", classOn ? "true" : "false");
-    $("classBtn").textContent = classOn ? "수업 끝" : "🤫 수업 중";
+    $("classBtn").textContent = classOn ? "수업 끝" : "수업 중";
     if (classOn) { setMode("simple", true); setGood(false); input.placeholder = "글자는 흐리게 보여요. 짧게 적어 두세요."; }
     else input.placeholder = "지금 있었던 일을 그냥 적어두세요.\n이름만 들어가 있으면 나중에 찾을 수 있어요.";
-    eventAt = null; updateClassInfo();
+    eventAt = null; updateClassInfo(); updateSave();
+    if (!classOn && pendingList().length) whaleSay("수업 중에 시간만 찍어 둔 기록이 " + pendingList().length + "개 있어요. 잊기 전에 채워 볼까요?");
+    try { renderToday(); } catch (e) {}
     try { localStorage.setItem(CLASS_KEY, classOn ? "1" : ""); } catch (e) {}
   }
   function updateClassInfo() {
@@ -1217,6 +1389,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     tickNow();
   }
   $("classBtn").addEventListener("click", function () { setClass(!classOn); focusFirst(); });
+  function cover(on) {
+    $("curtain").hidden = !on;
+    if (on) $("ctDone").textContent = "";
+    if (!on) { try { focusFirst(); } catch (e) {} }
+  }
+  $("curtain").addEventListener("click", function () { openTab("quick"); cover(false); input.focus(); });
+  window.addEventListener("blur", function () { if (classOn && $("bottleSheet").hidden && $("comfortSheet").hidden) cover(true); });
+  document.addEventListener("visibilitychange", function () { if (document.hidden && classOn) cover(true); });
   input.addEventListener("input", function () {
     if (!classOn) return;
     if (input.value.trim() && !eventAt) { eventAt = new Date(); updateClassInfo(); }
@@ -1234,9 +1414,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function recEl(r, ts, showDate) {
     var d = new Date(r.createdAt), item = document.createElement("div"), b = document.createElement("button"), extra = document.createElement("div");
     item.className = "item"; extra.className = "extra";
-    b.className = "rec" + (r.good ? " good" : ""); b.type = "button"; b.setAttribute("aria-expanded", "false");
+    b.className = "rec" + (isGood(r) ? " good" : "") + (r.timeOnly && !(r.memos && r.memos.length) ? " tonly" : ""); b.type = "button"; b.setAttribute("aria-expanded", "false");
     b.innerHTML = '<span class="time">' + (showDate ? dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " : "") + (r.eventAt ? timeStr(new Date(r.eventAt)) + " 일 (" + timeStr(d) + " 기록)" : timeStr(d)) + (r.inClass ? " · 🤫" : "") +
-      (r.good ? " · 🌟 좋은 날" : recType(r) ? " · " + esc(recType(r)) + (typeInfo(r).src === "auto" ? " 후보" : "") : "") + (r.summary ? " · 정리본 있음" : "") + (r.memos && r.memos.length ? " · 메모 " + r.memos.length : "") + "</span>" +
+      (recType(r) ? " · " + esc(recType(r)) + (typeInfo(r).src === "auto" ? " 후보" : "") : "") + (r.summary ? " · 정리본 있음" : "") + (r.memos && r.memos.length ? " · 메모 " + r.memos.length : "") + "</span>" +
       '<span class="text veil">' + bodyHtml(r, ts) + "</span>";
     b.addEventListener("click", function () {
       var o = b.classList.toggle("open"); item.classList.toggle("open", o);
@@ -1301,31 +1481,34 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     minwon: /(보호자|학부모|어머니|아버지|어머님|아버님|엄마|아빠|할머니|할아버지|교육청|교장실|교감|민원|항의|사과 ?요구|사과를 요구|담임 ?교체|반 ?교체|찾아옴|찾아왔|방문해서|전화 ?옴|전화가 ?왔|문자 ?옴|문자가 ?왔)/,
     life: /(휴대폰|핸드폰|휴대전화|폰 ?사용|폰을|지각|결석|조퇴|무단 ?(결과|지각|조퇴|외출)|복장|교복|두발|화장|엎드려|잠을|졸았|졸고|자고 있|떠들|떠듦|잡담|장난|과제|숙제|준비물|자리 ?이탈|돌아다|실험 ?안전|안전 ?수칙|보안경|청소|급식|거짓말|흡연|담배|전자 ?담배|분리 ?보관|주의를? ?줌|주의 ?줌|지도함|훈계|반성문)/
   };
+  function isGood(r) { return typeInfo(r).t === "성장"; }
+  var POS = /(열심히|성실|꾸준|끝까지|스스로|자발|먼저 (도와|챙기|나서)|도와줌|도와주|도왔|챙겨|챙김|배려|양보|칭찬|잘함|잘했|잘 해|훌륭|멋지|대단|발표를? 잘|질문을? (많이|열심히)|참여|협력|협동|리더|이끌|봉사|뒷정리|정리를? 잘|나아졌|좋아졌|성장|늘었|향상|노력|집중|몰입|창의|아이디어|탐구|꼼꼼|책임감|고맙다|감사하다고)/;
   function classify(text) {
     var t = String(text || "");
     if ((KW.teacher.test(t) && KW.teacherAct.test(t)) || KW.kyogwon.test(t)) return "교권";
     if (KW.hakpok.test(t)) return "학폭";
     if (KW.minwon.test(t)) return "민원";
+    if (POS.test(t) && !KW.life.test(t)) return "성장";
     if (KW.life.test(t)) return "생활지도";
     return "";
   }
   function autoClassifyAll() {
     var changed = false;
     records.forEach(function (r) {
-      if (r.good || r.autoType !== undefined) return;
-      r.autoType = classify(r.text); changed = true;
+      if (r.cv === 2 || r.userType !== undefined) return;
+      r.autoType = classify(r.text); r.cv = 2; changed = true;
     });
     if (changed) persist();
   }
   function typeInfo(r) {
-    if (r.good) return { t: "", src: "" };
+    if (r.good && r.userType === undefined) return { t: "성장", src: "user" };
     if (r.userType !== undefined) return { t: r.userType, src: "user" };
     if (r.fields && r.fields.type) return { t: r.fields.type, src: "user" };
     if (r.summary && r.summary.type) return { t: r.summary.type, src: "ai" };
     return { t: r.autoType || "", src: "auto" };
   }
   function renderTypeRow(r, el) {
-    var ti = typeInfo(r), TY = ["학폭", "교권", "민원", "생활지도", "기타", ""];
+    var ti = typeInfo(r), TY = ["성장", "학폭", "교권", "민원", "생활지도", "기타", ""];
     el.className = "typerow";
     el.innerHTML = '<span class="tl">유형</span>' + TY.map(function (x) {
       return '<button type="button" data-t="' + x + '" aria-pressed="' + (ti.t === x ? "true" : "false") + '">' + (x || "없음") + "</button>";
@@ -1334,16 +1517,17 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       b.addEventListener("click", function () {
         r.userType = b.dataset.t; persist(); renderTypeRow(r, el);
         var tl = el.closest(".item") && el.closest(".item").querySelector(".time");
-        if (tl) tl.textContent = tl.textContent.replace(/ · (학폭|교권|민원|생활지도|기타)( 후보)?/, "").replace(/(오[전후] \d+:\d+)/, "$1" + (r.userType ? " · " + r.userType : ""));
+        if (tl) tl.textContent = tl.textContent.replace(/ · (성장|학폭|교권|민원|생활지도|기타)( 후보)?/, "").replace(/(오[전후] \d+:\d+( 일 \(오[전후] \d+:\d+ 기록\))?)/, "$1" + (r.userType ? " · " + r.userType : ""));
+        var rb = el.closest(".item") && el.closest(".item").querySelector(".rec"); if (rb) rb.classList.toggle("good", isGood(r));
       });
     });
   }
   function renderExtra(r, el) {
     el.innerHTML = "";
     var tb = document.createElement("div"), mb = document.createElement("div"), ab = document.createElement("div");
-    if (!r.good) el.appendChild(tb);
+    el.appendChild(tb);
     el.appendChild(mb); el.appendChild(ab);
-    if (!r.good) renderTypeRow(r, tb);
+    renderTypeRow(r, tb);
     renderMemos(r, mb); renderAI(r, ab);
   }
   function renderMemos(r, el) {
@@ -1363,6 +1547,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var tl = el.closest(".item") && el.closest(".item").querySelector(".time");
       if (tl) tl.textContent = tl.textContent.replace(/ · 메모 \d+/, "") + " · 메모 " + r.memos.length;
       showToast("메모를 남겼어요", false);
+      var rb = el.closest(".item") && el.closest(".item").querySelector(".rec"); if (rb) rb.classList.remove("tonly");
+      renderToday();
     });
   }
   function renderAI(r, el) {
@@ -1391,7 +1577,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function askMask(r, el) {
     var pre = r.fields && r.fields.students ? r.fields.students : lastNameGuess();
     el.innerHTML = '<div class="maskbox"><label>AI에 보내기 전에 가릴 이름</label>' +
-      '<input class="textfield" type="text" autocomplete="off" placeholder="예: 김민수, 박철수">' +
+      '<input class="textfield" type="text" autocomplete="off" placeholder="예: 한고래, 윤바다">' +
       "<p>여기 적은 이름은 학생A, 학생B로 바꿔서 보내고, 돌아오면 다시 이름으로 바꿔요. 이름 말고 나머지 기록 내용은 AI(Claude)로 전송돼요.</p>" +
       '<div class="acts"><button type="button" class="go">정리하기</button><button type="button" data-a="cancel">취소</button></div></div>';
     var inp = el.querySelector("input"); inp.value = pre; inp.focus();
@@ -1440,13 +1626,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   qsa("#tfilter button").forEach(function (b) { b.addEventListener("click", function () { shown = PAGE; renderTimeline(); }); });
   function renderTimeline() {
     var list = $("list"), ts = splitTerms($("q").value), ft = getFilter() || "";
-    var pool = ft === "good" ? records.filter(function (r) { return r.good; }) : ft ? records.filter(function (r) { return !r.good && recType(r) === ft; }) : records;
+    var pool = ft === "good" ? records.filter(function (r) { return isGood(r); }) : ft ? records.filter(function (r) { return recType(r) === ft; }) : records;
     list.innerHTML = "";
     if (ts.length || ft) {
       var hits = pool.filter(function (r) { return matches(r, ts); }).sort(byOld);
-      $("listTitle").textContent = (ts.length ? "‘" + ts.join(" ") + "’ " : "") + (ft ? (ft === "good" ? "좋은 날" : ft) + " " : "") + "타임라인";
+      $("listTitle").textContent = (ts.length ? "‘" + ts.join(" ") + "’ " : "") + (ft ? (ft === "good" ? "성장" : ft) + " " : "") + "타임라인";
       $("listMeta").textContent = hits.length ? "오래된 순 " + hits.length + "건" : "";
-      if (!hits.length) { list.innerHTML = '<p class="empty">' + (ft && !ts.length ? "이 유형으로 표시된 기록이 없어요.<br>꼼꼼 모드에서 유형을 고르거나, AI 정리본을 만들면 유형이 붙어요." : "이 말이 들어간 기록이 없어요.<br>이름 일부만 넣어 보세요. 예: 민수") + "</p>"; return; }
+      if (!hits.length) { list.innerHTML = '<p class="empty">' + (ft && !ts.length ? "이 유형으로 표시된 기록이 없어요.<br>꼼꼼 모드에서 유형을 고르거나, AI 정리본을 만들면 유형이 붙어요." : "이 말이 들어간 기록이 없어요.<br>이름 일부만 넣어 보세요. 예: 고래") + "</p>"; return; }
       var w = document.createElement("div"); w.className = "list";
       hits.forEach(function (r) { w.appendChild(recEl(r, ts, true)); });
       list.appendChild(w); return;
@@ -1504,7 +1690,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var d = new Date(r.createdAt), row = document.createElement("div");
       row.className = "pick";
       row.innerHTML = '<input type="checkbox" aria-label="' + esc(shortDate(d)) + ' 기록 포함"' + (picked[r.id] ? " checked" : "") + ">" +
-        '<div class="body"><span class="time">' + dateStr(d) + " " + timeStr(d) + (r.good ? " · 🌟 좋은 날" : "") + (r.summary ? " · 정리본" : "") + '</span><span class="text veil">' + bodyHtml(r, ts) + "</span></div>" +
+        '<div class="body"><span class="time">' + dateStr(d) + " " + timeStr(d) + (isGood(r) ? " · 성장" : "") + (r.summary ? " · 정리본" : "") + '</span><span class="text veil">' + bodyHtml(r, ts) + "</span></div>" +
         '<button type="button" class="peek">보기</button>';
       row.querySelector("input").addEventListener("change", function (e) { picked[r.id] = e.target.checked; });
       row.querySelector(".peek").addEventListener("click", function (e) { var on = row.classList.toggle("reveal"); e.target.textContent = on ? "가리기" : "보기"; });
@@ -1531,29 +1717,49 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       return head + " (정리본)\n" + KEYS.filter(function (k) { return it[k] && it[k] !== "기록 없음"; }).map(function (k) { return "  " + k + ": " + it[k]; }).join("\n");
     }
     if (r.fields) return head + "\n" + FIELDS.map(function (f) { return r.fields[f.key] ? "  " + f.label + ": " + r.fields[f.key] : ""; }).concat(r.fields.type ? ["  유형: " + r.fields.type] : []).filter(Boolean).join("\n");
-    return head + (r.good ? " [좋은 날]" : "") + "\n  " + r.text.replace(/\n/g, "\n  ");
+    return head + (isGood(r) ? " [성장 기록]" : "") + "\n  " + r.text.replace(/\n/g, "\n  ");
   }
 
-  var RULES =
-    "당신은 한국 중학교 교사 편에 서서 교권을 보호하는 자문 변호사이자 보호자 소통 코치입니다. 교사가 보호자 민원에 대응하도록 돕습니다. 빠르게, 짧게 답하세요.\n\n" +
-    "원칙:\n" +
-    "1. 교사가 남긴 기록에 있는 사실만 근거로 쓰세요. 기록에 없는 사실, 추측, 감정을 넣지 마세요.\n" +
-    "2. 사과, 유감, 잘못 인정 표현 금지: '유감입니다', '불편을 드려', '심려를 끼쳐', '죄송하지만' 모두 쓰지 마세요. 사실을 인정하지 않는 선에서 마음을 받아 주는 말(예: '많이 걱정되셨을 것 같아요')은 괜찮습니다.\n" +
-    "3. 그 자리에서 결론, 처분, 약속을 하지 마세요. 특히 학년부장·교감·교장 면담이나 관리자 참여를 먼저 제안하거나 약속하지 마세요. 교사가 아직 그분들과 상의하지 않았습니다. 필요하면 '학교에서도 함께 살펴보고 다시 연락드릴게요', '확인해 보고 말씀드릴게요'처럼 여지를 두는 표현만 쓰세요.\n" +
-    "4. 말투는 실제 교사가 보호자에게 보내는 자연스러운 존댓말('~해요', '~드릴게요', '~입니다'를 섞은 구어체). 공문 투 금지: '~하였습니다', '해당 건', '상기', '~에 근거하여', '~와 관련하여'. 예: '당시 기록에 근거하여 확인한 결과 해당 학생은 ~하였습니다'(X) → '그날 제가 적어 둔 기록을 다시 봤는데요, ~했어요'(O).\n" +
-    "5. 다른 학생의 이름이나 정보는 보호자에게 말하지 마세요. 필요하면 '다른 학생'이라고만 하세요. 학생A 같은 표기는 그대로 두세요.\n" +
-    "6. 같은 요구가 반복되면 같은 내용을 표현만 바꿔 차분히 반복하세요. 앞서 한 말과 모순되지 않게 하세요.\n" +
-    "8. 강조: '핵심', '교권침해.이유', '권장조치', '사실관계', '피할말', '예상질문'의 '답'에서 가장 중요한 말 한두 곳만 **이렇게** 감싸 강조하세요. '초안'에는 절대 **를 쓰지 마세요.\n" +
-    "10. 교육부·경기도교육청 「학교 민원 응대 안내자료」(2024)를 따르세요. ① 말투는 BIFF: 짧게(Brief), 정보 위주로(Informative), 친근하게(Friendly), 단호하게(Firm). 감정적 맞대응, 조언·충고, 언쟁은 하지 않고 사실과 규정에 근거해 답합니다. ② 화가 난 보호자에게는 논리 설명보다 공감을 먼저 합니다(예: '그렇게 생각하셨으면 많이 속상하셨겠어요'). ③ 전화 폭언이면 2단계로: 1단계 '폭언을 계속하시면 정상적인 상담이 어렵습니다. 차분히 말씀해 주셔야 도와드릴 수 있어요'와 녹음 고지, 계속되면 2단계 '더 이상 상담이 어려울 것 같습니다. 폭언을 계속하시면 관련 법령에 따라 처벌받을 수 있습니다. 통화를 종료하겠습니다'. 성희롱 발언이면 '방금 하신 말씀은 성희롱에 해당될 수 있으니 삼가 주세요' 후 계속되면 종료. ④ 관리자와 통화하겠다고 하면, 담당자로서 먼저 듣고 돕겠다고 일관되게 답하고, 계속 요구하면 '성함과 연락처를 남겨 주시면 학교에서 연락드리도록 할게요'라고만 합니다. ⑤ 정당한 이유 없는 통화가 20분을 넘으면 용건 위주로 안내하고, 30분을 넘으면 정중히 종료할 수 있습니다. ⑥ 합리적인 답을 했는데도 같은 내용이 3회 이상 반복되면 '말씀하신 내용은 이미 확인해서 답을 드렸어요. 같은 답 외에는 더 도와드리기 어려워요'로 종결할 수 있습니다. 교사 개인 휴대전화·SNS 민원, 교사 사생활 등 교육활동과 무관한 민원, 직무 범위 밖이거나 위법·부당한 요구도 답변을 거절할 수 있습니다. ⑦ 교권침해 '이유'에는 해당될 수 있는 법을 조심스럽게 적습니다: 단순히 겁을 주는 폭언(경범죄처벌법 불안감조성), 해악을 고지하는 협박(형법 협박·공무집행방해), 반복적으로 불안감을 주는 문자·전화(정보통신망법 제44조의7), 전화·문자 성희롱(성폭력처벌법 제13조), 목적이 정당하지 않은 반복 민원·의무 아닌 일의 지속 강요·반복적 부당 간섭(교원지위법 제19조). 모욕·명예훼손은 공연성이 필요해 1:1 대화에서는 성립하지 않을 수 있으니 단정하지 마세요. ⑧ 기록상 학교나 교사의 실수가 분명한 경우에만 그 사실 하나에 대해 짧게 사과할 수 있고, 그 외에는 원칙 2를 지킵니다.\n" +
-    "9. 현행 제도에 근거하세요(한국, 2026년 기준). ① 학교 민원은 교사 개인이 아니라 학교장 책임의 민원대응팀이 기관으로 대응합니다. 2026년 3월부터 교사 개인 연락처나 SNS로는 민원을 접수하지 않고, 학교 대표번호와 학교가 지정한 공식 창구로 일원화되었습니다. 보호자가 교사 개인 번호나 SNS로 민원을 하면, 초안에서 정중하게 학교 공식 창구로 안내하세요(예: '이 번호로는 자세히 답을 드리기 어려워요. 학교 대표번호나 학교 공식 소통 창구로 남겨 주시면 학교에서 확인해 드릴게요'). ② 「교원의 학생생활지도에 관한 고시」에 따라 상담은 일시와 방법을 미리 협의해서 하고, 교원은 근무시간이나 직무 범위를 벗어난 상담을 거부할 수 있으며, 상담 중 폭언·협박·폭행이 있으면 중단할 수 있습니다. 근무시간 밖 연락이면 '근무 시간에 공식 창구로 이야기 나눠요'라고 안내하세요. ③ 교사는 고시에 따라 주의, 훈육(수업 방해 물품 분리 보관, 분리 지도 등)을 할 수 있으므로, 지도 방식 항의에는 '학교 생활지도 규정에 따른 지도'였다고 차분히 설명할 수 있습니다. ④ 교육활동 침해가 의심되면 권장조치에 '교권침해 직통번호 1395(교육청 교권 상담: 신고·법률·심리 지원)'를 넣으세요. '근거'에는 이번 응대에 적용한 제도를 한 문장으로 쓰세요.\n" +
-    "7. 교권침해 판단: 보호자 말에 욕설, 모욕, 인신공격, 위협·협박, 같은 요구의 반복적이고 부당한 강요, 교사의 정당한 지도에 대한 부당한 간섭이 있으면 교육활동 침해행위에 해당할 수 있으므로 '높음'으로 판단하세요. 이때 '초안'은 설득이나 해명이 아니라 대화를 정중하지만 단호하게 멈추는 말입니다. 통화라면 한 번 경고한 뒤 종료하는 문장(예: '지금처럼 말씀하시면 대화를 이어가기 어려워요. 한 번만 더 그러시면 통화를 끝내겠습니다.' → '통화는 여기서 마치겠습니다.'), 문자라면 이런 방식의 대화는 이어가기 어렵고 필요한 내용은 학교를 통해 공식적으로 전달해 달라는 짧은 문장. '권장조치'에는 해당 발언 원문과 일시 기록, 통화 녹음이나 캡처 보관, 학교의 교권보호 담당이나 관리자에게 알리는 것 등을 넣으세요. 감정이 격해지거나 무리한 요구의 조짐만 있으면 '주의'.\n\n";
+  var RULES = [
+    "당신은 한국 중·고등학교 교사 편에 선 교권 보호 자문가입니다. 교사가 보호자(부모, 조부모 등)의 연락에 답할 문구를 준비합니다.",
+    "",
+    "[가장 중요한 것]",
+    "1. 보호자가 이번에 한 말의 요지(무엇을 묻는지, 무엇을 요구하는지)를 정확히 파악하고, 초안은 반드시 그 요지에 직접 답해야 합니다. 동문서답, 일반론, 기록에 없는 이야기는 쓰지 마세요.",
+    "2. 응대 방식을 반드시 지키세요. 문자 응대의 초안에는 '통화', '전화를 끊겠습니다', '통화를 종료하겠습니다', '말씀 듣겠습니다' 같은 통화 표현을 절대 쓰지 마세요. 통화 응대의 초안은 입으로 말하는 문장으로 쓰세요.",
+    "3. 교사가 남긴 기록에 있는 사실만 근거로 씁니다. 기록에 없으면 단정하지 말고 '확인 후 알려 드리겠습니다'라고 씁니다.",
+    "",
+    "[말투]",
+    "4. 하십시오체(~습니다, ~습니까, ~십시오)를 기본으로 단호하고 짧게 씁니다. '~요'체, 쿠션어('혹시', '괜찮으시다면', '죄송하지만'), 사과·유감 표현('유감입니다', '불편을 드려', '심려를 끼쳐'), 장황한 해명은 쓰지 않습니다. 공감은 필요할 때만 한 문장(예: '많이 걱정되셨겠습니다'). 공문 투('해당 건', '상기', '~하였음', '~에 근거하여')도 피합니다.",
+    "5-1. 초안에는 법률 이름이나 조항(「초·중등교육법」, 제○조 등)을 직접 인용하지 않습니다. 보호자에게 법을 들어 따지면 맞대응처럼 들려 다툼이 커집니다. 법적 근거는 '이유'와 '근거'에만 적어 교사가 알고 있게 하고, 초안은 '학교 규칙에 따라', '학교 절차에 따라', '개인정보이므로'처럼 쉬운 말로 씁니다. (예외: 폭언·성희롱 대응의 '관련 법령에 따라 조치될 수 있습니다' 같은 공식 경고 문장)",
+    "5. 그 자리에서 결론, 처분, 약속, 관리자 면담 제안을 하지 않습니다. 다른 학생의 이름이나 정보는 말하지 않고 '다른 학생'이라고만 합니다. 학생A 같은 표기는 그대로 둡니다. 앞서 한 말과 모순되지 않게 합니다.",
+    "",
+    "[구조]",
+    "6. 문자: (첫 답장일 때만) 인사와 소속·이름 → (필요할 때) 공감 한 문장 → 요지에 대한 답(사실이나 규정) → 다음 단계(무엇을, 언제, 어느 창구로) → 짧은 맺음. 3~5문장. 이어지는 답장에서는 인사를 반복하지 말고 바로 답합니다. 과목과 교사 이름은 [과목/담임], [이름]으로 둡니다.",
+    "   통화: 말할 순서대로 번호를 붙인 3~4문장.",
+    "",
+    "[선을 넘을 때] (교육부 「학교 민원 응대 안내자료」 2024)",
+    "7. 욕설, 모욕, 위협·협박, 성희롱, 같은 내용의 부당한 반복, 교사 개인 번호·근무시간 외 연락, 교사의 정당한 지도에 대한 반복적 간섭을 살펴 '교권침해.판단'을 없음/주의/높음으로 매깁니다. 높음이면 설득하지 말고 대화를 멈추는 문구를 씁니다.",
+    "   - 통화 중 폭언: 1단계 '폭언을 계속하시면 정상적인 상담이 어렵습니다. 차분히 말씀해 주셔야 도와드릴 수 있습니다.'(녹음 고지) → 계속되면 2단계 '더 이상 상담이 어렵습니다. 폭언을 계속하시면 관련 법령에 따라 처벌받을 수 있습니다. 통화를 종료하겠습니다.'",
+    "   - 문자 중 폭언: '이와 같은 표현이 계속되면 더 이상 답변드리기 어렵습니다. 필요한 내용은 학교 대표번호나 공식 소통 창구로 남겨 주십시오. 같은 표현이 반복되면 관련 법령에 따라 조치될 수 있습니다.'",
+    "   - 성희롱: '방금 하신 말씀은 성희롱에 해당될 수 있으니 삼가 주십시오.' 계속되면 응대를 마칩니다.",
+    "   - 같은 내용 3회 이상 반복: '이미 확인하여 답변드렸습니다. 같은 답변 외에는 도와드릴 수 없습니다.'",
+    "   - 통화 20분 초과: 용건 위주로 안내, 30분 초과: 정중히 종료.",
+    "   - 관리자 연결 요구: 담당자인 내가 먼저 듣고 돕겠다고 일관되게 말하고, 계속되면 성함과 연락처를 받아 관리자가 연락하도록 합니다.",
+    "   - 교사 개인 번호·SNS·근무시간 외 연락: 학교 공식 창구(학교 대표번호, 학교가 지정한 소통 창구)로 안내합니다. (2026년 3월부터 민원 창구 일원화)",
+    "8. '이유'에는 해당될 수 있는 법을 조심스럽게 적습니다: 단순 폭언(경범죄처벌법 불안감조성), 협박(형법 협박, 국공립은 공무집행방해), 반복적인 문자·전화(정보통신망법 제44조의7), 통신매체 성희롱(성폭력처벌법 제13조), 목적이 정당하지 않은 반복 민원·부당 간섭(교원지위법 제19조). 모욕·명예훼손은 공연성이 필요해 1:1 대화에서는 성립하지 않을 수 있으니 단정하지 않습니다. 높음이면 '권장조치'에 원문과 일시 기록, 녹음·캡처 보관, 학교 보고(특이민원 발생보고서), 교권침해 직통번호 1395를 넣습니다.",
+    "9. 근거로 쓸 수 있는 제도: 교원의 학생생활지도에 관한 고시(상담은 사전 협의, 근무시간·직무 범위 밖 상담 거부 가능, 폭언 시 중단 가능, 수업 방해 시 분리·물품 분리 보관 등 생활지도 권한), 초·중등교육법 제20조의2(정당한 생활지도는 아동학대로 보지 않음), 학교폭력예방법(학교폭력은 학교 절차로 처리, 교사는 보고 의무), 개인정보 보호법(다른 가정 정보 제공 금지).",
+    "",
+    "[출력]",
+    "10. '요지'는 보호자 말의 요지를 한 줄로, '핵심'은 교사에게 주는 조언 한 문장(40자 안팎)으로 씁니다. 강조는 '핵심', '이유', '권장조치', '사실관계', '피할말', '예상질문'의 답에서만 **로 한두 곳 표시하고, '초안'에는 **를 쓰지 않습니다.",
+    ""
+  ].join("\n") + "\n";
   var FORMAT =
     '다음 JSON 객체 하나로만 답하세요. 목록은 짧게: 사실관계 최대 3개, 피할말 최대 3개, 예상질문 최대 2개.\n' +
-    '{"교권침해": {"판단": "없음|주의|높음", "이유": "", "권장조치": [""]}, "핵심": "이번 응대의 핵심 한 문장", "초안": "보낼 문구 또는 말할 문장", "사실관계": [""], "피할말": [""], "예상질문": [{"질문": "", "답": ""}], "근거": "이번 응대에 적용한 제도 한 문장"}';
-  function wayText(way) {
+    '{"요지": "보호자 말의 요지 한 줄", "교권침해": {"판단": "없음|주의|높음", "이유": "", "권장조치": [""]}, "핵심": "이번 응대의 핵심 한 문장", "초안": "보낼 문구 또는 말할 문장", "사실관계": [""], "피할말": [""], "예상질문": [{"질문": "", "답": ""}], "근거": "이번 응대에 적용한 제도 한 문장"}';
+  function wayText(way, first) {
     return way === "call"
-      ? "지금은 통화 중입니다. '초안'은 입으로 말하듯 짧고 쉬운 문장 3~5개를 말할 순서대로 '1. ', '2. '처럼 번호를 붙여 줄바꿈으로 이어 쓴 하나의 문자열로 쓰세요. 배열로 쓰지 마세요."
-      : "문자로 답합니다. '초안'은 카카오톡이나 문자로 그대로 보낼 수 있는 한 통으로, 4~7문장. 인사와 마무리를 포함하고 과목과 교사 이름은 [과목/담임], [이름]으로 두세요.";
+      ? "[이번 응대 방식: 통화] '초안'은 하십시오체로, 입으로 말하는 짧고 분명한 문장 3~4개를 말할 순서대로 '1. ', '2. '처럼 번호를 붙여 줄바꿈으로 이어 쓴 하나의 문자열로 쓰세요."
+      : "[이번 응대 방식: 문자] '초안'은 문자로 그대로 보낼 한 통, 하십시오체 3~5문장입니다. 통화 표현('통화', '전화를 끊', '통화를 종료')은 절대 쓰지 마세요." + (first ? " 첫 답장이므로 인사와 [과목/담임] 교사 [이름] 소개로 시작하세요." : " 이어지는 답장이므로 인사 없이 바로 답하세요.");
   }
 
   function toStr(x) {
@@ -1596,7 +1802,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   });
   function endCase() {
     var c = currentCase; if (!c) return;
-    if (!c.turns.length) { currentCase = null; renderThread(); return; }
+    if (!c.turns.length && !(c.asks && c.asks.length) && !(c.outs && c.outs.length)) { currentCase = null; renderThread(); return; }
     c.endedAt = new Date().toISOString(); c.updatedAt = c.endedAt; persistCases();
     var hot = c.turns.filter(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "높음"; });
     currentCase = null; $("r_msg").value = ""; renderThread();
@@ -1624,7 +1830,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       "□ 발생일자: " + isoDay(d).replace(/-/g, ". ") + ". " + timeStr(d) + "\n" +
       "□ 특이민원 유형: " + kind + "\n" +
       "□ 민원인: " + c.student + " 학생 보호자 (연락 방법: " + (t.way === "call" ? "전화" : "문자") + ")\n" +
-      "□ 담당자: [성명] / 담당업무: [과목·담임]\n\n" +
+      "□ 담당자: " + (authorName() || "[성명] / 담당업무: [과목·담임]") + "\n\n" +
       "□ 발생요지 (육하원칙)\n" +
       "- 언제: " + dateStr(d, true) + " " + timeStr(d) + "\n" +
       "- 누가: " + c.student + " 학생 보호자가\n" +
@@ -1705,40 +1911,67 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     return esc(String(t || "")).replace(h, '<mark class="kw-high">$1</mark>').replace(m, '<mark class="kw-mild">$1</mark>');
   }
   function listHtml(arr) { return "<ul>" + arr.map(function (x) { return "<li>" + rich(x) + "</li>"; }).join("") + "</ul>"; }
+  var openTurns = {};
+  function oneLine(t, n) { t = String(t || "").replace(/\s+/g, " ").trim(); return t.length > n ? t.slice(0, n) + "…" : t; }
   function renderThread() {
     var box = $("thread"); box.innerHTML = "";
     renderCaseHead();
     updateBar();
     if (!currentCase) return;
-    currentCase.turns.forEach(function (t, i) {
-      var el = document.createElement("div"); el.className = "turn";
-      var r = t.res, v = r.교권침해 || {}, h = "";
-      h += '<div class="bub parent"><span class="who">보호자 · ' + fmtAt(t.at) + "</span>" + kwMark(t.parent) + "</div>";
-      if (v.판단 === "높음" || v.판단 === "주의") {
-        h += '<div class="alert' + (v.판단 === "주의" ? " mild" : "") + '"><b>' + (v.판단 === "높음" ? "교권침해 가능성 높음" : "주의가 필요해요") + "</b>" + esc(v.이유 || "") +
-          (v.권장조치 && v.권장조치.length ? listHtml(v.권장조치) : "") + "</div>";
+    var _items = currentCase.turns.map(function (t, i) { return { at: t.at, t: t, i: i }; })
+      .concat((currentCase.asks || []).map(function (a) { return { at: a.at, a: a }; }))
+      .concat((currentCase.outs || []).map(function (o) { return { at: o.at, o: o }; }))
+      .sort(function (x, y) { return x.at < y.at ? -1 : 1; });
+    var lastAt = _items.length ? _items[_items.length - 1].at : "";
+    var prevLevel = "없음";
+    _items.forEach(function (it) {
+      var isLast = it.at === lastAt, key = it.at;
+      if (it.o) {
+        if (isLast || openTurns[key]) { box.appendChild(outEl(it.o, isLast, key)); return; }
+        box.appendChild(compactEl(key, "먼저 연락", it.o.note || "(메모 없음)", it.o.sent, "📨")); return;
       }
-      var wcls = v.판단 === "높음" ? " storm" : v.판단 === "주의" ? " wave" : "";
-      var wtag = v.판단 === "높음" ? "⛈ 폭풍 · 교권침해 가능성" : v.판단 === "주의" ? "🌀 파도 조심" : "🌊 잔잔한 바다";
-      h += '<div class="wnote' + wcls + '"><span class="wa">🐋</span><div class="wb"><small>고래 · ' + wtag + "</small>" +
+      if (it.a) {
+        if (isLast || openTurns[key]) { var ae = askEl(it.a); if (!isLast) ae.appendChild(foldBtn(key)); box.appendChild(ae); return; }
+        box.appendChild(compactEl(key, "질문", it.a.q, it.a.res.문장 || it.a.res.답, "")); return;
+      }
+      var t = it.t, i = it.i, r = t.res, v = r.교권침해 || {};
+      var lv = v.판단 || "없음", wx = lv === "높음" ? "⛈" : lv === "주의" ? "🌀" : "🌊";
+      var escalated = lv !== prevLevel && lv !== "없음"; prevLevel = lv;
+      if (!isLast && !openTurns[key]) { box.appendChild(compactEl(key, "보호자", t.parent, t.sent, wx)); return; }
+      var el = document.createElement("div"); el.className = "turn";
+      var wcls = lv === "높음" ? " storm" : lv === "주의" ? " wave" : "";
+      var wtag = lv === "높음" ? "⛈ 폭풍" : lv === "주의" ? "🌀 파도 조심" : "🌊 잔잔";
+      var more = ((lv !== "없음") && v.이유 ? "<p>" + rich(v.이유) + "</p>" : "") +
+        ((lv !== "없음") && v.권장조치 && v.권장조치.length && (escalated || isLast) ? listHtml(v.권장조치) : "") +
+        (r.근거 ? '<div class="basis">📜 ' + rich(r.근거) + "</div>" : "");
+      var h = '<div class="bub parent"><span class="who">보호자 · ' + fmtAt(t.at) + "</span>" + kwMark(t.parent) + "</div>";
+      h += '<div class="wnote' + wcls + '"><span class="wa">🐋</span><div class="wb"><small>' + wtag + (r.요지 ? " · 요지: " + esc(oneLine(r.요지, 40)) : "") + "</small>" +
         rich(r.핵심 || (t.template ? "기본 틀이에요. [ ] 부분을 채워서 써요." : "")) +
-        ((v.판단 === "높음" || v.판단 === "주의") && v.이유 ? "<br>" + rich(v.이유) : "") +
-        ((v.판단 === "높음" || v.판단 === "주의") && v.권장조치 && v.권장조치.length ? listHtml(v.권장조치) : "") +
-        (r.근거 ? '<div class="basis">📜 ' + rich(r.근거) + "</div>" : "") + "</div></div>";
-      h += '<div class="bub mine"><span class="who">' + (t.template ? "기본 틀 " : "추천 ") + (t.way === "call" ? "통화 문장" : "문자") + " · " + (i + 1) + "번째</span>" +
-        (r.핵심 ? '<p class="core">' + rich(r.핵심) + "</p>" : "") +
-        '<textarea aria-label="' + (i + 1) + '번째 추천 문구"></textarea>' +
-        '<div class="edited">' + (t.sent !== r.초안 ? "고친 내용으로 저장됨 · " : "") + '고치면 고친 내용이 그대로 남아요</div>' +
-        '<div class="acts"><button type="button" data-a="copy">복사하기</button>' + (t.sent !== r.초안 ? '<button type="button" data-a="orig">처음 추천으로 되돌리기</button>' : "") +
-        (i === currentCase.turns.length - 1 ? '<button type="button" data-a="redo">다시 추천받기</button>' : "") + "</div>" +
-        "<details><summary>사실관계 · 하지 말 말 · 예상 질문</summary>" +
-        (r.사실관계 && r.사실관계.length ? "<h4>기록으로 확인되는 사실</h4>" + listHtml(r.사실관계) : "") +
+        (more ? '<details class="why"><summary>왜 그런지 · 근거</summary>' + more + "</details>" : "") +
+        (t.template ? '<label class="isel">상황이 다르면 바꾸기 <select>' + INTENTS.map(function (x) { return '<option value="' + x[0] + '"' + (r.intent === x[0] ? " selected" : "") + ">" + x[1] + "</option>"; }).join("") + "</select></label>" : "") + "</div></div>";
+      h += '<div class="bub mine"><div class="mine-h"><span class="who">' + (t.way === "call" ? "통화에서 할 말" : "보낼 문자") + (t.template ? " · 기본 틀" : "") + (t.sent !== r.초안 ? " · 고침" : "") + "</span>" +
+        '<button type="button" class="copybtn" data-a="copy">복사</button></div>' +
+        '<textarea class="draftta" aria-label="' + (i + 1) + '번째 추천 문구"></textarea>' +
+        '<div class="mine-f">' + (t.sent !== r.초안 ? '<button type="button" data-a="orig">처음 추천으로</button>' : "") +
+        (isLast ? '<button type="button" data-a="redo">다시 추천</button>' : "") +
+        ((r.사실관계 && r.사실관계.length) || (r.피할말 && r.피할말.length) || (r.예상질문 && r.예상질문.length) ? '<button type="button" data-a="tips">참고 보기</button>' : "") + "</div>" +
+        '<div class="tips" hidden>' +
         (r.피할말 && r.피할말.length ? "<h4>하지 말아야 할 말</h4>" + listHtml(r.피할말) : "") +
-        (r.예상질문 && r.예상질문.length ? "<h4>이어질 수 있는 말과 답</h4>" + r.예상질문.map(function (q) { return '<div class="qa"><b>' + esc(q.질문) + "</b><span>" + rich(q.답) + "</span></div>"; }).join("") : "") +
-        "</details></div>";
+        (r.예상질문 && r.예상질문.length ? "<h4>이어질 수 있는 말</h4>" + r.예상질문.map(function (q) { return '<div class="qa"><b>' + esc(q.질문) + "</b><span>" + rich(q.답) + "</span></div>"; }).join("") : "") +
+        (r.사실관계 && r.사실관계.length ? "<h4>기록으로 확인되는 사실</h4>" + listHtml(r.사실관계) : "") + "</div></div>";
       el.innerHTML = h;
+      if (!isLast) el.appendChild(foldBtn(key));
+      var sel = el.querySelector(".isel select");
+      if (sel) sel.addEventListener("change", function () {
+        var saved = currentCase.turns.slice(); currentCase.turns = saved.slice(0, i);
+        var nr = templateOut(currentCase, t.parent, t.way, sel.value);
+        currentCase.turns = saved;
+        t.res = nr; t.sent = nr.초안; persistCases(); renderThread();
+      });
       var ta = el.querySelector("textarea"); ta.value = t.sent;
-      if (!t.sent) ta.placeholder = "추천 문구를 받지 못했어요. 아래 '다시 추천받기'를 눌러 주세요.";
+      function fit() { ta.style.height = "auto"; ta.style.height = (ta.scrollHeight + 2) + "px"; }
+      setTimeout(fit, 0); ta.addEventListener("input", fit);
+      if (!t.sent) ta.placeholder = "추천 문구를 받지 못했어요. 아래 '다시 추천'을 눌러 주세요.";
       var rd = el.querySelector('[data-a="redo"]');
       if (rd) rd.addEventListener("click", function () {
         var c = currentCase, old = c.turns.pop(), oldConvo = c.convo;
@@ -1750,9 +1983,23 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       el.querySelector('[data-a="copy"]').addEventListener("click", function () { copyText(ta.value, ta); });
       var o = el.querySelector('[data-a="orig"]');
       if (o) o.addEventListener("click", function () { t.sent = r.초안; persistCases(); renderThread(); });
+      var tp = el.querySelector('[data-a="tips"]');
+      if (tp) tp.addEventListener("click", function () { var b = el.querySelector(".tips"); b.hidden = !b.hidden; tp.textContent = b.hidden ? "참고 보기" : "참고 닫기"; });
       box.appendChild(el);
     });
   }
+  function compactEl(key, who, a, b, wx) {
+    var el = document.createElement("button"); el.type = "button"; el.className = "cturn";
+    el.innerHTML = '<span class="ct-wx">' + (wx || "💬") + '</span><span class="ct-body"><span class="ct-a"><b>' + who + "</b> " + esc(oneLine(a, 46)) + '</span><span class="ct-b">→ ' + esc(oneLine(b, 46)) + "</span></span>";
+    el.addEventListener("click", function () { openTurns[key] = true; renderThread(); });
+    return el;
+  }
+  function foldBtn(key) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "foldbtn"; b.textContent = "접기";
+    b.addEventListener("click", function () { delete openTurns[key]; renderThread(); });
+    return b;
+  }
+
   function copyText(v, ta) {
     function fb() { ta.focus(); ta.select(); try { document.execCommand("copy"); showToast("문구를 복사했어요", false); } catch (e) { showToast("길게 눌러 직접 복사해 주세요", false); } }
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(function () { showToast("문구를 복사했어요", false); }, fb);
@@ -1760,15 +2007,37 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   }
 
   function transcriptHtml(c) {
-    return c.turns.map(function (t, i) {
-      var r = t.res, v = r.교권침해 || {}, h = '<div class="turn">';
-      h += '<div class="bub parent"><span class="who">보호자 · ' + fmtAt(t.at) + "</span>" + kwMark(t.parent) + "</div>";
-      if (v.판단 === "높음" || v.판단 === "주의") h += '<div class="alert' + (v.판단 === "주의" ? " mild" : "") + '"><b>' + (v.판단 === "높음" ? "교권침해 가능성 높음" : "주의가 필요해요") + "</b>" + esc(v.이유 || "") + "</div>";
-      h += '<div class="bub mine"><span class="who">' + (t.way === "call" ? "통화 문장" : "문자") + " · " + (i + 1) + "번째" + (t.sent !== r.초안 ? " · 고친 내용" : "") + "</span>" +
-        (r.핵심 ? '<p class="core">' + rich(r.핵심) + "</p>" : "") + '<div class="said">' + esc(t.sent || "(추천 문구 없음)") + "</div></div></div>";
+    var items = c.turns.map(function (t, i) { return { at: t.at, t: t, i: i }; })
+      .concat((c.asks || []).map(function (a) { return { at: a.at, a: a }; }))
+      .concat((c.outs || []).map(function (o) { return { at: o.at, o: o }; }))
+      .sort(function (x, y) { return x.at < y.at ? -1 : 1; });
+    var lastDay = "";
+    return items.map(function (it) {
+      var d = new Date(it.at), dk = dayKey(d), h = "";
+      if (dk !== lastDay) { lastDay = dk; h += '<div class="daysep"><span>' + dateStr(d, d.getFullYear() !== new Date().getFullYear()) + "</span></div>"; }
+      if (it.o) {
+        return h + '<div class="turn"><div class="bub mine"><span class="who">내가 먼저 연락 · ' + timeStr(d) + " · " + (it.o.way === "call" ? "통화" : "문자") + '</span><div class="said">' + esc(it.o.sent || "") + "</div></div></div>";
+      }
+      if (it.a) {
+        var a = it.a;
+        return h + '<div class="turn"><div class="qbub"><span class="who">나 · 고래에게 질문 · ' + timeStr(d) + "</span>" + esc(a.q) + "</div>" +
+          '<div class="wnote ans"><span class="wa">🐋</span><div class="wb"><small>고래 · 답변' + (a.template ? " (기본 안내)" : "") + "</small>" + rich(a.res.답) +
+          (a.res.문장 ? '<div class="say"><b>이렇게 말해 보세요</b>' + esc(a.res.문장) + "</div>" : "") +
+          (a.res.근거 ? '<div class="basis">📜 ' + rich(a.res.근거) + "</div>" : "") + "</div></div></div>";
+      }
+      var t = it.t, r = t.res, v = r.교권침해 || {};
+      h += '<div class="turn"><div class="bub parent"><span class="who">보호자 · ' + timeStr(d) + "</span>" + kwMark(t.parent) + "</div>";
+      var wcls = v.판단 === "높음" ? " storm" : v.판단 === "주의" ? " wave" : "";
+      var wtag = v.판단 === "높음" ? "⛈ 폭풍 · 교권침해 가능성" : v.판단 === "주의" ? "🌀 파도 조심" : "🌊 잔잔한 바다";
+      if (r.핵심 || v.판단 === "높음" || v.판단 === "주의")
+        h += '<div class="wnote' + wcls + '"><span class="wa">🐋</span><div class="wb"><small>고래 · ' + wtag + "</small>" + rich(r.핵심 || "") +
+          ((v.판단 === "높음" || v.판단 === "주의") && v.이유 ? "<br>" + rich(v.이유) : "") + "</div></div>";
+      h += '<div class="bub mine"><span class="who">' + (t.way === "call" ? "통화에서 한 말" : "보낸 문자") + (t.sent !== r.초안 ? " · 고친 내용" : "") + "</span>" +
+        '<div class="said">' + esc(t.sent || "(추천 문구 없음)") + "</div></div></div>";
       return h;
     }).join("");
   }
+
   function renderCaseList() {
     var box = $("caseList"); box.innerHTML = "";
     $("pastBtn").textContent = "지난 응대" + (cases.length ? " (" + cases.length + ")" : "");
@@ -1779,7 +2048,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var last = c.turns[c.turns.length - 1], hot = c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "높음"; });
       var worst = c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "높음"; }) ? "⛈" : c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "주의"; }) ? "🌀" : "🌊";
       bt.innerHTML = '<span class="ci-av">' + worst + '</span><span class="ci-body"><small>' + fmtAt(c.createdAt) + " · 주고받은 말 " + c.turns.length + "번" + (hot ? '<span class="badge">교권침해 가능성</span>' : "") + (c.endedAt ? '<span class="endb">마침</span>' : "") + "</small>" +
-        '<span class="veil"><b>' + esc(c.student) + "</b>" + (last && last.res.핵심 ? " · " + esc(last.res.핵심) : "") + "</span></span>";
+        '<span class="veil"><b>' + esc(c.student) + "</b>" + (last && last.res.핵심 ? " · " + esc(last.res.핵심.replace(/\*\*/g, "")) : "") + "</span></span>";
       var tx = document.createElement("div"); tx.className = "tx";
       bt.addEventListener("click", function () {
         var open = wrap.classList.toggle("open"); bt.setAttribute("aria-expanded", open ? "true" : "false");
@@ -1803,77 +2072,361 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   var HIGH = /(씨발|시발|ㅅㅂ|개새|병신|미친|죽여|죽이|가만 ?안|가만두지|두고 ?봐|고소|소송|신고할|찾아가|쳐들어|각오해|x발|좆)/;
   var MILD = /(교육청|민원|교장|책임지|사과하|왜 우리 애만|편애|차별|억울|화가|어떻게 하실|가만히|녹음)/;
-  function templateOut(c, msg, way) {
-    var name = c.student || "학생";
+  var INTENTS = [
+    ["폭언", "폭언·위협"], ["성희롱", "성희롱"], ["아동학대", "아동학대 신고 위협"], ["관리자", "관리자 연결 요구"],
+    ["반복", "같은 말 반복"], ["장시간", "통화가 길어짐"], ["연락처", "다른 가정 연락처 요구"], ["무관", "교육활동과 무관한 요구"],
+    ["학폭", "학교폭력 의심 신고"], ["사과", "사과 요구"], ["생기부", "성적·생기부 이의"], ["조치", "조치·처벌 요구"],
+    ["편애", "편애·차별 주장"], ["지도항의", "지도 방식 항의"], ["사실", "사실 확인 문의"], ["일반", "일반 문의"]
+  ];
+  var SEXH = /(몸매|섹시|가슴|엉덩|사귀|애인 있|술 ?한잔|만나 ?줄|예쁘시|이쁘시)/;
+  function detectIntent(c, msg, way) {
+    if (HIGH.test(msg)) return "폭언";
+    if (SEXH.test(msg)) return "성희롱";
+    if (/(아동학대|학대로 신고|학대 신고|신고하겠|신고할 거|신고할게)/.test(msg)) return "아동학대";
+    if (/(교장|교감|관리자|윗사람|책임자).{0,8}(바꿔|통화|연결|나오|만나|얘기|이야기)/.test(msg)) return "관리자";
+    var toks = function (x) { return String(x).replace(/[^가-힣a-zA-Z0-9 ]/g, " ").split(/\s+/).filter(function (w) { return w.length >= 2; }); };
+    var cur = toks(msg), sim = c.turns.filter(function (t) {
+      var pt = toks(t.parent); if (!cur.length || !pt.length) return false;
+      return cur.filter(function (w) { return pt.some(function (x) { return x.indexOf(w) !== -1 || w.indexOf(x) !== -1; }); }).length / cur.length >= 0.5;
+    }).length;
+    if (sim >= 2) return "반복";
+    if (way === "call" && c.turns.length && (new Date() - new Date(c.createdAt)) / 60000 >= 20) return "장시간";
+    if (/(연락처|전화번호|번호|주소)/.test(msg) && /(상대|다른|그쪽|그 집|걔네|부모|엄마|아빠)/.test(msg)) return "연락처";
+    if (/(단톡|단체방|학부모끼리|엄마들|맘카페|보호자끼리)/.test(msg)) return "무관";
+    if (/(때렸|때려|맞았|맞고|괴롭|따돌|왕따|놀림|놀려|폭력|다쳤|밀쳤)/.test(msg)) return "학폭";
+    if (/사과/.test(msg)) return "사과";
+    if (/(성적|점수|생기부|생활기록부|세특|수행평가|평가)/.test(msg)) return "생기부";
+    if (/(조치|처벌|징계|분리해|반 ?바꿔|자리 ?바꿔|전학)/.test(msg)) return "조치";
+    if (/(편애|차별|미워|싫어하|우리 애만|우리 아이만|찍었|찍혀)/.test(msg)) return "편애";
+    if (/(무슨 일|어떻게 된|사실인가|맞나요|맞습니까|알고 계|그랬다던데|무슨 이유)/.test(msg) && !/(왜 |어떻게 그렇게|너무하|말이 됩니까|말이 돼)/.test(msg)) return "사실";
+    if (/(혼냈|혼내|혼났|소리 ?질|망신|창피|벌 ?세|반성문|압수|뺏|빼앗|체벌|야단)/.test(msg)) return "지도항의";
+    return "일반";
+  }
+  function templateOut(c, msg, way, forced) {
+    var name = c.student || "학생", first = !c.turns.length || (forced && c.turns.length === 1 && c.turns[0].parent === msg);
+    var me = authorName() || "[과목/담임] 교사 [이름]", meIs = me + "입니다";
     var gd = (c.goodDates || []).map(function (d) { return shortDate(new Date(d)); });
-    var open = gd.length ? "요즘 " + name + " 학생이 좋은 모습도 많이 보여 주고 있어요. " + gd[gd.length - 1] + "에는 [그날의 좋은 모습]이 있었어요.\n\n" : "";
+    var good = gd.length ? "요즘 " + name + " 학생은 좋은 모습도 많이 보여 주고 있습니다. " + gd[gd.length - 1] + "에는 [그날의 좋은 모습]이 있었습니다." : "";
     var dates = (c.dates || []).map(function (d) { return shortDate(new Date(d)); });
     var list = dates.length ? dates.map(function (d) { return "- " + d + ": [그날 있었던 일과 지도한 내용을 한 줄로]"; }).join("\n") : "- [날짜]: [그날 있었던 일과 지도한 내용을 한 줄로]";
-    var avoid = ["'죄송합니다', '유감입니다' 같은 사과 표현", "그 자리에서 약속하거나 결론 내리기", "다른 학생 이름이나 사정 이야기하기"];
-    if (HIGH.test(msg)) {
-      return {
-        교권침해: { 판단: "높음", 이유: "**폭언이나 위협**으로 볼 수 있는 표현이 있어요.", 권장조치: ["해당 발언 **원문과 일시**를 그대로 기록해 두세요.", "통화 **녹음이나 문자 캡처**를 보관하세요.", "학교 **교권보호 담당**에게 알리세요.", "교권침해 직통번호 **1395**에서 신고·법률·심리 지원을 받을 수 있어요."] },
-        핵심: "**설득하지 말고**, 두 단계로 정중하게 대화를 **멈춰요**.",
-        초안: way === "call"
-          ? "1단계 (진정 요청)\n\"폭언을 계속하시면 정상적인 상담이 어렵습니다. 차분히 말씀해 주셔야 도와드릴 수 있어요. 이 통화는 교직원 보호를 위해 녹음될 수 있습니다.\"\n\n2단계 (계속되면 종료)\n\"더 이상 상담이 어려울 것 같습니다. 폭언을 계속하시면 관련 법령에 따라 처벌받을 수 있습니다. 통화를 종료하겠습니다.\""
-          : name + " 보호자님, 이런 표현이 계속되면 정상적인 상담이 어렵습니다. 필요한 내용은 학교 대표번호나 공식 소통 창구로 남겨 주세요. 같은 표현이 반복되면 관련 법령에 따라 조치될 수 있음을 알려드립니다.",
-        사실관계: [], 피할말: avoid.concat(["같이 언성을 높이거나 반박하기"]), 예상질문: [], 근거: "학교 민원 응대 안내자료(2024): 전화 폭언은 **진정 요청 → 통화 종료** 2단계로 대응하고, 생활지도 고시상 폭언·협박이 있으면 상담을 **중단**할 수 있어요."
-      };
-    }
-    var elapsedMin = c.turns.length ? Math.round((new Date() - new Date(c.createdAt)) / 60000) : 0;
-    if (c.turns.length >= 2) {
-      return {
-        교권침해: { 판단: "주의", 이유: "**같은 내용이 반복**되고 있어요. 목적이 정당하지 않은 반복 민원은 교육활동 침해가 될 수 있어요.", 권장조치: ["주고받은 내용을 그대로 기록해 두세요.", "같은 답을 짧게 반복하고 **새 약속은 하지 마세요**."] },
-        핵심: "이미 답한 내용이면 **같은 답으로 마무리**해요.",
-        초안: way === "call"
-          ? "1. 말씀하신 내용은 이미 확인해서 답을 드렸어요.\n2. 같은 답 외에는 더 도와드리기 어려워요.\n3. 추가로 요청하실 게 있으면 학교 공식 창구로 남겨 주세요. 오늘 통화는 여기서 마칠게요."
-          : name + " 보호자님, 말씀하신 내용은 이미 확인해서 답을 드렸어요. 같은 답 외에는 더 도와드리기 어려운 점 양해 부탁드려요. 추가로 요청하실 내용은 학교 대표번호나 공식 소통 창구로 남겨 주세요.",
-        사실관계: [], 피할말: avoid.concat(["새로운 설명이나 약속을 덧붙이기"]), 예상질문: [],
-        근거: "학교 민원 응대 안내자료(2024): 합리적 답변에도 **같은 민원이 3회 이상** 반복되면 답변을 종결할 수 있어요."
-      };
-    }
-    if (way === "call" && elapsedMin >= 20) {
-      return {
-        교권침해: { 판단: "주의", 이유: "통화가 **" + elapsedMin + "분** 이어지고 있어요.", 권장조치: ["용건 위주로 정리하고, 30분이 넘으면 정중히 마쳐도 돼요."] },
-        핵심: "**용건 위주**로 정리하고 마무리를 준비해요.",
-        초안: "1. 보호자님, 제가 맡은 다른 업무가 있어서 많은 시간을 드리기 어려운 점 양해 부탁드려요.\n2. 지금 말씀하신 내용 중 꼭 확인할 것만 정리해서 다시 연락드릴게요.\n3. (30분이 넘으면) 다른 업무 처리를 위해 통화를 마치겠습니다. 내용 확인 후 연락드릴게요.",
-        사실관계: [], 피할말: avoid, 예상질문: [],
-        근거: "학교 민원 응대 안내자료(2024): 정당한 사유 없는 통화가 **20분**을 넘으면 용건 위주로 안내하고, **30분**을 넘으면 종료할 수 있어요."
-      };
-    }
-    var mild = MILD.test(msg);
     var nd = new Date(), off = nd.getDay() === 0 || nd.getDay() === 6 || nd.getHours() < 8 || nd.getHours() >= 17;
-    var offLine = off ? "\n\n지금은 근무 시간이 아니라서, 자세한 이야기는 근무 시간에 학교 공식 창구로 나눠요." : "";
-    var basis = off ? "생활지도 고시: 교원은 **근무시간 밖 상담**을 거부할 수 있고, 민원은 **학교 공식 창구**로 받아요." : "민원은 교사 개인이 아니라 **학교 공식 창구와 민원대응팀**이 기관으로 대응해요.";
-    return {
-      교권침해: mild ? { 판단: "주의", 이유: "**감정이 격해졌거나** 요구가 커질 수 있는 표현이 있어요.", 권장조치: ["통화나 문자 내용을 요약해 기록해 두세요.", "답은 사실 위주로 짧게 하세요."] } : { 판단: "없음", 이유: "", 권장조치: [] },
-      핵심: gd.length ? "**좋은 날 기록**으로 먼저 문을 열어요. **[ ] 부분**을 채워서 쓰세요." : "AI 없이 만든 기본 틀이에요. **[ ] 부분**을 채워서 쓰세요.",
+    var avoid = ["'죄송합니다', '유감입니다' 같은 사과 표현", "그 자리에서 약속하거나 결론 내리기", "다른 학생 이름이나 사정 이야기하기"];
+    var intent = forced || detectIntent(c, msg, way);
+    var NONE = { 판단: "없음", 이유: "", 권장조치: [] };
+    var HIGHV = function (why) { return { 판단: "높음", 이유: why, 권장조치: ["해당 발언 **원문과 일시**를 그대로 기록해 두세요.", "통화 **녹음이나 문자 캡처**를 보관하세요.", "학교에 알리고 **특이민원 발생보고서**를 쓰세요.", "교권침해 직통번호 **1395**에서 신고·법률·심리 지원을 받을 수 있어요."] }; };
+    function out(o) {
+      o.요지 = o.요지 || ""; o.사실관계 = o.사실관계 || []; o.피할말 = o.피할말 || avoid; o.예상질문 = []; o.intent = intent;
+      return o;
+    }
+    // 공통 조립: core(문장들), empath(공감 한 문장)
+    function build(o) {
+      var core = o.core || [], emp = o.empath || "", nxt = o.next === false ? "" : (o.next || "확인하여 [언제]까지 학교 공식 창구로 알려 드리겠습니다.");
+      var text = (first ? "안녕하세요, " + name + " 학생 보호자님. " + meIs + ".\n\n" : "") +
+        (emp ? emp + " " : "") + core.join(" ").replace(/ \n/g, "\n") +
+        (nxt ? "\n\n" + nxt : "") + (off ? "\n\n지금은 근무 시간이 아니므로, 자세한 내용은 근무 시간에 학교 공식 창구로 문의해 주십시오." : "") +
+        (first ? "\n\n연락 주셔서 감사합니다." : "");
+      var lines = [];
+      if (first) lines.push("안녕하세요, " + name + " 학생 " + meIs + ". 말씀 끝까지 듣겠습니다.");
+      if (emp) lines.push(emp);
+      core.forEach(function (x) { lines.push(x); });
+      if (nxt) lines.push(nxt);
+      lines.push(off ? "지금은 근무 시간이 아니므로, 자세한 내용은 근무 시간에 학교 공식 창구로 문의해 주십시오." : "더 궁금하신 점 있으십니까?");
+      var call = lines.map(function (x, k) { return (k + 1) + ". " + x; }).join("\n");
+      return out({ 교권침해: o.v || NONE, 요지: o.요지, 핵심: o.핵심, 초안: way === "call" ? call : text, 근거: o.근거, 사실관계: o.사실관계 });
+    }
+    if (intent === "폭언") return out({
+      교권침해: HIGHV("**폭언이나 위협**으로 볼 수 있는 표현이 있어요. 경범죄처벌법(불안감조성)이나 협박에 해당될 수 있어요."),
+      요지: "폭언·위협", 핵심: "**설득하지 말고**, 정중하게 대화를 **멈춰요**.",
       초안: way === "call"
-        ? "1. 네, 말씀 끝까지 들을게요.\n2. 말씀하신 일, 그날 제가 적어 둔 기록이 있어요.\n" + list + "\n3. 지금 바로 결정해 드리긴 어렵고, 학교 공식 창구로 남겨 주시면 확인해서 연락드릴게요.\n4. 오늘 통화 내용은 정리해 둘게요." + (off ? "\n5. 지금은 근무 시간이 아니라서, 오늘은 여기까지 할게요." : "")
-        : "안녕하세요, " + name + " 학생 보호자님. [과목/담임] 교사 [이름]이에요.\n\n" + (mild ? "그렇게 생각하셨으면 많이 속상하셨겠어요.\n\n" : "") + open + "말씀 주신 일, 그날 제가 적어 둔 기록을 다시 봤어요.\n" + list + "\n\n더 확인하고 싶으신 게 있으면 학교 대표번호나 공식 소통 창구로 남겨 주세요. 학교에서 확인해 보고 다시 연락드릴게요." + offLine,
-      사실관계: dates.map(function (d) { return d + " 기록이 있어요."; }), 피할말: avoid, 예상질문: [], 근거: basis
+        ? "1단계 (진정 요청)\n\"폭언을 계속하시면 정상적인 상담이 어렵습니다. 차분히 말씀해 주셔야 도와드릴 수 있습니다. 이 통화는 교직원 보호를 위해 녹음될 수 있습니다.\"\n\n2단계 (계속되면 종료)\n\"더 이상 상담이 어렵습니다. 폭언을 계속하시면 관련 법령에 따라 처벌받을 수 있습니다. 통화를 종료하겠습니다.\""
+        : name + " 학생 보호자님, 이와 같은 표현이 계속되면 더 이상 답변드리기 어렵습니다. 필요한 내용은 학교 대표번호나 공식 소통 창구로 남겨 주십시오. 같은 표현이 반복되면 관련 법령에 따라 조치될 수 있음을 알려드립니다.",
+      피할말: avoid.concat(["같이 언성을 높이거나 반박하기"]),
+      근거: "학교 민원 응대 안내자료(2024): 폭언은 **진정 요청 → 종료** 2단계, 생활지도 고시상 폭언 시 상담 **중단 가능**" });
+    if (intent === "성희롱") return out({
+      교권침해: HIGHV("**성희롱**에 해당될 수 있는 표현이에요. 전화·문자라면 성폭력처벌법 제13조(통신매체 이용 음란)에 해당될 수 있어요."),
+      요지: "성적 발언", 핵심: "한 번 **분명히 경고**하고, 계속되면 응대를 **마쳐요**.",
+      초안: way === "call"
+        ? "1. 방금 하신 말씀은 성희롱에 해당될 수 있으니 삼가 주십시오.\n2. (계속되면) 더 이상 상담이 어렵습니다. 통화를 종료하겠습니다."
+        : "방금 보내신 내용은 성희롱에 해당될 수 있으니 삼가 주십시오. 이와 같은 내용이 계속되면 더 이상 답변드리지 않겠습니다.",
+      근거: "학교 민원 응대 안내자료(2024): 성희롱은 **경고 후 종료**" });
+    if (intent === "관리자") return out({
+      교권침해: { 판단: "주의", 이유: "**관리자 연결**을 요구하고 있어요. 요구에 끌려가지 말고 담당자로서 먼저 들어요.", 권장조치: ["담당자로서 먼저 듣고 돕겠다고 일관되게 말하세요.", "계속 요구하면 연락처를 받아 관리자가 연락하도록 하세요."] },
+      요지: "관리자 연결 요구", 핵심: "담당자인 내가 **먼저 듣고 돕는다**는 입장을 지켜요.",
+      초안: way === "call"
+        ? "1. 담당 교사인 제가 먼저 말씀을 듣고 도와드릴 방법을 찾겠습니다.\n2. (계속 요구하시면) 성함과 연락처를 남겨 주시면 관리자께서 연락드리도록 하겠습니다."
+        : (first ? "안녕하세요, " + name + " 학생 보호자님. " + meIs + ".\n\n" : "") + "담당 교사인 제가 먼저 말씀을 듣고 도와드릴 방법을 찾겠습니다. 관리자와의 통화를 원하시면 학교 대표번호로 성함과 연락처를 남겨 주십시오. 학교에서 연락드리겠습니다.",
+      근거: "학교 민원 응대 안내자료(2024): 상급자 연결 요구에는 **담당자 일관 응대 → 연락처 받아 관리자 연락**" });
+    if (intent === "반복") return out({
+      교권침해: { 판단: "주의", 이유: "**같은 내용이 반복**되고 있어요. 목적이 정당하지 않은 반복 민원은 교육활동 침해가 될 수 있어요.", 권장조치: ["주고받은 내용을 그대로 기록해 두세요.", "같은 답을 짧게 반복하고 **새 약속은 하지 마세요**."] },
+      요지: "같은 요구 반복", 핵심: "이미 답한 내용이면 **같은 답으로 마무리**해요.",
+      초안: way === "call"
+        ? "1. 말씀하신 내용은 이미 확인하여 답변드렸습니다.\n2. 같은 답변 외에는 더 도와드릴 수 없습니다.\n3. 추가 요청은 학교 공식 창구로 남겨 주십시오. 오늘 통화는 여기서 마치겠습니다."
+        : "말씀하신 내용은 이미 확인하여 답변드렸습니다. 같은 답변 외에는 더 도와드릴 수 없음을 알려드립니다. 추가 요청은 학교 대표번호나 공식 소통 창구로 남겨 주십시오.",
+      피할말: avoid.concat(["새로운 설명이나 약속을 덧붙이기"]),
+      근거: "학교 민원 응대 안내자료(2024): 합리적 답변에도 **같은 민원 3회 이상**이면 답변 종결 가능" });
+    if (intent === "장시간") return out({
+      교권침해: { 판단: "주의", 이유: "통화가 **20분 넘게** 이어지고 있어요.", 권장조치: ["용건 위주로 정리하고, 30분이 넘으면 정중히 마쳐도 돼요."] },
+      요지: "긴 통화", 핵심: "**용건 위주**로 정리하고 마무리를 준비해요.",
+      초안: "1. 학교에서 제가 맡은 다른 업무가 있어 많은 시간을 드리기 어렵습니다. 양해 부탁드립니다.\n2. 말씀하신 내용 중 확인이 필요한 부분만 정리하여 다시 연락드리겠습니다.\n3. (30분이 넘으면) 다른 업무 처리를 위해 통화를 마치겠습니다. 내용 확인 후 연락드리겠습니다.",
+      근거: "학교 민원 응대 안내자료(2024): 정당한 사유 없는 통화 **20분 초과 시 안내, 30분 초과 시 종료** 가능" });
+    if (intent === "아동학대") return build({
+      v: { 판단: "주의", 이유: "**아동학대 신고**를 언급하고 있어요. 겁먹지 않아도 돼요. 법은 교사의 **정당한 생활지도는 아동학대로 보지 않아요**. 다만 이걸 보호자에게 따지듯 말하면 다툼이 커지니, 법은 선생님만 알고 있으면 돼요.", 권장조치: ["대화를 그대로 기록해 두세요.", "학교 관리자와 교권보호 담당에게 **바로** 알리세요.", "실제로 신고되면 교육감이 생활지도가 정당했는지 의견을 내는 제도가 있고, **1395**에서 법률 지원을 받을 수 있어요."] },
+      요지: "아동학대 신고 언급", 핵심: "법을 들어 따지지 말고, **차분히 사실만** 말한 뒤 **학교에 알려요**.",
+      empath: "말씀하신 내용은 잘 알겠습니다.",
+      core: ["그날 지도는 학교 규칙에 따라 [무엇 때문에] 한 것입니다.", "이 일은 학교에 알리고, 학교 차원에서 확인하겠습니다."], next: false,
+      근거: "초·중등교육법 제20조의2: 교원의 **정당한 생활지도는 아동학대로 보지 않음**" });
+    if (intent === "연락처") return build({
+      요지: "다른 가정 연락처 요구", 핵심: "다른 가정의 연락처는 **절대 알려 주지 않아요**.",
+      core: ["다른 가정의 연락처는 개인정보이므로 알려 드릴 수 없습니다.", "두 학생 사이의 일은 학교에서 양쪽 이야기를 듣고 절차에 따라 살피겠습니다."], next: false,
+      근거: "개인정보 보호법: 정보주체 동의 없는 **제3자 제공 금지**" });
+    if (intent === "무관") return build({
+      요지: "교육활동과 무관한 요구", 핵심: "학교가 해결할 일이 아니라고 **정중히 선을 그어요**.",
+      core: ["보호자님들 사이의 일은 학교가 해결해 드릴 수 있는 일이 아닙니다.", "학생의 학교생활과 관련된 부분이 있으면 학교 공식 창구로 말씀해 주십시오."], next: false,
+      근거: "학교 민원 응대 안내자료(2024): **교육활동과 무관한 민원**은 답변 거부·종결 가능" });
+    if (intent === "학폭") return build({
+      v: { 판단: "주의", 이유: "**학교폭력**일 수 있는 일이에요. 교사는 알게 되면 학교에 보고해야 해요.", 권장조치: ["학교폭력 책임교사와 관리자에게 바로 알리세요.", "혼자 판단하거나 해결을 약속하지 마세요."] },
+      요지: "학교폭력 의심 신고", 핵심: "직접 판단하지 말고 **학교 절차**로 넘겨요.",
+      empath: "말씀해 주셔서 감사합니다.",
+      core: ["말씀하신 일은 학교폭력 사안에 해당하는지 학교에서 정해진 절차에 따라 사실을 확인하겠습니다.", "확인 과정과 일정은 학교에서 안내드리겠습니다."], next: false,
+      근거: "학교폭력예방법 제20조: 학교폭력을 알게 되면 **신고·보고 의무**" });
+    if (intent === "사과") return build({
+      요지: "사과 요구", 핵심: "사과를 **대신 약속하지 않아요**.",
+      empath: "사과를 바라시는 뜻은 잘 알겠습니다.",
+      core: ["다만 사과는 제가 대신 약속드릴 수 있는 일이 아닙니다.", "이 일은 학교에서 사실을 확인하고 절차에 따라 안내드리겠습니다."], next: false,
+      근거: "학교 민원 응대 안내자료(2024): 교사는 결론·약속을 대신하지 않고 **학교 절차**로 안내" });
+    if (intent === "생기부") return build({
+      요지: "성적·생기부 이의", 핵심: "그 자리에서 고쳐 주겠다고 **약속하지 않아요**.",
+      core: ["평가와 학교생활기록부에 대한 이의는 학교의 정해진 절차로 신청하실 수 있습니다.", /(고쳐|수정|지워|빼)/.test(msg) ? "학교생활기록부는 임의로 고칠 수 없습니다." : "", "신청 방법은 학교에서 안내드리겠습니다."].filter(Boolean), next: false,
+      근거: "학교 학업성적관리규정: **이의 신청 절차**로 처리, 생활기록부 임의 수정 불가" });
+    if (intent === "조치") return build({
+      요지: "조치·처벌 요구", 핵심: "조치는 혼자 **정하지 않는다**는 것을 분명히 해요.",
+      empath: "요청하신 내용은 잘 알겠습니다.",
+      core: ["다만 조치는 제가 혼자 정할 수 있는 일이 아니며, 학교에서 절차에 따라 검토한 뒤 안내드리겠습니다."], next: false,
+      근거: "학교 민원 응대 안내자료(2024): 그 자리에서 **결론·약속 금지**" });
+    if (intent === "편애") return build({
+      v: { 판단: "주의", 이유: "**편애·차별**이라고 느끼고 있어요. 감정이 격해질 수 있어요.", 권장조치: ["같은 기준으로 지도했다는 것을 **기록으로** 보여 주세요."] },
+      요지: "편애·차별 주장", 핵심: "감정 대신 **같은 기준과 기록**으로 답해요.",
+      empath: "그렇게 느끼셨다니 마음이 많이 쓰이셨겠습니다.",
+      core: [good, "저는 모든 학생에게 같은 기준으로 지도하고 있습니다.", "그날 지도는 다음과 같은 일 때문이었습니다.\n" + list].filter(Boolean),
+      근거: "교원의 학생생활지도에 관한 고시: **학교 규칙에 따른 생활지도**" });
+    if (intent === "지도항의") return build({
+      v: { 판단: "주의", 이유: "**지도 방식**에 대한 항의예요.", 권장조치: ["지도 근거(학교 규칙, 생활지도 고시)를 짧게 말하세요."] },
+      요지: "지도 방식 항의", 핵심: "지도는 **규정에 따른 것**이었다고 차분히 말해요.",
+      empath: "아이 이야기를 듣고 많이 놀라셨겠습니다.",
+      core: [good, "그날 지도는 학교 생활지도 규정에 따른 것이었습니다.\n" + list].filter(Boolean),
+      next: "지도 과정에 대해 더 확인이 필요하시면 학교 공식 창구로 남겨 주십시오.",
+      근거: "교원의 학생생활지도에 관한 고시: 교원은 **주의·훈육·분리 등 생활지도** 가능" });
+    if (intent === "사실") return build({
+      요지: "사실 확인 문의", 핵심: "**기록에 있는 사실만** 전해요.",
+      core: [good, "문의하신 일은 그날 제가 남긴 기록으로 확인했습니다.\n" + list].filter(Boolean),
+      근거: "학교 민원 응대 안내자료(2024): **사실과 규정에 근거**해 답변" });
+    var mild = MILD.test(msg);
+    return build({
+      v: mild ? { 판단: "주의", 이유: "**감정이 격해졌거나** 요구가 커질 수 있는 표현이 있어요.", 권장조치: ["주고받은 내용을 요약해 기록해 두세요.", "답은 사실 위주로 짧게 하세요."] } : NONE,
+      요지: "일반 문의", 핵심: good ? "**성장 기록**으로 먼저 문을 열어요. **[ ] 부분**을 채워서 쓰세요." : "AI 없이 만든 기본 틀이에요. **[ ] 부분**을 채워서 쓰세요.",
+      empath: mild ? "이 일로 많이 속상하셨겠습니다." : "",
+      core: [good, "말씀하신 일은 그날 제가 남긴 기록으로 다시 확인했습니다.\n" + list].filter(Boolean),
+      사실관계: dates.map(function (d) { return d + " 기록이 있어요."; }),
+      근거: off ? "생활지도 고시: 교원은 **근무시간 밖 상담**을 거부할 수 있고, 민원은 **학교 공식 창구**로 받아요." : "민원은 교사 개인이 아니라 **학교 공식 창구와 민원대응팀**이 기관으로 대응해요." });
+  }
+
+  var cmode = "parent";
+  qsa("#outP button").forEach(function (b) {
+    b.addEventListener("click", function () { outPurpose = b.dataset.p; qsa("#outP button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); }); });
+  });
+  qsa(".cmode button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      cmode = b.dataset.m;
+      qsa(".cmode button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      document.querySelector("#p-reply .composer").classList.toggle("asking", cmode === "ask");
+      $("outP").hidden = cmode !== "out";
+      document.querySelector('#r_way [data-v="text"]').textContent = cmode === "out" ? "문자로" : "문자로 답하기";
+      document.querySelector('#r_way [data-v="call"]').textContent = cmode === "out" ? "전화로" : "통화 중";
+      $("r_msg").placeholder = cmode === "ask" ? "궁금한 걸 물어보세요. 예: 상대 학생 보호자 연락처를 알려 드려도 되나요?" : cmode === "out" ? "무엇에 대해 연락하나요? (비워도 돼요) 예: 수업 중 휴대폰 사용이 반복돼 가정 협조 요청" : "보호자가 한 말을 붙여넣거나 적어 주세요";
+      $("r_make").textContent = cmode === "ask" ? "묻기" : cmode === "out" ? "연락 문구 만들기" : "응대 준비";
+      $("r_msg").focus();
+    });
+  });
+  var FAQ = [
+    { re: /(연락처|전화번호|번호|카톡|주소).*(상대|다른|그쪽|그 집|피해|가해|친구|부모|보호자)|(상대|다른|그쪽|피해|가해).*(연락처|전화번호|번호)/,
+      a: "**알려 드리면 안 돼요.** 다른 가정의 연락처는 개인정보라서, 그 보호자의 동의 없이 제3자에게 주면 개인정보 보호법 위반이 될 수 있어요. 직접 연락하게 되면 다툼이 더 커지기도 하고요. 대신 학교가 양쪽 보호자의 입장을 따로 듣고 절차에 따라 살펴보겠다고 안내하세요.",
+      say: "다른 가정의 연락처는 개인정보이므로 알려 드릴 수 없습니다. 두 학생 사이의 일은 학교에서 양쪽 이야기를 듣고 절차에 따라 살피겠습니다.",
+      basis: "개인정보 보호법: 정보주체 동의 없는 **제3자 제공 금지**" },
+    { re: /사과/,
+      a: "교사가 상대 학생이나 보호자에게 **사과를 시키거나 약속할 수는 없어요.** 사과는 당사자가 스스로 하는 것이고, 학교폭력에 해당할 수 있는 일이면 학교폭력 사안 처리 절차 안에서 관계회복 등이 논의돼요. 교사는 요청을 들었다는 것과 학교가 절차대로 살펴본다는 것까지만 안내하세요.",
+      say: "사과를 바라시는 뜻은 잘 알겠습니다. 다만 제가 사과를 대신 약속드릴 수는 없습니다. 이 일은 학교에서 절차에 따라 살펴보고 안내드리겠습니다.",
+      basis: "교사는 결론·약속을 대신하지 않고 **학교 절차**로 안내 (학교 민원 응대 안내자료)" },
+    { re: /(학폭|학교폭력|때렸|맞았|싸웠|싸움|괴롭|따돌)/,
+      a: "학교폭력일 수 있는 일을 알게 되면 교사는 **학교장에게 알려야 해요.** 교사 혼자 판단하거나 해결을 약속하지 말고, 학교폭력 책임교사나 학년부에 바로 공유하세요. 보호자에게는 학교가 절차에 따라 사실을 확인한다고 안내하면 돼요.",
+      say: "말씀하신 일은 학교에서 정해진 절차에 따라 사실을 확인하고 안내드리겠습니다.",
+      basis: "학교폭력예방법 제20조: 학교폭력을 알게 되면 **신고·보고 의무**" },
+    { re: /녹음/,
+      a: "**대화 당사자가 녹음하는 건 불법이 아니에요.** 보호자가 녹음해도, 선생님이 녹음해도 마찬가지예요. 오히려 폭언이 걱정되는 통화라면 선생님도 녹음하거나 학교 녹음 전화를 쓰는 게 좋아요. 다만 녹음을 무단으로 퍼뜨리는 건 교육활동 침해가 될 수 있어요.",
+      say: "네, 이 통화는 기록을 위해 저도 녹음하고 있습니다.",
+      basis: "통신비밀보호법: 금지되는 건 **타인 간 대화** 녹음" },
+    { re: /(아동학대|학대)/,
+      a: "겁먹지 않아도 돼요. **정당한 생활지도는 아동학대로 보지 않아요.** 실제로 신고되면 교육감이 정당한 생활지도였는지 의견을 내는 제도도 있어요. 다만 이 법을 보호자에게 따지듯 말하면 다툼이 커지니, **보호자에게는 차분히 사실만** 말하고 학교 관리자와 교권보호 담당에게 바로 알리세요. 1395에서 법률 지원도 받을 수 있어요.",
+      say: "말씀하신 내용은 잘 알겠습니다. 그날 지도는 학교 규칙에 따라 한 것입니다. 이 일은 학교에 알리고 학교 차원에서 확인하겠습니다.",
+      basis: "초·중등교육법 제20조의2: 교원의 **정당한 생활지도는 아동학대로 보지 않음**" },
+    { re: /(개인 ?번호|내 ?번호|휴대폰 ?번호|카톡|SNS|밤|주말|퇴근)/i,
+      a: "**교사 개인 번호로 오는 민원이나 근무시간 밖 연락은 응대하지 않아도 돼요.** 2026년 3월부터 민원은 학교 대표번호와 공식 창구로만 받아요.",
+      say: "이 번호로는 답변드리기 어렵습니다. 근무 시간에 학교 공식 창구로 남겨 주시면 학교에서 확인하겠습니다.",
+      basis: "학교 민원 대응 개선 방안(2026), 생활지도 고시: **근무시간 밖 상담 거부 가능**" },
+    { re: /(성적|점수|평가|생기부|세특|생활기록부)/,
+      a: "성적이나 학교생활기록부 이의는 **학교의 공식 절차**(성적 이의 신청, 학업성적관리위원회 등)로 처리돼요. 그 자리에서 고쳐 주겠다거나 다시 보겠다고 약속하지 마세요.",
+      say: "평가에 대한 이의는 학교의 정해진 절차로 신청하실 수 있습니다. 방법은 학교에서 안내드리겠습니다.",
+      basis: "학교 학업성적관리규정의 **이의 신청 절차**" }
+    ,{ re: /(교장|교감|관리자|윗사람|책임자)/,
+      a: "관리자를 바꿔 달라는 요구에 바로 끌려가지 않아도 돼요. 먼저 **담당자로서 내가 듣고 돕겠다**고 일관되게 말하고, 그래도 원하시면 **성함과 연락처를 받아 관리자가 연락**하도록 하면 돼요. 그 뒤엔 관리자에게 상황을 공유하세요.",
+      say: "담당 교사인 제가 먼저 말씀을 듣고 도와드릴 방법을 찾겠습니다. 그래도 원하시면 성함과 연락처를 남겨 주십시오. 관리자께서 연락드리도록 하겠습니다.",
+      basis: "학교 민원 응대 안내자료(2024): 상급자 통화 요구 시 **담당자 일관 응대 → 연락처 받아 관리자 연락**" }
+    ,{ re: /(단톡|단체방|학부모끼리|엄마들|맘카페|보호자끼리)/,
+      a: "보호자들끼리의 단체 대화방이나 모임에서 생긴 다툼은 **교육활동과 무관한 요구**라서 교사가 해결해 줄 의무가 없어요. 정중히 선을 긋고, 학생과 관련된 부분이 있으면 그것만 학교 절차로 안내하세요.",
+      say: "보호자님들 사이의 대화방에서 생긴 일은 제가 해결해 드릴 수 있는 일이 아닙니다. 학교생활과 관련된 부분이 있으면 학교 공식 창구로 말씀해 주십시오.",
+      basis: "학교 민원 응대 안내자료(2024): **교육활동과 무관한 민원**은 답변 거부·종결 가능" }
+    ,{ re: /(고쳐|수정|지워|빼).{0,10}(생기부|생활기록부|기록|세특)|(생기부|생활기록부|세특).{0,10}(고쳐|수정|지워|빼)/,
+      a: "학교생활기록부를 보호자 요구로 **임의로 고치는 건 안 돼요.** 정정이 필요하면 학교의 학업성적관리위원회 등 정해진 절차를 거쳐야 하고, 부당한 수정 요구는 특이민원 사례에도 나와 있어요.",
+      say: "학교생활기록부는 임의로 고칠 수 없습니다. 정정이 필요하다고 보시면 학교의 정해진 절차로 신청하실 수 있도록 안내드리겠습니다.",
+      basis: "학교 민원 응대 안내자료(2024) 특이민원 사례: 생활기록부 **임의 수정 요구는 부당한 요구**" }
+  ];
+  FAQ.unshift(FAQ.pop());
+  function faqAnswer(q) {
+    for (var i = 0; i < FAQ.length; i++) if (FAQ[i].re.test(q)) return { 답: FAQ[i].a, 문장: FAQ[i].say, 근거: FAQ[i].basis };
+    return { 답: "이 질문은 기본 안내에 없어요. 지금 상황에서 확실하지 않은 건 **그 자리에서 답하지 말고** \"확인 후 다시 연락드리겠습니다\"로 넘긴 뒤, 학년부나 교권보호 담당 선생님께 확인해 보세요.", 문장: "그 부분은 확인 후 다시 연락드리겠습니다.", 근거: "확실하지 않을 땐 **즉답하지 않기** (학교 민원 응대 안내자료)" };
+  }
+  function askEl(a) {
+    var w = document.createElement("div"); w.className = "turn";
+    w.innerHTML = '<div class="qbub"><span class="who">나 · 고래에게 질문 · ' + fmtAt(a.at) + "</span>" + esc(a.q) + "</div>" +
+      '<div class="wnote ans"><span class="wa">🐋</span><div class="wb"><small>고래 · 답변' + (a.template ? " (기본 안내)" : "") + "</small>" + rich(a.res.답) +
+      (a.res.문장 ? '<div class="say"><b>이렇게 말해 보세요</b>' + esc(a.res.문장) + "</div>" : "") +
+      (a.res.근거 ? '<div class="basis">📜 ' + rich(a.res.근거) + "</div>" : "") +
+      (a.res.문장 ? '<div class="acts"><button type="button">문장 복사</button></div>' : "") + "</div></div>";
+    var cb = w.querySelector(".acts button");
+    if (cb) cb.addEventListener("click", function () { copyText(a.res.문장, cb); });
+    return w;
+  }
+  function runAsk() {
+    var q = $("r_msg").value.trim();
+    if (!q) { showToast("궁금한 걸 적어 주세요.", false); return; }
+    var fresh = !currentCase, c = currentCase || makeCase();
+    if (!c.asks) c.asks = [];
+    function commit(res, tpl) {
+      c.asks.push({ at: new Date().toISOString(), q: q, res: res, template: !!tpl });
+      c.updatedAt = new Date().toISOString();
+      if (fresh) { cases.push(c); currentCase = c; $("pastBtn").textContent = "지난 응대 (" + cases.length + ")"; }
+      persistCases(); $("r_msg").value = ""; renderThread();
+      var last = $("thread").lastChild; if (last) last.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    if (!sampleFn) { commit(faqAnswer(q), true); return; }
+    var names = c.names || [];
+    var Q3 = '"""';
+    var prompt = RULES + "지금은 보호자에게 보낼 문구가 아니라, 교사가 응대 중에 궁금한 점을 당신에게 묻는 상황입니다. 한국 학교 현장의 법령과 지침(개인정보 보호법, 학교폭력예방법, 교원지위법, 초·중등교육법, 교원의 학생생활지도에 관한 고시, 학교 민원 응대 안내자료)에 근거해 교사 편에서 짧고 분명하게 답하세요. 확실하지 않은 것은 단정하지 말고 학교 담당자에게 확인하라고 하세요. 다른 가정의 개인정보는 절대 제공하면 안 된다는 원칙을 지키세요.\n\n" +
+      "참고 기록:\n" + Q3 + "\n" + (c.context ? (c.context.split("교사가 남긴 기록:")[1] || "") : "") + "\n" + Q3 + "\n\n교사의 질문:\n" + Q3 + "\n" + maskText(q, names).text + "\n" + Q3 + "\n\n" +
+      '다음 JSON 하나로만 답하세요: {"답": "2~4문장, 가장 중요한 말은 **이렇게** 강조", "문장": "보호자에게 그대로 말할 수 있는 하십시오체 한두 문장(없으면 빈 문자열)", "근거": "적용한 법령이나 지침 한 줄"}';
+    var btn = $("r_make"); btn.disabled = true; btn.textContent = "묻는 중…";
+    sampleFn.json(prompt, { cache: false }).then(function (res) {
+      var un = function (x) { return unmask(toStr(x), c.map || []).trim(); };
+      commit({ 답: un(res && res.답), 문장: un(res && res.문장).replace(/\*\*/g, ""), 근거: un(res && res.근거) }, false);
+    }).catch(function () { commit(faqAnswer(q), true); showToast("AI 대신 기본 안내로 답했어요.", false); })
+      .then(function () { btn.disabled = false; btn.textContent = cmode === "ask" ? "묻기" : "응대 준비"; });
+  }
+
+  var PURPOSES = [["상담", "상담 요청"], ["안내", "생활 안내·협조"], ["성장", "성장 소식"], ["사안", "사안 알림"]];
+  var outPurpose = "상담";
+  function outTemplate(c, purpose, note, way) {
+    var name = c.student || "학생", me = authorName() || "[과목/담임] 교사 [이름]", meIs = me + "입니다";
+    var gd = (c.goodDates || []).map(function (d) { return shortDate(new Date(d)); });
+    var dates = (c.dates || []).map(function (d) { return shortDate(new Date(d)); });
+    var list = dates.length ? dates.map(function (d) { return "- " + d + ": [있었던 일을 한 줄로]"; }).join("\n") : "- [날짜]: [있었던 일을 한 줄로]";
+    var nt = String(note || "").trim();
+    var greet = "안녕하세요, " + name + " 학생 보호자님. " + meIs + ".";
+    var good = gd.length ? " 요즘 " + name + " 학생은 " + gd[gd.length - 1] + "에 [그날의 좋은 모습]을 보여 주는 등 좋은 모습도 보여 주고 있습니다." : "";
+    var T = {
+      상담: {
+        핵심: "목적을 먼저 밝히고, **일시와 방법은 미리 협의**해요.",
+        text: greet + " " + name + " 학생의 학교생활에 대해 상담을 요청드리고자 연락드립니다." + good + "\n\n상담에서는 " + (nt || "[상담할 내용]") + "에 대해 함께 이야기 나누고자 합니다.\n\n가능하신 일시를 골라 회신 부탁드립니다.\n- [월/일 요일 시간]\n- [월/일 요일 시간]\n상담은 학교 방문, 전화, 화상 중 편하신 방법으로 하실 수 있습니다.\n\n감사합니다.",
+        call: ["안녕하세요, " + name + " 학생 " + meIs + ". 지금 잠시 통화 괜찮으십니까?", name + " 학생의 학교생활에 대해 상담을 요청드리고자 연락드렸습니다.", "상담에서는 " + (nt || "[상담할 내용]") + "에 대해 이야기 나누고자 합니다.", "[월/일 요일 시간]이나 [월/일 요일 시간] 중 편하신 때가 있으십니까? 방문, 전화, 화상 중 편하신 방법으로 하실 수 있습니다."],
+        근거: "교원의 학생생활지도에 관한 고시: 상담은 **일시와 방법을 사전 협의**" },
+      안내: {
+        핵심: "**사실과 부탁**만 짧게, 가정은 **협력자**로 대해요.",
+        text: greet + " " + name + " 학생의 학교생활과 관련하여 알려 드릴 일이 있어 연락드립니다." + good + "\n\n최근 " + (nt || "[있었던 일]") + "이 있었습니다.\n" + list + "\n\n학교에서도 계속 지도하겠습니다. 가정에서도 [부탁드릴 점]에 대해 이야기 나눠 주시면 큰 도움이 됩니다.\n\n궁금하신 점은 학교 공식 창구로 남겨 주십시오. 감사합니다.",
+        call: ["안녕하세요, " + name + " 학생 " + meIs + ". 지금 잠시 통화 괜찮으십니까?", name + " 학생의 학교생활과 관련해 알려 드릴 일이 있어 연락드렸습니다.", "최근 " + (nt || "[있었던 일]") + "이 있었습니다.", "학교에서도 계속 지도하겠습니다. 가정에서도 [부탁드릴 점]에 대해 이야기 나눠 주시면 큰 도움이 됩니다."],
+        근거: "학교와 가정의 협력: 사실 위주로 알리고 **가정의 협조를 요청**" },
+      성장: {
+        핵심: "좋은 소식은 **구체적인 장면 하나**로 전해요.",
+        text: greet + " 오늘은 기쁜 소식을 전하고 싶어 연락드립니다.\n\n" + (nt || (gd.length ? gd[gd.length - 1] + "에 [그날의 좋은 모습]" : "[좋은 모습]")) + "이 있었습니다. 학교에서도 대견하게 지켜보고 있습니다.\n\n가정에서도 많이 칭찬해 주십시오. 감사합니다.",
+        call: ["안녕하세요, " + name + " 학생 " + meIs + ". 기쁜 소식이 있어 연락드렸습니다.", (nt || "[좋은 모습]") + "이 있었습니다.", "학교에서도 대견하게 지켜보고 있습니다. 가정에서도 많이 칭찬해 주십시오."],
+        근거: "성장 기록: 문제만이 아니라 **좋은 모습도 보호자와 나누기**" },
+      사안: {
+        핵심: "**확인된 사실만** 알리고, 추측이나 책임 판단은 하지 않아요.",
+        text: greet + " 오늘 학교에서 " + name + " 학생과 관련된 일이 있어 알려 드립니다.\n\n" + (nt || "[언제] [어디서] [무슨 일]") + "이 있었고, 학교에서는 [한 조치]를 했습니다.\n\n앞으로의 진행은 학교 절차에 따라 안내드리겠습니다. 궁금하신 점은 학교 공식 창구로 남겨 주십시오.",
+        call: ["안녕하세요, " + name + " 학생 " + meIs + ". 오늘 학교에서 있었던 일을 알려 드리려고 연락드렸습니다.", (nt || "[언제] [어디서] [무슨 일]") + "이 있었고, 학교에서는 [한 조치]를 했습니다.", "앞으로의 진행은 학교 절차에 따라 안내드리겠습니다."],
+        근거: "학교 민원 응대 안내자료(2024): **확인된 사실** 위주로 안내, 학교폭력은 **학교 절차**로" }
     };
+    var t = T[purpose] || T.상담;
+    return { 핵심: t.핵심, 초안: way === "call" ? t.call.map(function (x, k) { return (k + 1) + ". " + x; }).join("\n") : t.text, 근거: t.근거 };
+  }
+  function runOut() {
+    var note = $("r_msg").value.trim(), way = getWay();
+    var fresh = !currentCase, c = currentCase || makeCase();
+    if (!c.outs) c.outs = [];
+    function commit(res, tpl) {
+      c.outs.push({ at: new Date().toISOString(), purpose: outPurpose, note: note, way: way, res: res, sent: res.초안, template: !!tpl });
+      c.updatedAt = new Date().toISOString();
+      if (fresh) { cases.push(c); currentCase = c; $("pastBtn").textContent = "지난 응대 (" + cases.length + ")"; }
+      persistCases(); $("r_msg").value = ""; renderThread();
+      var last = $("thread").lastChild; if (last) last.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    if (!sampleFn) { commit(outTemplate(c, outPurpose, note, way), true); return; }
+    var Q3 = '"""', plabel = PURPOSES.filter(function (x) { return x[0] === outPurpose; })[0][1];
+    var prompt = RULES + "지금은 보호자의 연락에 답하는 것이 아니라, 교사가 먼저 보호자에게 연락하는 상황입니다. 연락 목적: " + plabel + ". 첫 연락이므로 인사와 [과목/담임] 교사 [이름] 소개로 시작하고, 목적을 먼저 밝히세요. 성장 기록이 있으면 좋은 모습을 한 문장 먼저 전하세요. 상담 요청이면 고시에 따라 일시와 방법(방문, 전화, 화상)을 사전 협의하도록 후보 일시 2개를 [월/일 요일 시간]으로 두세요. 사안 알림이면 확인된 사실만 쓰고 추측이나 책임 판단은 하지 마세요.\n\n" +
+      (c.context ? "기록:\n" + Q3 + "\n" + (c.context.split("교사가 남긴 기록:")[1] || "") + "\n" + Q3 + "\n\n" : "") +
+      "교사 메모(연락할 내용):\n" + Q3 + "\n" + maskText(note || "(메모 없음)", c.names || []).text + "\n" + Q3 + "\n\n" + wayText(way, true) +
+      '\n\n다음 JSON 하나로만 답하세요: {"핵심": "교사에게 주는 조언 한 문장(40자 안팎, 중요한 말은 **로 강조)", "초안": "보낼 문구", "근거": "적용한 지침 한 줄"}';
+    var btn = $("r_make"); btn.disabled = true; btn.textContent = "만드는 중…";
+    sampleFn.json(prompt, { cache: false }).then(function (res) {
+      var un = function (x) { return unmask(toStr(x), c.map || []).trim(); };
+      commit({ 핵심: un(res && res.핵심), 초안: un(res && res.초안).replace(/\*\*/g, ""), 근거: un(res && res.근거) }, false);
+    }).catch(function () { commit(outTemplate(c, outPurpose, note, way), true); showToast("AI 대신 기본 틀로 만들었어요.", false); })
+      .then(function () { btn.disabled = false; btn.textContent = "연락 문구 만들기"; });
+  }
+  function outEl(o, isLast, key) {
+    var el = document.createElement("div"); el.className = "turn";
+    var plabel = (PURPOSES.filter(function (x) { return x[0] === o.purpose; })[0] || ["", "먼저 연락"])[1];
+    el.innerHTML = '<div class="qbub outbub"><span class="who">내가 먼저 연락 · ' + plabel + " · " + fmtAt(o.at) + "</span>" + esc(o.note || "(메모 없음)") + "</div>" +
+      '<div class="wnote"><span class="wa">🐋</span><div class="wb"><small>고래 · ' + plabel + (o.template ? " 기본 틀" : "") + "</small>" + rich(o.res.핵심 || "") +
+      (o.res.근거 ? '<details class="why"><summary>근거</summary><div class="basis">📜 ' + rich(o.res.근거) + "</div></details>" : "") + "</div></div>" +
+      '<div class="bub mine"><div class="mine-h"><span class="who">' + (o.way === "call" ? "통화에서 할 말" : "보낼 문자") + (o.sent !== o.res.초안 ? " · 고침" : "") + '</span><button type="button" class="copybtn">복사</button></div><textarea class="draftta"></textarea></div>';
+    var ta = el.querySelector("textarea"); ta.value = o.sent;
+    function fit() { ta.style.height = "auto"; ta.style.height = (ta.scrollHeight + 2) + "px"; }
+    setTimeout(fit, 0); ta.addEventListener("input", fit);
+    ta.addEventListener("change", function () { o.sent = ta.value; persistCases(); renderThread(); });
+    el.querySelector(".copybtn").addEventListener("click", function () { copyText(ta.value, ta); });
+    if (!isLast) el.appendChild(foldBtn(key));
+    return el;
+  }
+
+  function makeCase() {
+      var name = splitTerms($("r_name").value).join(" ") || "학생";
+      var hits = replyHits().filter(function (r) { return picked[r.id]; });
+      var names = nameList($("r_mask").value);
+      var bad = hits.filter(function (r) { return !isGood(r); }), good = hits.filter(function (r) { return isGood(r); });
+      var base = maskText(bad.map(recordText).join("\n\n") + "\n@@GOOD@@\n" + good.map(recordText).join("\n\n"), names);
+      var parts = base.text.split("\n@@GOOD@@\n");
+      var studentTok = names.length ? maskText(name, names).text : name;
+      var now = new Date().toISOString();
+      return { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), student: name, createdAt: now, updatedAt: now,
+        recordCount: hits.length, names: names, map: base.map, dates: bad.map(function (r) { return r.createdAt; }), goodDates: good.map(function (r) { return r.createdAt; }),
+        context: RULES + "대상 학생: " + studentTok + "\n\n교사가 남긴 기록:\n\"\"\"\n" + (parts[0].trim() || "(선택된 기록 없음)") + "\n\"\"\"\n\n" +
+          (good.length ? "같은 학생의 성장 기록 (노력, 변화, 좋은 모습):\n\"\"\"\n" + parts[1].trim() + "\n\"\"\"\n좋은 모습 기록이 있으므로 '초안'의 첫머리를 그 기록 속 구체적인 모습 한 가지로 부드럽게 여세요. 기록에 있는 사실만 쓰고, 칭찬으로 문제를 덮거나 흥정하는 느낌이 들지 않게 하세요. '핵심'에서도 이 이야기로 시작하라고 알려 주세요.\n\n" : ""),
+        convo: [], turns: [], asks: [] };
   }
 
   function runReply(presetMsg, presetWay, onFail) {
     var msg = (presetMsg || $("r_msg").value).trim(), way = presetWay || getWay();
     if (!msg) { showToast("보호자가 한 말을 적어 주세요.", false); return; }
     var fresh = !currentCase, c = currentCase;
-    if (fresh) {
-      var name = splitTerms($("r_name").value).join(" ") || "학생";
-      var hits = replyHits().filter(function (r) { return picked[r.id]; });
-      var names = nameList($("r_mask").value);
-      var bad = hits.filter(function (r) { return !r.good; }), good = hits.filter(function (r) { return r.good; });
-      var base = maskText(bad.map(recordText).join("\n\n") + "\n@@GOOD@@\n" + good.map(recordText).join("\n\n"), names);
-      var parts = base.text.split("\n@@GOOD@@\n");
-      var studentTok = names.length ? maskText(name, names).text : name;
-      var now = new Date().toISOString();
-      c = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), student: name, createdAt: now, updatedAt: now,
-        recordCount: hits.length, names: names, map: base.map, dates: bad.map(function (r) { return r.createdAt; }), goodDates: good.map(function (r) { return r.createdAt; }),
-        context: RULES + "대상 학생: " + studentTok + "\n\n교사가 남긴 기록:\n\"\"\"\n" + (parts[0].trim() || "(선택된 기록 없음)") + "\n\"\"\"\n\n" +
-          (good.length ? "같은 학생의 좋은 모습 기록 (교사가 '좋은 날'로 남긴 것):\n\"\"\"\n" + parts[1].trim() + "\n\"\"\"\n좋은 모습 기록이 있으므로 '초안'의 첫머리를 그 기록 속 구체적인 모습 한 가지로 부드럽게 여세요. 기록에 있는 사실만 쓰고, 칭찬으로 문제를 덮거나 흥정하는 느낌이 들지 않게 하세요. '핵심'에서도 이 이야기로 시작하라고 알려 주세요.\n\n" : ""),
-        convo: [], turns: [] };
-    }
+    if (fresh) c = makeCase();
     function commitTemplate(why) {
       var out = templateOut(c, msg, way);
       c.turns.push({ at: new Date().toISOString(), parent: msg, way: way, res: out, sent: out.초안, template: true });
@@ -1891,19 +2444,19 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var offHours = wk === 0 || wk === 6 || hh < 8 || hh >= 17;
     var elapsed = c.turns.length ? Math.round((nowD - new Date(c.createdAt)) / 60000) : 0;
     var timeNote = "지금 시각: " + dateStr(nowD, true) + " " + timeStr(nowD) + (offHours ? " (교사 근무시간 밖)" : " (근무시간 안)") + ". 이 응대는 시작한 지 " + elapsed + "분, 보호자의 " + (c.turns.length + 1) + "번째 말입니다.\n";
-    var userMsg = (c.convo.length ? "" : c.context) + timeNote + wayText(way) + "\n\n보호자가 " + (c.convo.length ? "이어서 " : "") + "한 말:\n\"\"\"\n" + maskText(msg, c.names).text + "\n\"\"\"\n\n" + FORMAT;
+    var userMsg = (c.convo.length ? "" : c.context) + timeNote + "\n보호자가 " + (c.convo.length ? "이어서 " : "") + "한 말:\n\"\"\"\n" + maskText(msg, c.names).text + "\n\"\"\"\n\n" + wayText(way, !c.turns.length) + "\n먼저 보호자 말의 요지를 정확히 파악하고, 초안은 그 요지에 직접 답하세요.\n\n" + FORMAT;
     var turns = c.convo.concat([{ role: "user", content: userMsg }]);
     var btn = $("r_make"); btn.disabled = true; btn.textContent = "준비하는 중…";
     var pend = document.createElement("p"); pend.className = "pending"; pend.textContent = "추천 문구를 준비하고 있어요…";
     if (!fresh) $("thread").appendChild(pend);
-    sampleFn.json(turns, { cache: false, modelTier: "quick" }).then(function (res) {
+    sampleFn.json(turns, { cache: false }).then(function (res) {
       if (!res || typeof res !== "object") throw { code: "bad_output" };
       var un = function (x) { return unmask(toStr(x), c.map).trim(); };
       var arr = function (x) { return (Array.isArray(x) ? x : x ? [x] : []).map(un).filter(Boolean); };
       var v = res.교권침해 && typeof res.교권침해 === "object" ? res.교권침해 : {};
       var out = {
         교권침해: { 판단: ["없음", "주의", "높음"].indexOf(v.판단) !== -1 ? v.판단 : "없음", 이유: un(v.이유), 권장조치: arr(v.권장조치) },
-        핵심: un(res.핵심), 초안: un(res.초안).replace(/\*\*/g, ""), 사실관계: arr(res.사실관계), 피할말: arr(res.피할말),
+        요지: un(res.요지), 핵심: un(res.핵심), 초안: un(res.초안).replace(/\*\*/g, ""), 사실관계: arr(res.사실관계), 피할말: arr(res.피할말),
         근거: un(res.근거),
         예상질문: Array.isArray(res.예상질문) ? res.예상질문.map(function (q) { return { 질문: un(q && q.질문), 답: un(q && q.답) }; }).filter(function (q) { return q.질문; }) : []
       };
@@ -1924,8 +2477,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       showToast(code === "not_granted" ? "AI 사용을 허용하지 않아서 준비하지 못했어요." : code === "rate_limited" ? "요청이 많아요. 잠시 후 다시 눌러 주세요." : "준비하지 못했어요. 다시 시도해 주세요.", false);
     }).then(function () { btn.disabled = false; btn.textContent = "응대 준비하기"; });
   }
-  $("r_make").addEventListener("click", function () { runReply(); });
-  $("r_msg").addEventListener("keydown", function (e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); runReply(); } });
+  $("r_make").addEventListener("click", function () { if (cmode === "ask") runAsk(); else if (cmode === "out") runOut(); else runReply(); });
+  $("r_msg").addEventListener("keydown", function (e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); if (cmode === "ask") runAsk(); else if (cmode === "out") runOut(); else runReply(); } });
 
   /* ---------- 한눈에 쏙 ---------- */
   function summaryRecords() {
@@ -1934,7 +2487,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var k = isoDay(new Date(r.createdAt));
       if (from && k < from) return false;
       if (to && k > to) return false;
-      if (r.good && !$("s_useGood").checked) return false;
+      if (isGood(r) && !$("s_useGood").checked) return false;
       return !ts.length || matches(r, ts);
     }).sort(byOld);
   }
@@ -1944,12 +2497,85 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var k = isoDay(new Date(c.createdAt));
       if (from && k < from) return false;
       if (to && k > to) return false;
-      if (!c.turns.length) return false;
+      if (!c.turns.length && !(c.outs && c.outs.length)) return false;
       var hay = (c.student + " " + c.turns.map(function (t) { return t.parent; }).join(" ")).toLowerCase();
       return !ts.length || ts.every(function (w) { return hay.indexOf(w.toLowerCase()) !== -1; });
     }).sort(function (a, b) { return a.createdAt < b.createdAt ? -1 : 1; });
   }
+  var AUTHOR_KEY = "goraesillok.author";
+  function authorName() { try { return localStorage.getItem(AUTHOR_KEY) || ""; } catch (e) { return ""; } }
+  function showAuthor() { var a = authorName(); $("authorShow").textContent = a || "아직 없어요 (눌러서 적기)"; }
+  (function () { var a = authorName(); if (a) $("s_author").value = a; else $("authorBox").open = true; showAuthor(); })();
+  $("s_author").addEventListener("input", function () { try { localStorage.setItem(AUTHOR_KEY, $("s_author").value.trim()); } catch (e) {} showAuthor(); renderDoc(); });
+  $("s_author").addEventListener("change", function () { if ($("s_author").value.trim()) $("authorBox").open = false; });
+  var sumMode = "all";
+  qsa("#s_mode button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      sumMode = b.dataset.sm;
+      qsa("#s_mode button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      $("s_opts").hidden = sumMode !== "all";
+      $("s_desc").textContent = sumMode === "grow" ? "아이의 노력과 변화를 모아요. 상담이나 세특 자료로 쓸 수 있어요." : sumMode === "cases" ? "보호자와 주고받은 말을 모아요. 특이민원 보고에 붙일 수 있어요." : "교권보호위원회나 사안 보고에 붙일 기록 표를 만들어요.";
+      renderDoc();
+    });
+  });
+  function renderCasesDoc() {
+    var cs = summaryCases(), ts = splitTerms($("s_name").value), now = new Date();
+    var from = $("s_from").value, to = $("s_to").value;
+    var period = from || to ? (from ? from.replace(/-/g, ".") : "처음") + " ~ " + (to ? to.replace(/-/g, ".") : "오늘") : "전체 기간";
+    var nTurns = cs.reduce(function (n, c) { return n + c.turns.length; }, 0);
+    var hotN = cs.filter(function (c) { return c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "높음"; }); }).length;
+    $("s_count").textContent = "응대 " + cs.length + "건";
+    $("s_pdf").disabled = !cs.length;
+    var body = cs.map(function (c) {
+      var orows = (c.outs || []).map(function (o) { var d = new Date(o.at); return { at: o.at, html: "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "<br>" + (o.way === "call" ? "통화" : "문자") + "</td><td>(교사가 먼저 연락)</td><td>" + esc(o.sent || "") + "</td></tr>" }; });
+      var rows = c.turns.map(function (t) {
+        var d = new Date(t.at), v = t.res.교권침해 || {};
+        return "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "<br>" + (t.way === "call" ? "통화" : "문자") + "</td>" +
+          "<td>" + esc(t.parent) + (v.판단 === "높음" ? "\n<b>[교권침해 가능성]</b>" + (v.이유 ? " " + esc(v.이유.replace(/\*\*/g, "")) : "") : v.판단 === "주의" ? "\n[주의]" : "") + "</td>" +
+          "<td>" + esc(t.sent || "") + "</td></tr>";
+      }).map(function (h, k) { return { at: c.turns[k].at, html: h }; }).concat(orows).sort(function (x, y) { return x.at < y.at ? -1 : 1; }).map(function (x) { return x.html; }).join("");
+      return '<h4 class="sub">' + esc(c.student) + " 학생 보호자 응대 · " + fmtAt(c.createdAt) + " 시작" + (c.endedAt ? " · " + fmtAt(c.endedAt) + " 마침" : "") + "</h4>" +
+        '<table><thead><tr><th>일시</th><th>보호자 말</th><th>교사 응대</th></tr></thead><tbody>' + rows + "</tbody></table>";
+    }).join("");
+    $("doc").innerHTML = "<h3>고래실록 보호자 응대 기록</h3>" +
+      '<div class="meta"><b>대상</b><span>' + esc(ts.length ? ts.join(" ") + " 관련 응대" : "전체 응대") + "</span>" +
+      "<b>기간</b><span>" + period + "</span><b>응대 수</b><span>" + cs.length + "건 (주고받은 말 " + nTurns + "번" + (hotN ? ", 교권침해 가능성 " + hotN + "건" : "") + ")</span>" +
+      "<b>작성일</b><span>" + dateStr(now, true) + "</span><b>작성자</b><span>" + esc(authorName() || "[교사 이름]") + "</span></div>" +
+      (cs.length ? body : '<p class="none">조건에 맞는 보호자 응대가 없어요.</p>') +
+      '<p class="foot">이 문서는 교사가 고래실록에 남긴 보호자 응대 기록을 날짜순으로 옮긴 것입니다. 보호자 말은 교사가 받은 문자 또는 통화 내용을 그대로 적은 것이며, 교사 응대란은 실제로 보내거나 말한 문구입니다.</p>';
+  }
+  function growthRecords() {
+    var ts = splitTerms($("s_name").value), from = $("s_from").value, to = $("s_to").value;
+    return records.filter(function (r) {
+      if (!isGood(r)) return false;
+      var k = isoDay(new Date(r.createdAt));
+      if (from && k < from) return false;
+      if (to && k > to) return false;
+      return !ts.length || matches(r, ts);
+    }).sort(byOld);
+  }
+  function renderGrowthDoc() {
+    var rs = growthRecords(), ts = splitTerms($("s_name").value), now = new Date();
+    var from = $("s_from").value, to = $("s_to").value;
+    var period = from || to ? (from ? from.replace(/-/g, ".") : "처음") + " ~ " + (to ? to.replace(/-/g, ".") : "오늘") : (rs.length ? isoDay(new Date(rs[0].createdAt)).replace(/-/g, ".") + " ~ " + isoDay(new Date(rs[rs.length - 1].createdAt)).replace(/-/g, ".") : "전체 기간");
+    $("s_count").textContent = "성장 " + rs.length + "건";
+    $("s_pdf").disabled = !rs.length;
+    var rows = rs.map(function (r) {
+      var d = new Date(r.eventAt || r.createdAt), f = r.fields;
+      var content = f ? [f.students ? "관련 학생: " + f.students : "", f.place ? "장소·시간: " + f.place : "", f.situation, f.response ? "교사: " + f.response : ""].filter(Boolean).join("\n") : r.text;
+      if (r.memos && r.memos.length) content += "\n\n[이후 메모]\n" + r.memos.map(function (m) { return "- " + isoDay(new Date(m.at)).replace(/-/g, ".") + " " + m.text; }).join("\n");
+      return "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "</td><td>" + esc(content) + "</td></tr>";
+    }).join("");
+    $("doc").innerHTML = "<h3>고래실록 성장 기록</h3>" +
+      '<div class="meta"><b>대상</b><span>' + esc(ts.length ? ts.join(" ") + " 학생" : "전체 학생") + "</span>" +
+      "<b>기간</b><span>" + period + "</span><b>기록 수</b><span>" + rs.length + "건</span>" +
+      "<b>작성일</b><span>" + dateStr(now, true) + "</span><b>작성자</b><span>" + esc(authorName() || "[교사 이름]") + "</span></div>" +
+      (rs.length ? '<table class="grow"><thead><tr><th>일시</th><th>관찰한 모습</th></tr></thead><tbody>' + rows + "</tbody></table>" : '<p class="none">조건에 맞는 성장 기록이 없어요.</p>') +
+      '<p class="foot">이 문서는 교사가 수업과 생활 속에서 관찰해 고래실록에 남긴 학생의 노력, 변화, 좋은 모습을 날짜순으로 옮긴 것입니다. 각 기록은 남긴 시점의 원본 그대로이며, 이후 덧붙인 내용은 메모로 구분했습니다.</p>';
+  }
   function renderDoc() {
+    if (sumMode === "grow") { renderGrowthDoc(); return; }
+    if (sumMode === "cases") { renderCasesDoc(); return; }
     var rs = summaryRecords(), ts = splitTerms($("s_name").value);
     var from = $("s_from").value, to = $("s_to").value, now = new Date();
     var period = from || to ? (from ? from.replace(/-/g, ".") : "처음") + " ~ " + (to ? to.replace(/-/g, ".") : "오늘") : "전체 기간";
@@ -1981,14 +2607,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         resp = f && f.response ? f.response : "";
       }
       if (r.memos && r.memos.length) content += "\n\n[추가 메모]\n" + r.memos.map(function (m) { return "- " + isoDay(new Date(m.at)).replace(/-/g, ".") + " " + m.text; }).join("\n");
-      if (r.good) content = "🌟 좋은 날\n" + content;
+      if (isGood(r)) content = "[성장]\n" + content;
       return "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "</td><td>" + esc(content) + "</td><td>" + esc(resp) + "</td></tr>";
     }).join("");
     $("doc").innerHTML =
       "<h3>고래실록 기록 요약</h3>" +
       '<div class="meta"><b>대상</b><span>' + esc(ts.length ? ts.join(" ") + " 관련 기록" : "전체 기록") + "</span>" +
       "<b>기간</b><span>" + period + "</span><b>기록 수</b><span>" + rs.length + "건</span>" +
-      "<b>작성일</b><span>" + dateStr(now, true) + "</span><b>작성자</b><span>[교사 이름]</span></div>" +
+      "<b>작성일</b><span>" + dateStr(now, true) + "</span><b>작성자</b><span>" + esc(authorName() || "[교사 이름]") + "</span></div>" +
       (rs.length ? '<table><thead><tr><th>일시</th><th>기록 내용</th><th>교사 대응</th></tr></thead><tbody>' + rows + "</tbody></table>"
         : '<p class="none">조건에 맞는 기록이 없어요.</p>') +
       (cs.length ? '<h4 class="sub">보호자 응대 기록 (' + cs.length + "건, 주고받은 말 " + nTurns + "번)</h4>" +
@@ -2053,11 +2679,11 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         y += h; first = false;
       }
       var who = splitTerms($("s_name").value).join("") || "전체";
-      return offerFile("고래실록-요약-" + who + "-" + isoDay(new Date()) + ".pdf", pdf.output("arraybuffer"), "PDF를 저장했어요");
+      return offerFile("고래실록-" + (sumMode === "cases" ? "응대기록-" : sumMode === "grow" ? "성장기록-" : "요약-") + who + "-" + isoDay(new Date()) + ".pdf", pdf.output("arraybuffer"), "PDF를 저장했어요");
     }).catch(function () {
       doc.classList.add("veil");
       showToast("PDF를 만들지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.", false);
-    }).then(function () { btn.disabled = !summaryRecords().length && !summaryCases().length; btn.textContent = "PDF로 저장"; });
+    }).then(function () { btn.disabled = sumMode === "grow" ? !growthRecords().length : sumMode === "cases" ? !summaryCases().length : (!summaryRecords().length && !summaryCases().length); btn.textContent = "PDF로 저장"; });
   });
 
   /* ---------- 백업 ---------- */
@@ -2108,6 +2734,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         if (r.good === true) c.good = true;
         if (typeof r.eventAt === "string") c.eventAt = r.eventAt;
         if (r.inClass === true) c.inClass = true;
+        if (r.timeOnly === true) c.timeOnly = true;
         if (typeof r.userType === "string") c.userType = r.userType;
         if (r.fields) { c.fields = { type: String(r.fields.type || "") }; FIELDS.forEach(function (f) { c.fields[f.key] = String(r.fields[f.key] || ""); }); }
         if (Array.isArray(r.memos)) c.memos = r.memos.filter(function (m) { return m && typeof m.text === "string"; }).map(function (m) { return { id: String(m.id || ""), at: String(m.at || r.createdAt), text: m.text }; });
@@ -2170,7 +2797,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   setMode(m, true);
   tickNow(); setInterval(tickNow, 15000);
   loadCases();
-  try { if (localStorage.getItem(CLASS_KEY)) setClass(true); } catch (e) {}
+  try { if (localStorage.getItem(CLASS_KEY)) { setClass(true); cover(true); } } catch (e) {}
   applyUI();
   setTimeout(function () { sampleChecked = true; aiNote(); }, 11000);
   loadNotes();
