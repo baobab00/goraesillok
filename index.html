@@ -1743,6 +1743,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function persist() {
     try { localStorage.setItem(KEY, JSON.stringify(records)); return true; } catch (e) { return false; }
   }
+  /* 공간이 모자랄 때 브라우저가 기록부터 지우지 않도록 부탁해 둔다 (처음 저장할 때 한 번) */
+  var keepAsked = false;
+  function askKeep() {
+    if (keepAsked) return; keepAsked = true;
+    try {
+      if (navigator.storage && navigator.storage.persist) navigator.storage.persisted().then(function (on) { return on || navigator.storage.persist(); }).catch(function () {});
+    } catch (e) {}
+  }
 
   /* ---------- format ---------- */
   var WD = ["일", "월", "화", "수", "목", "금", "토"];
@@ -1986,6 +1994,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (classOn) rec.inClass = true;
     records.push(rec);
     if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요.", false); return; }
+    askKeep();
     afterChange();
     if (!onCurtain) { lastSavedId = rec.id; showToast(timeStr(now) + " 시간을 찍었어요", true); return; }
     $("ctDone").innerHTML = timeStr(now) + " 시간을 찍었어요<button type=\"button\" id=\"ctUndo\">되돌리기</button>";
@@ -2057,6 +2066,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (pendingType) { rec.userType = pendingType; pendingType = ""; }
     records.push(rec);
     if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요. 브라우저 설정을 확인해 주세요.", false); return; }
+    askKeep();
     lastSavedId = rec.id;
     clearForm();
     var seal = $("seal"); seal.classList.remove("on"); void seal.offsetWidth; seal.classList.add("on");
@@ -3926,6 +3936,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         if (noteAdded) persistNotes();
       }
       if (added && !persist()) { load(); showToast("저장 공간에 쓸 수 없어서 불러오지 못했어요.", false); return; }
+      if (added || caseAdded || noteAdded) askKeep();
       afterChange();
       var msg = added ? added + "건을 새로 불러왔어요" : "새로 불러올 기록이 없어요";
       if (caseAdded) msg += " · 응대 기록 " + caseAdded + "건";
