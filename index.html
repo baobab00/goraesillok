@@ -3759,8 +3759,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (pdfPw !== $("s_pw2").value) { showToast("두 암호가 달라요. 다시 확인해 주세요.", false); return; }
     }
     btn.disabled = true; btn.textContent = "PDF 만드는 중…";
+    var cuts = [], docH = 1;
     loadLibs().then(function () {
       doc.classList.remove("veil");
+      // 표의 행이 쪽 경계에서 반으로 잘리지 않게, 잘라도 되는 자리(행과 문단의 끝)를 미리 재 둔다
+      var box = doc.getBoundingClientRect(); docH = box.height || 1;
+      cuts = Array.prototype.map.call(doc.querySelectorAll(".meta, tbody tr, p"), function (el) { return el.getBoundingClientRect().bottom - box.top; });
       return window.html2canvas(doc, { scale: 2, backgroundColor: "#ffffff", useCORS: true });
     }).then(function (canvas) {
       doc.classList.add("veil");
@@ -3769,8 +3773,15 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var pdf = new jsPDF(opts);
       var M = 12, W = 210 - M * 2, H = 297 - M * 2;
       var pxPerMm = canvas.width / W, pagePx = Math.floor(H * pxPerMm), y = 0, first = true;
+      var k = canvas.height / docH;
+      cuts = cuts.map(function (c) { return Math.round(c * k); });
       while (y < canvas.height) {
-        var h = Math.min(pagePx, canvas.height - y), slice = document.createElement("canvas");
+        var h = canvas.height - y;
+        if (h > pagePx) {
+          // 이 쪽에 들어가는 가장 아래 자리에서 끊는다. 한 행이 한 쪽보다 길면 쪽 높이대로 자른다.
+          h = cuts.reduce(function (best, c) { return c > y && c - y <= pagePx && c - y > best ? c - y : best; }, 0) || pagePx;
+        }
+        var slice = document.createElement("canvas");
         slice.width = canvas.width; slice.height = h;
         var ctx = slice.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, slice.width, h);
         ctx.drawImage(canvas, 0, y, canvas.width, h, 0, 0, canvas.width, h);
