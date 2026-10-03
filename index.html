@@ -857,13 +857,168 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 .bkbar label.bkbtn:hover { background: color-mix(in srgb, var(--lilac) 10%, var(--paper)); }
 .bkbar .savebar-top { gap: 12px; }
 .brand span { white-space: nowrap; }
-@media (max-width: 370px) { .brand small { display: none; } }
+@media (max-width: 430px) { .brand small { display: none; } }
+
+/* ===== 기본 버튼: 부드러운 밤보라, 낮은 높이 ===== */
+:root { --btn: #4A42A0; --btn-ink: #FFFFFF; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --btn: #B8A3F0; --btn-ink: #1B1F52; } }
+:root[data-theme="dark"] { --btn: #B8A3F0; --btn-ink: #1B1F52; }
+.primary { background: var(--btn) !important; color: var(--btn-ink) !important; font-size: 14px !important; padding: 0 16px !important; height: 38px; display: inline-flex; align-items: center; justify-content: center; }
+.primary:hover:not(:disabled) { filter: brightness(1.06); }
+#r_make { height: 38px; }
+.bkbar .bkbtn, .savebar-top #s_pdf { height: 36px !important; }
+.bkbar label.bkbtn { border-color: var(--btn); }
+.acts button.go { background: var(--btn) !important; border-color: var(--btn) !important; color: var(--btn-ink) !important; }
+.caseacts2 .go { background: var(--btn) !important; border-color: var(--btn) !important; color: var(--btn-ink) !important; }
+.memos .acts { align-items: center; flex-wrap: nowrap; }
+.memos .acts .hint { line-height: 1.45; }
+.memos .acts .hint { order: 0; margin-right: auto; font-size: 12px; }
+.memos .acts .go { order: 1; height: 34px; padding: 0 14px; }
+.aiacts { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding: 0 2px; }
+.aiacts .hint { margin-right: auto; font-size: 12px; color: var(--ink-soft); }
+.aiacts .aisum { height: 32px; padding: 0 12px; border-radius: var(--radius); border: 1.5px solid color-mix(in srgb, var(--lilac) 60%, var(--line)); background: color-mix(in srgb, var(--lilac) 8%, var(--paper)); color: var(--ink); font: inherit; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
+.aiacts .aisum:hover { background: color-mix(in srgb, var(--lilac) 16%, var(--paper)); }
+
+/* 타임라인: 펼친 기록을 한 덩어리로 */
+#list .item.open { background: var(--paper); border: 1.5px solid color-mix(in srgb, var(--lilac) 50%, var(--line)); border-radius: 12px; box-shadow: 0 4px 14px rgba(27,31,82,.08); }
+#list .item.open .rec { box-shadow: none; background: transparent; border-radius: 12px 12px 0 0; padding-bottom: 8px; }
+#list .item.open .rec::before { left: -18px; border-color: var(--lilac); background: var(--lilac); }
+#list .item.open .rec .text { font-size: 15.5px; font-weight: 500; }
+#list .item.open .extra { margin: 0; padding: 8px 12px 12px; border-top: 1px dashed var(--line); background: color-mix(in srgb, var(--lilac) 4%, var(--paper)); border-radius: 0 0 12px 12px; }
+#list .item.open .rec.good { background: color-mix(in srgb, var(--t-grow) 14%, var(--paper)); }
+#list .item:not(.open) .rec { opacity: 1; }
+#list.has-open .item:not(.open) .rec { opacity: .72; }
+.typerow { gap: 4px; margin-bottom: 8px; }
+.typerow .tl { font-size: 12px; color: var(--ink-soft); }
+.typerow button { font-size: 12px; padding: 1px 8px; }
+.extra .memos { background: transparent; border: 0; padding: 0; margin-bottom: 6px; }
+.extra .memo-h { margin-bottom: 2px; }
+.extra .memo-h b { font-size: 13px; }
+.addmemo { margin-top: 4px; border: 1px dashed color-mix(in srgb, var(--lilac) 55%, var(--line)); background: transparent; color: var(--ink-soft); border-radius: 8px; padding: 5px 12px; font: inherit; font-size: 12.5px; cursor: pointer; }
+.memo-compose[hidden], .addmemo[hidden] { display: none; }
+.extra .aiacts { margin-top: 4px; padding-top: 8px; border-top: 1px dashed var(--line); }
+
+/* 펼친 기록 안의 보조 요소는 작게 */
+.extra .memos .acts { margin-top: 4px; gap: 8px; }
+.extra .memos .acts .hint { font-size: 11px; line-height: 1.3; }
+.extra .memos .acts .go { height: 28px !important; padding: 0 12px !important; font-size: 12.5px !important; }
+.extra .memos textarea { min-height: 44px; padding: 6px 10px; font-size: 13.5px; }
+.extra .memo-h small { font-size: 11px; }
+.extra .aiacts { justify-content: flex-end; margin-top: 2px; padding-top: 6px; }
+.extra .aiacts .aisum { height: 26px; padding: 0 10px; font-size: 12px; border-width: 1px; }
+.extra .sum-note { font-size: 11.5px; text-align: right; margin: 6px 0 0; color: var(--ink-soft); }
+.addmemo { padding: 3px 10px; font-size: 12px; }
+
+/* 유형별 기록 색 (성장과 같은 방식) */
+.rec[data-type="학폭"] { background: color-mix(in srgb, var(--t-hak) 13%, var(--paper)); }
+.rec[data-type="학폭"]::before { border-color: var(--t-hak); background: var(--t-hak); }
+.rec[data-type="교권"] { background: color-mix(in srgb, var(--t-kyo) 13%, var(--paper)); }
+.rec[data-type="교권"]::before { border-color: var(--t-kyo); background: var(--t-kyo); }
+.rec[data-type="민원"] { background: color-mix(in srgb, var(--t-min) 13%, var(--paper)); }
+.rec[data-type="민원"]::before { border-color: var(--t-min); background: var(--t-min); }
+.rec[data-type="생활지도"] { background: color-mix(in srgb, var(--t-life) 13%, var(--paper)); }
+.rec[data-type="생활지도"]::before { border-color: var(--t-life); background: var(--t-life); }
+.rec[data-type="기타"] { background: color-mix(in srgb, var(--t-etc) 16%, var(--paper)); }
+.rec[data-type="기타"]::before { border-color: var(--t-etc); background: var(--t-etc); }
+#list .item.open .rec[data-type="학폭"] { background: color-mix(in srgb, var(--t-hak) 13%, var(--paper)); }
+#list .item.open .rec[data-type="교권"] { background: color-mix(in srgb, var(--t-kyo) 13%, var(--paper)); }
+#list .item.open .rec[data-type="민원"] { background: color-mix(in srgb, var(--t-min) 13%, var(--paper)); }
+#list .item.open .rec[data-type="생활지도"] { background: color-mix(in srgb, var(--t-life) 13%, var(--paper)); }
+#list .item.open .rec[data-type="기타"] { background: color-mix(in srgb, var(--t-etc) 16%, var(--paper)); }
+#list .item.open .rec[data-type]::before { border-width: 2px; }
+.bkconf { margin-top: 8px; padding: 9px 12px; border-radius: 10px; background: color-mix(in srgb, var(--lilac) 12%, var(--paper)); border: 1.5px solid var(--lilac); animation: gonePop .35s ease-out; }
+.bkconf[hidden] { display: none; }
+.bkconf b { display: block; font-family: "Gowun Batang", serif; font-size: 14px; color: var(--ink); }
+.bkconf small { display: block; margin-top: 2px; font-size: 11.5px; color: var(--ink-soft); word-break: break-all; }
+.bkconf.bad { background: color-mix(in srgb, var(--storm) 8%, var(--paper)); border-color: color-mix(in srgb, var(--storm) 60%, var(--line)); }
+
+/* 잠금 */
+.ctlock { margin-top: 14px; display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
+.ctlock[hidden] { display: none; }
+.ctlock-row { display: flex; gap: 6px; width: 100%; max-width: 260px; }
+.ctlock-row input { flex: 1; min-width: 0; height: 40px; border-radius: 10px; border: 1.5px solid rgba(195,166,255,.6); background: rgba(255,255,255,.1); color: #FFF6D5; font: inherit; font-size: 18px; letter-spacing: .3em; text-align: center; }
+.ctlock-row input::placeholder { color: rgba(255,246,213,.45); letter-spacing: 0; font-size: 14px; }
+.ctlock-row button { height: 40px; padding: 0 16px; border: 0; border-radius: 10px; background: #C3A6FF; color: #1B1F52; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 14px; cursor: pointer; }
+.ctpinmsg { min-height: 18px; font-size: 12.5px; color: #FFB4A8; text-align: center; max-width: 280px; line-height: 1.5; }
+.ctforgot { border: 0; background: none; color: rgba(255,246,213,.55); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+#lockCard .bkbtn.on { background: var(--paper) !important; color: var(--ink) !important; border: 1.5px solid var(--btn); }
+/* 기기 비우기 */
+.wipezone { padding: 10px 14px 12px; border-top: 1px dashed var(--line); }
+.wipebtn { border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: 12.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 0; }
+.wipeconf[hidden] { display: none; }
+.wipeconf p { margin: 8px 0; font-size: 12.5px; line-height: 1.6; }
+.wipeconf .pwrow { margin-bottom: 4px; }
+.wipeconf .pwrow .textfield { height: 34px; font-size: 13px; }
+.wipeconf #wipeGo { height: 34px; background: var(--storm) !important; color: #fff !important; }
+/* 표 복사 */
+.copybtn2 { height: 36px; padding: 0 10px; border-radius: var(--radius); border: 1.5px solid var(--btn); background: var(--paper); color: var(--ink); font-family: "Gowun Batang", serif; font-weight: 700; font-size: 13px; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
+.copybtn2:disabled { opacity: .45; cursor: default; }
+.sbnight .savebar-top { gap: 8px; }
+.sbnight .sb-count, .sbnight .sb-count small, .sbnight .pwtoggle { white-space: nowrap; }
+.sbnight .pwtoggle { margin-left: auto; }
+@media (max-width: 390px) { .sbnight #s_pdf { padding: 0 10px !important; font-size: 13px !important; } .copybtn2 { padding: 0 8px; font-size: 12.5px; } .sbnight .savebar-top { gap: 6px; } .sbnight { padding-left: 12px; } }
+.lockbtn { margin-left: auto; align-self: center; width: 32px; height: 28px; border: 1px solid rgba(255,246,213,.35); background: transparent; border-radius: 7px; font-size: 14px; cursor: pointer; padding: 0; line-height: 1; }
+.lockbtn + .clsbtn { margin-left: 6px; }
+.lockbtn.on { border-color: #C3A6FF; background: rgba(195,166,255,.18); }
+#lockSheet .lockcard { position: relative; max-width: 360px; text-align: center; padding: 22px 20px 18px; background: var(--paper); }
+.lockx { position: absolute; top: 8px; right: 8px; border: 0; background: none; color: var(--ink-soft); font-size: 17px; cursor: pointer; padding: 6px 8px; }
+.lk-icon { font-size: 34px; line-height: 1; margin-bottom: 6px; }
+.lockcard h3 { margin: 0 0 6px; font-family: "Gowun Batang", serif; font-size: 18px; }
+.lk-desc { margin: 0 0 14px; font-size: 13px; line-height: 1.65; color: var(--ink-soft); }
+.lk-pins { display: flex; gap: 6px; margin-bottom: 4px; }
+.lk-pins[hidden] { display: none; }
+.lk-pins input { flex: 1; min-width: 0; height: 42px; border-radius: 10px; border: 1.5px solid color-mix(in srgb, var(--lilac) 45%, var(--line)); background: var(--sea); color: var(--ink); font: inherit; font-size: 17px; letter-spacing: .25em; text-align: center; }
+.lk-pins input::placeholder { font-size: 13px; letter-spacing: 0; color: var(--ink-soft); }
+.lk-pins input[hidden] { display: none; }
+.lk-msg { min-height: 18px; margin: 4px 0 8px; font-size: 12.5px; line-height: 1.5; color: var(--ink-soft); }
+.lk-msg.bad { color: var(--storm); }
+.lk-msg.ok { color: var(--ink); }
+.lk-main { width: 100%; }
+.lk-sub { margin-top: 10px; border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: 12.5px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.lk-sub[hidden] { display: none; }
+#lockSheet [hidden] { display: none !important; }
+/* 카드 제목 옆에 작은 설명 */
+.bk-title { flex-direction: row !important; align-items: baseline; gap: 7px; flex-wrap: nowrap; }
+.bk-title small { margin: 0 !important; white-space: nowrap; }
+.bk-title { min-width: 0; }
+.bk-title b { white-space: nowrap; flex-shrink: 0; }
+.bk-title small { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+@media (max-width: 420px) { .sub-ex { display: none; } }
+
+/* 가림 화면·잠금 다듬기 */
+.curtain .stampbtn { padding: 8px 26px !important; margin-top: 22px !important; font-size: 15px; }
+.ctlock { margin-top: 18px; }
+.ctlock-row input { height: 36px; font-size: 16px; }
+.ctlock-row button { height: 36px; padding: 0 14px; }
+.ctpinmsg { font-size: 12.5px; line-height: 1.7; }
+.ctpinmsg.info { color: rgba(255,246,213,.78); margin-top: 4px; }
+/* 버튼 높이 한 단계 낮추기 */
+.primary { height: 34px; font-size: 13.5px !important; }
+#r_make { height: 34px; }
+.bkbar .bkbtn, .savebar-top #s_pdf, .copybtn2 { height: 34px !important; }
+.lk-pins input { height: 38px; }
+
+/* 가림 화면: 위에서부터 고정, 움직이지 않게 */
+/* 고래와 시간만 찍기는 화면 가운데보다 조금 위에 고정, 잠금 칸은 그 아래에 따로 */
+.curtain:not([hidden]) { display: block !important; padding: 0 !important; }
+.curtain[hidden] { display: none !important; }
+.curtain .ct-main { position: absolute; left: 50%; top: 44%; transform: translate(-50%, -50%); width: min(320px, 88vw); }
+.curtain .ctlock { position: absolute; left: 0; right: 0; top: 100%; margin-top: 30px !important; }
+@media (max-height: 640px) { .curtain .ct-main { top: 40%; } .curtain .ctlock { margin-top: 22px !important; } }
+.ct-stampwrap { position: relative; display: flex; flex-direction: column; align-items: center; }
+.ct-stampwrap .ct-done { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 6px !important; min-height: 0; white-space: nowrap; font-size: 12.5px; }
+.ctlock { margin-top: 34px !important; }
+.ctpinmsg:empty { min-height: 0; }
+.ctpinmsg { margin-top: 2px; }
+.lk-msg:empty { min-height: 0; margin: 0; }
+.lk-pins { margin-bottom: 10px !important; }
+#lockRow[hidden] + .lk-msg:empty { margin: 0; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="top">
-    <div class="brand"><span>🐋 고래실록</span><small>기억보다 먼저, 기록.</small><button type="button" class="clsbtn" id="classBtn" aria-pressed="false">수업 중</button></div>
+    <div class="brand"><span>🐋 고래실록</span><small>기억보다 먼저, 기록.</small><button type="button" class="lockbtn" id="lockBtn" aria-label="잠금 설정" title="잠금">🔓</button><button type="button" class="clsbtn" id="classBtn" aria-pressed="false">수업 중</button></div>
     <nav class="tabs" role="tablist" aria-label="고래실록 메뉴">
       <button class="tab" role="tab" data-tab="quick" aria-selected="true">퀵록</button>
       <button class="tab" role="tab" data-tab="timeline" aria-selected="false">타임라인</button>
@@ -1069,6 +1224,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       <div class="savebar-top">
         <span class="sb-count"><small>담기는 내용</small><span id="s_count"></span></span>
         <label class="pwtoggle"><input type="checkbox" id="s_usePw">암호</label>
+        <button type="button" class="copybtn2" id="s_copy" title="한글·워드에 표로 붙여 넣기">표 복사</button>
         <button class="primary" id="s_pdf">PDF로 저장</button>
       </div>
       <div class="pwrow" id="s_pwRow" hidden>
@@ -1095,7 +1251,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
     <div class="savebar bkbar">
       <div class="savebar-top">
-        <span class="bk-title"><b>내보내기</b><small>기록 → 파일</small></span>
+        <span class="bk-title"><b>내보내기</b><small class="sub-ex">기록 → 파일</small></span>
         <label class="pwtoggle"><input type="checkbox" id="bkUsePw" checked>암호</label>
         <button type="button" class="primary bkbtn" id="exportBtn">파일로 저장</button>
       </div>
@@ -1104,6 +1260,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         <input id="bkPw2" class="textfield" type="password" placeholder="한 번 더" autocomplete="new-password">
       </div>
       <p class="bknote" id="bkNote">암호를 잊으면 되살릴 수 없어요.</p>
+      <div class="bkconf" id="bkConfOut" hidden></div>
     </div>
 
     <div class="savebar bkbar">
@@ -1118,6 +1275,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         </div>
       </div>
       <p class="bknote">겹치는 기록은 건너뛰고 새 기록만 더해요.</p>
+      <div class="bkconf" id="bkConfIn" hidden></div>
     </div>
 
     <div class="bkinfo">
@@ -1135,6 +1293,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         </ul>
       </details>
       <p class="bkdanger">⚠️ 웨일 설정에서 <b>쿠키 및 사이트 데이터</b>를 지우면 기록이 모두 지워져요. 지우기 전에 꼭 내보내 두세요.</p>
+      <div class="wipezone">
+        <button type="button" class="wipebtn" id="wipeBtn">이 기기의 기록 모두 지우기</button>
+        <div class="wipeconf" id="wipeConf" hidden>
+          <p>학교를 옮기거나 기기를 반납할 때 써요. 기록, 응대, 쪽지, 설정이 <b>모두 지워지고 되돌릴 수 없어요.</b> 먼저 파일로 저장해 두세요.</p>
+          <div class="pwrow"><input id="wipeType" class="textfield" type="text" placeholder="'지우기'라고 적어 주세요" autocomplete="off"><button type="button" class="primary" id="wipeGo" disabled>모두 지우기</button></div>
+          <button type="button" class="ctforgot" id="wipeNo" style="color:var(--ink-soft)">그만두기</button>
+        </div>
+      </div>
     </div>
 
     <div class="appfoot">
@@ -1151,9 +1317,25 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     <div id="bNote"></div>
     <div class="acts" id="bActs"><button type="button" id="bAnother">다른 쪽지 꺼내기</button></div>
     <label class="lbl-sm" for="bInput" style="margin-top:18px">나에게 남기는 쪽지</label>
-    <textarea id="bInput" class="textfield" style="height:auto;min-height:78px;padding:9px 12px;resize:vertical;line-height:1.6" placeholder="뿌듯했던 순간, 동료의 따뜻한 한마디, 나에게 해 주고 싶은 말…"></textarea>
+    <textarea id="bInput" class="textfield" style="height:auto;min-height:78px;padding:9px 12px;resize:vertical;line-height:1.6" placeholder="뿌듯했던 순간, 동료의 따뜻한 한마디, 나에게 해 주고 싶은 말… (Ctrl+Enter로 넣기)"></textarea>
     <button class="primary" id="bSave" style="width:100%;margin-top:8px" disabled>유리병에 넣기</button>
     <p class="desc" id="bCount" style="margin-top:10px;text-align:center"></p>
+  </div>
+</div>
+
+<div class="sheet" id="lockSheet" hidden>
+  <div class="sheet-card lockcard" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+    <button type="button" class="x lockx" id="lockClose" aria-label="닫기">✕</button>
+    <div class="lk-icon" id="lockIcon" aria-hidden="true">🔓</div>
+    <h3 id="lockTitle">잠금</h3>
+    <p class="lk-desc" id="lockDesc">열 때마다 비밀번호를 물어요.<br>시간만 찍기는 잠긴 채로도 돼요.</p>
+    <div class="lk-pins" id="lockRow">
+      <input id="lockPin" type="password" inputmode="numeric" maxlength="8" placeholder="비밀번호 4~8자리" autocomplete="new-password">
+      <input id="lockPin2" type="password" inputmode="numeric" maxlength="8" placeholder="한 번 더" autocomplete="new-password">
+    </div>
+    <p class="lk-msg" id="lockMsg"></p>
+    <button type="button" class="primary lk-main" id="lockToggle">잠금 켜기</button>
+    <button type="button" class="lk-sub" id="lockOff" hidden>잠금 끄기</button>
   </div>
 </div>
 
@@ -1178,10 +1360,17 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     <div class="ct-scene" id="ctScene" aria-hidden="true"></div>
     <div class="ct-title">고래실록</div>
     <div class="ct-sub">기억보다 먼저, 기록.</div>
-    <button type="button" class="stampbtn" id="stampBtn"><span class="sb-dot"></span>시간만 찍기</button>
-    <div class="ct-done" id="ctDone"></div>
+    <div class="ct-stampwrap">
+      <button type="button" class="stampbtn" id="stampBtn">시간만 찍기</button>
+      <div class="ct-done" id="ctDone"></div>
+    </div>
+    <div class="ctlock" id="ctLock" hidden>
+      <div class="ctlock-row"><input id="ctPin" type="password" inputmode="numeric" maxlength="8" placeholder="비밀번호" autocomplete="off" aria-label="비밀번호"><button type="button" id="ctPinGo">열기</button></div>
+      <div class="ctpinmsg" id="ctPinMsg"></div>
+      <button type="button" class="ctforgot" id="ctForgot">비밀번호가 기억나지 않나요?</button>
+    </div>
   </div>
-  <div class="ct-foot">화면을 누르면 열려요 · Alt + T 시간만 찍기</div>
+  <div class="ct-foot" id="ctFoot">화면을 누르면 열려요 · Alt + T 시간만 찍기</div>
 </div>
 
 <div class="intro" id="intro" hidden>
@@ -1434,6 +1623,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (writeFirst || !notes.length) $("bInput").focus(); else $("bClose").focus();
     whaleSay(notes.length ? "유리병 속 쪽지예요. 이런 날도 있었죠?" : "유리병은 좋은 기억을 모으는 곳이에요.");
   }
+  $("bInput").addEventListener("keydown", function (e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); if (!$("bSave").disabled) $("bSave").click(); } });
   function closeBottle() { $("bottleSheet").hidden = true; }
   function fitSheet() {
     var vv = window.visualViewport, sh = $("bottleSheet");
@@ -1489,7 +1679,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   }
   document.addEventListener("keydown", function (e) {
     if (e.altKey && !e.ctrlKey && !e.metaKey && e.code === "KeyT" && $("intro").hidden) { e.preventDefault(); stampTime(); return; }
-    if (!$("curtain").hidden && $("intro").hidden && (e.key === "Enter" || e.key === " ") && document.activeElement !== $("stampBtn")) { e.preventDefault(); stampTime(); }
+    if (!$("curtain").hidden && $("intro").hidden && (e.key === "Enter" || e.key === " ") && document.activeElement !== $("stampBtn") && !/^(INPUT|TEXTAREA|BUTTON)$/.test((document.activeElement || {}).tagName || "")) { e.preventDefault(); stampTime(); }
   });
   function pendingList() { return records.filter(function (r) { return r.timeOnly && !(r.memos && r.memos.length); }); }
   function renderToday() {
@@ -1579,10 +1769,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     $("introNext").textContent = introStep === 2 ? "시작하기" : "다음";
   }
   function openIntro() { introStep = 0; showIntroStep(); $("intro").hidden = false; $("introNext").focus(); }
-  function maybeIntro() { try { if (!localStorage.getItem(INTRO_KEY)) openIntro(); } catch (e) {} }
+  var introAuto = false;
+  function maybeIntro() { try { if (!localStorage.getItem(INTRO_KEY)) { introAuto = true; openIntro(); } } catch (e) {} }
   $("introNext").addEventListener("click", function () {
     if (introStep < 2) { introStep++; showIntroStep(); return; }
     $("intro").hidden = true; try { localStorage.setItem(INTRO_KEY, "1"); } catch (e) {}
+    if (introAuto) { introAuto = false; cover(false); openTab("quick"); input.focus(); }
   });
   $("introAgain").addEventListener("click", openIntro);
   function fillScene() {
@@ -1595,14 +1787,100 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     box.innerHTML = ""; box.appendChild(c); box.dataset.mode = day ? "d" : "n";
   }
   function cover(on) {
-    if (on) fillScene();
+    if (on) { fillScene(); var lk = typeof lockData === "function" && lockData(); if (lk) unlocked = false; if ($("ctLock")) { $("ctLock").hidden = !lk; if (lk) { $("ctPinMsg").textContent = ""; $("ctPin").value = ""; $("ctForgot").hidden = false; } } }
     $("curtain").hidden = !on;
     var wrap = document.querySelector(".wrap");
     if (wrap) { wrap.inert = !!on; if (on) wrap.setAttribute("aria-hidden", "true"); else wrap.removeAttribute("aria-hidden"); }
     if (on) { $("ctDone").textContent = ""; try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (e) {} }
     if (!on) { try { focusFirst(); } catch (e) {} }
   }
-  $("curtain").addEventListener("click", function () { cover(false); if (lastTab === "quick") input.focus(); });
+  try { ["goraesillok.names", "goraesillok.namesHidden", "goraesillok.namesOff"].forEach(function (k) { localStorage.removeItem(k); }); } catch (e) {}
+  var LOCK_KEY = "goraesillok.lock", unlocked = false;
+  function lockData() { try { return JSON.parse(localStorage.getItem(LOCK_KEY) || "null"); } catch (e) { return null; } }
+  function sha(t) { return crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)).then(function (b) { return Array.prototype.map.call(new Uint8Array(b), function (x) { return ("0" + x.toString(16)).slice(-2); }).join(""); }); }
+  function checkPin(pin) { var d = lockData(); if (!d) return Promise.resolve(true); return sha(d.salt + pin).then(function (h) { return h === d.hash; }); }
+  function showLockUI() { $("ctLock").hidden = false; $("ctPin").focus(); }
+  function openCurtain() {
+    if (lockData() && !unlocked) { showLockUI(); return; }
+    cover(false); if (lastTab === "quick") input.focus();
+  }
+  $("curtain").addEventListener("click", openCurtain);
+  $("ctLock").addEventListener("click", function (e) { e.stopPropagation(); });
+  var pinFails = 0, pinWaitUntil = 0;
+  function tryUnlock() {
+    var pin = $("ctPin").value; if (!pin) return;
+    var now = Date.now();
+    if (now < pinWaitUntil) { $("ctPinMsg").className = "ctpinmsg"; $("ctPinMsg").textContent = Math.ceil((pinWaitUntil - now) / 1000) + "초 뒤에 다시 넣어 주세요."; return; }
+    checkPin(pin).then(function (ok) {
+      if (!ok) {
+        pinFails++; $("ctPin").value = ""; $("ctPin").focus(); $("ctPinMsg").className = "ctpinmsg";
+        if (pinFails >= 5) { pinWaitUntil = Date.now() + 30000; pinFails = 0; $("ctPinMsg").textContent = "여러 번 틀렸어요. 30초 뒤에 다시 넣어 주세요."; }
+        else $("ctPinMsg").textContent = "비밀번호가 맞지 않아요.";
+        return;
+      }
+      pinFails = 0;
+      unlocked = true; $("ctLock").hidden = true; cover(false); if (lastTab === "quick") input.focus();
+    });
+  }
+  $("ctPinGo").addEventListener("click", tryUnlock);
+  $("ctPin").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); tryUnlock(); } });
+  $("ctForgot").addEventListener("click", function () {
+    $("ctPinMsg").className = "ctpinmsg info"; $("ctForgot").hidden = true;
+    $("ctPinMsg").innerHTML = "비밀번호는 되찾을 수 없어요.<br>기록을 지켜야 해서 고래실록도 열 수 없어요.<br><br>정말 기억나지 않는다면<br>브라우저 설정에서 사이트 데이터를 지운 뒤,<br>백업 파일을 다시 불러와 주세요.";
+  });
+  var lockMode = "set";
+  $("lockBtn").addEventListener("click", function () { renderLock(); $("lockSheet").hidden = false; setTimeout(function () { ($("lockRow").hidden ? $("lockToggle") : $("lockPin")).focus(); }, 30); });
+  function closeLock() { $("lockSheet").hidden = true; }
+  $("lockClose").addEventListener("click", closeLock);
+  $("lockSheet").addEventListener("click", function (e) { if (e.target === $("lockSheet")) closeLock(); });
+  function renderLock(mode) {
+    var on = !!lockData();
+    lockMode = mode || (on ? "on" : "set");
+    $("lockBtn").textContent = on ? "🔒" : "🔓"; $("lockBtn").classList.toggle("on", on);
+    $("lockBtn").setAttribute("aria-label", on ? "잠금 켜짐" : "잠금 설정");
+    $("lockIcon").textContent = on ? "🔒" : "🔓";
+    $("lockTitle").textContent = on ? "잠금이 켜져 있어요" : "잠금";
+    $("lockDesc").innerHTML = lockMode === "off" ? "지금 비밀번호를 넣으면 잠금이 꺼져요." : on ? "자리를 비울 땐 바로 잠가 두세요.<br>다른 앱으로 넘어가도 저절로 잠겨요." : "열 때마다 비밀번호를 물어요.<br>시간만 찍기는 잠긴 채로도 돼요.";
+    $("lockRow").hidden = lockMode === "on";
+    $("lockPin2").hidden = lockMode !== "set";
+    $("lockPin").placeholder = lockMode === "off" ? "지금 비밀번호" : "비밀번호 4~8자리";
+    $("lockPin").value = ""; $("lockPin2").value = ""; $("lockMsg").textContent = ""; $("lockMsg").className = "lk-msg";
+    $("lockToggle").textContent = lockMode === "on" ? "지금 잠그기" : lockMode === "off" ? "잠금 끄기" : "잠금 켜기";
+    $("lockOff").hidden = lockMode !== "on";
+    $("ctFoot").textContent = on ? "🔒 잠겨 있어요 · 비밀번호를 넣으면 열려요" : "화면을 누르면 열려요 · Alt + T 시간만 찍기";
+  }
+  function lockMsg(t, ok) { $("lockMsg").textContent = t; $("lockMsg").className = "lk-msg" + (ok ? " ok" : " bad"); }
+  $("lockOff").addEventListener("click", function () { renderLock("off"); $("lockPin").focus(); });
+  $("lockToggle").addEventListener("click", function () {
+    var a = $("lockPin").value.trim(), b2 = $("lockPin2").value.trim();
+    if (lockMode === "on") { closeLock(); unlocked = false; cover(true); return; }
+    if (lockMode === "off") {
+      checkPin(a).then(function (ok) {
+        if (!ok) { lockMsg("비밀번호가 맞지 않아요."); $("lockPin").value = ""; $("lockPin").focus(); return; }
+        try { localStorage.removeItem(LOCK_KEY); } catch (e) {}
+        renderLock(); lockMsg("잠금을 껐어요.", true);
+      });
+      return;
+    }
+    if (!/^\d{4,8}$/.test(a)) { lockMsg("숫자 4~8자리로 정해 주세요."); $("lockPin").focus(); return; }
+    if (a !== b2) { lockMsg("두 비밀번호가 달라요."); $("lockPin2").focus(); return; }
+    var salt = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
+    sha(salt + a).then(function (h) {
+      try { localStorage.setItem(LOCK_KEY, JSON.stringify({ salt: salt, hash: h })); } catch (e) {}
+      unlocked = true; renderLock(); lockMsg("잠금을 켰어요. 비밀번호는 되찾을 수 없으니 꼭 기억해 두세요.", true);
+    });
+  });
+  ["lockPin", "lockPin2"].forEach(function (id) { $(id).addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("lockToggle").click(); } }); });
+  document.addEventListener("visibilitychange", function () { if (document.hidden && lockData()) { unlocked = false; cover(true); } });
+  /* 기기 비우기 */
+  function wipeAll() {
+    try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf("goraesillok.") === 0) localStorage.removeItem(k); }); } catch (e) {}
+    location.reload();
+  }
+  $("wipeBtn").addEventListener("click", function () { $("wipeConf").hidden = false; $("wipeBtn").hidden = true; $("wipeType").focus(); });
+  $("wipeNo").addEventListener("click", function () { $("wipeConf").hidden = true; $("wipeBtn").hidden = false; $("wipeType").value = ""; $("wipeGo").disabled = true; });
+  $("wipeType").addEventListener("input", function () { $("wipeGo").disabled = $("wipeType").value.trim() !== "지우기"; });
+  $("wipeGo").addEventListener("click", function () { if ($("wipeType").value.trim() === "지우기") wipeAll(); });
   window.addEventListener("blur", function () { if (classOn && $("bottleSheet").hidden && $("comfortSheet").hidden) cover(true); });
   document.addEventListener("visibilitychange", function () { if (document.hidden && classOn) cover(true); });
   input.addEventListener("input", function () {
@@ -1622,12 +1900,15 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function recEl(r, ts, showDate) {
     var d = new Date(r.createdAt), item = document.createElement("div"), b = document.createElement("button"), extra = document.createElement("div");
     item.className = "item"; extra.className = "extra";
-    b.className = "rec" + (isGood(r) ? " good" : "") + (r.timeOnly && !(r.memos && r.memos.length) ? " tonly" : ""); b.type = "button"; b.setAttribute("aria-expanded", "false");
+    b.className = "rec" + (isGood(r) ? " good" : "") + (r.timeOnly && !(r.memos && r.memos.length) ? " tonly" : ""); b.type = "button";
+    if (recType(r)) b.setAttribute("data-type", recType(r)); b.setAttribute("aria-expanded", "false");
     b.innerHTML = '<span class="time">' + (showDate ? dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " : "") + (filled(r) ? timeStr(d) + " 시간 찍음 · " + timeStr(new Date(filled(r).at)) + " 내용 채움" : r.eventAt ? timeStr(new Date(r.eventAt)) + " 일 (" + timeStr(d) + " 기록)" : timeStr(d)) + (r.inClass ? " · 🤫" : "") +
       (recType(r) ? " · " + esc(recType(r)) + (typeInfo(r).src === "auto" ? " 후보" : "") : "") + (r.summary ? " · 정리본 있음" : "") + (r.memos && r.memos.length > (filled(r) ? 1 : 0) ? " · 메모 " + (r.memos.length - (filled(r) ? 1 : 0)) : "") + "</span>" +
       '<span class="text veil">' + bodyHtml(r, ts) + "</span>";
     b.addEventListener("click", function () {
+      if (!b.classList.contains("open")) qsa("#list .item.open").forEach(function (it) { if (it !== item) { it.classList.remove("open"); var rb = it.querySelector(".rec"); if (rb) { rb.classList.remove("open"); rb.setAttribute("aria-expanded", "false"); } } });
       var o = b.classList.toggle("open"); item.classList.toggle("open", o);
+      var lst = item.closest("#list"); if (lst) lst.classList.toggle("has-open", !!lst.querySelector(".item.open"));
       b.setAttribute("aria-expanded", o ? "true" : "false");
       if (o) renderExtra(r, extra);
     });
@@ -1723,10 +2004,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     }).join("") + (ti.t && ti.src === "auto" ? '<span class="tn">단어로 붙인 후보예요</span>' : ti.src === "ai" && ti.t ? '<span class="tn">AI 정리본이 붙인 유형</span>' : "");
     Array.prototype.forEach.call(el.querySelectorAll("button"), function (b) {
       b.addEventListener("click", function () {
-        r.userType = b.dataset.t; persist(); renderTypeRow(r, el);
-        var tl = el.closest(".item") && el.closest(".item").querySelector(".time");
-        if (tl) tl.textContent = tl.textContent.replace(/ · (성장|학폭|교권|민원|생활지도|기타)( 후보)?/, "").replace(/(오[전후] \d+:\d+( 일 \(오[전후] \d+:\d+ 기록\))?)/, "$1" + (r.userType ? " · " + r.userType : ""));
-        var rb = el.closest(".item") && el.closest(".item").querySelector(".rec"); if (rb) rb.classList.toggle("good", isGood(r));
+        r.userType = b.dataset.t; persist();
+        var item = el.closest(".item");
+        if (item && item.parentNode) {
+          var showDate = /월 \d+일/.test((item.querySelector(".time") || {}).textContent || "");
+          var ni = recEl(r, splitTerms($("q").value), showDate);
+          item.parentNode.replaceChild(ni, item);
+          var nb = ni.querySelector(".rec"); if (nb) nb.click();
+        } else renderTypeRow(r, el);
       });
     });
   }
@@ -1743,10 +2028,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     el.className = "memos";
     el.innerHTML = '<div class="memo-h"><b>추가 메모</b><small>원본은 그대로, 이후 경과는 여기에</small></div>' +
       ms.map(function (m, k) { var d = new Date(m.at); return '<div class="memo"><span class="time">' + (r.timeOnly && k === 0 ? "채운 내용 · " : "") + dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " + timeStr(d) + '</span><div class="mt">' + esc(m.text) + "</div></div>"; }).join("") +
-      '<textarea class="textfield" rows="2" placeholder="이후 경과, 추가로 알게 된 일, 보호자와 나눈 이야기…"></textarea>' +
-      '<div class="acts"><button type="button" class="go" disabled>메모 남기기</button><span class="hint" style="align-self:center">메모도 남긴 뒤엔 고칠 수 없어요</span></div>';
-    var ta = el.querySelector("textarea"), bt = el.querySelector(".go");
+      (ms.length ? '<button type="button" class="addmemo">＋ 메모 덧붙이기</button>' : "") +
+      '<div class="memo-compose"' + (ms.length ? " hidden" : "") + '><textarea class="textfield" rows="2" placeholder="' + (r.timeOnly && !ms.length ? "그때 있었던 일을 적어 채워 주세요" : "이후 경과, 추가로 알게 된 일, 보호자와 나눈 이야기…") + '"></textarea>' +
+      '<div class="acts"><span class="hint">남기면 고칠 수 없어요 · Ctrl+Enter</span><button type="button" class="go" disabled>남기기</button></div></div>';
+    var ta = el.querySelector("textarea"), bt = el.querySelector(".go"), am = el.querySelector(".addmemo");
+    if (am) am.addEventListener("click", function () { am.hidden = true; el.querySelector(".memo-compose").hidden = false; ta.focus(); });
     ta.addEventListener("input", function () { bt.disabled = !ta.value.trim(); });
+    ta.addEventListener("keydown", function (e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); if (!bt.disabled) bt.click(); } });
     bt.addEventListener("click", function () {
       var t = ta.value.trim(); if (!t) return;
       r.memos = (r.memos || []).concat([{ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), at: new Date().toISOString(), text: t }]);
@@ -1781,8 +2069,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (sampleChecked) el.innerHTML = '<p class="sum-note">' + (window.claude ? "Claude에 로그인하면 AI로 육하원칙 정리를 할 수 있어요." : "AI 육하원칙 정리는 Claude 버전에서 쓸 수 있어요.") + '</p>';
       return;
     }
-    var a2 = document.createElement("div"); a2.className = "acts";
-    a2.innerHTML = '<button type="button" class="go">육하원칙으로 정리 (AI)</button>';
+    var a2 = document.createElement("div"); a2.className = "acts aiacts";
+    a2.innerHTML = '<button type="button" class="aisum" title="흩어진 기록을 육하원칙으로 정리해요">✨ 육하원칙으로 정리</button>';
     a2.firstChild.addEventListener("click", function () { askMask(r, el); });
     el.appendChild(a2);
   }
@@ -2067,7 +2355,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   });
   $("cClose").addEventListener("click", closeComfort);
   $("comfortSheet").addEventListener("click", function (e) { if (e.target === $("comfortSheet")) closeComfort(); });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("comfortSheet").hidden) closeComfort(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("comfortSheet").hidden) closeComfort(); if (e.key === "Escape" && !$("lockSheet").hidden) closeLock(); });
   $("cRecord").addEventListener("click", function () {
     var id = $("comfortSheet").dataset.caseId, c = cases.filter(function (x) { return x.id === id; })[0];
     closeComfort();
@@ -2826,6 +3114,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function showAuthor() { var a = authorName(); $("authorShow").textContent = a || "아직 없어요 (눌러서 적기)"; }
   (function () { var a = authorName(); if (a) $("s_author").value = a; else $("authorBox").open = true; showAuthor(); })();
   $("s_author").addEventListener("input", function () { try { localStorage.setItem(AUTHOR_KEY, $("s_author").value.trim()); } catch (e) {} showAuthor(); renderDoc(); });
+  $("s_author").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("s_author").blur(); if ($("s_author").value.trim()) $("authorBox").open = false; } });
   $("s_author").addEventListener("change", function () { if ($("s_author").value.trim()) $("authorBox").open = false; });
   var sumMode = "all";
   qsa("#s_mode button").forEach(function (b) {
@@ -2974,7 +3263,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (window.claude && typeof window.claude.use === "function") {
       return window.claude.use("downloads").then(function (dl) {
         if (!dl) { showToast("Claude에 로그인하면 파일로 저장할 수 있어요.", false); return; }
-        return dl.save({ filename: filename, data: data }).then(function () { if (onSaved) onSaved(); showToast(okMsg, false); }, function (err) {
+        return dl.save({ filename: filename, data: data }).then(function () { if (onSaved) onSaved(); if (okMsg) showToast(okMsg, false); }, function (err) {
           var c = err && err.code;
           if (c === "declined") showToast("저장을 취소했어요.", false);
           else if (c === "rate_limited") showToast("저장 창이 이미 열려 있어요. 잠시 후 다시 눌러 주세요.", false);
@@ -2987,10 +3276,30 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename;
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
-      if (onSaved) onSaved(); showToast(okMsg, false);
+      if (onSaved) onSaved(); if (okMsg) showToast(okMsg, false);
     } catch (e) { showToast("파일을 저장할 수 없어요.", false); }
     return Promise.resolve();
   }
+  $("s_copy").addEventListener("click", function () {
+    var doc = $("doc"); if (!doc.querySelector("table") && !doc.textContent.trim()) return;
+    var c = doc.cloneNode(true); c.classList.remove("veil");
+    Array.prototype.forEach.call(c.querySelectorAll("table"), function (t) { t.setAttribute("border", "1"); t.style.cssText = "border-collapse:collapse;width:100%"; });
+    Array.prototype.forEach.call(c.querySelectorAll("th,td"), function (x) { x.style.cssText = "border:1px solid #999;padding:4px 6px;vertical-align:top;white-space:pre-wrap;font-size:10pt"; });
+    Array.prototype.forEach.call(c.querySelectorAll("th"), function (x) { x.style.background = "#EEF0F6"; });
+    var html = c.innerHTML, text = c.innerText || c.textContent;
+    function done() { showToast("표를 복사했어요. 한글이나 워드에 붙여 넣으세요.", false); }
+    function fallback() {
+      var box = document.createElement("div"); box.contentEditable = "true"; box.style.cssText = "position:fixed;left:-9999px;top:0"; box.innerHTML = html; document.body.appendChild(box);
+      var rg = document.createRange(); rg.selectNodeContents(box); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(rg);
+      try { document.execCommand("copy"); done(); } catch (e) { showToast("복사하지 못했어요.", false); }
+      sel.removeAllRanges(); box.remove();
+    }
+    try {
+      if (navigator.clipboard && window.ClipboardItem) {
+        navigator.clipboard.write([new ClipboardItem({ "text/html": new Blob([html], { type: "text/html" }), "text/plain": new Blob([text], { type: "text/plain" }) })]).then(done, fallback);
+      } else fallback();
+    } catch (e) { fallback(); }
+  });
   $("s_usePw").addEventListener("change", function () { $("s_pwRow").hidden = !$("s_usePw").checked; if ($("s_usePw").checked) $("s_pw").focus(); });
   $("s_pdf").addEventListener("click", function () {
     var btn = $("s_pdf"), doc = $("doc");
@@ -3047,6 +3356,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     chip.className = "bks-chip " + state; chip.hidden = !chip.textContent;
     $("backupTab").classList.toggle("due", due);
   }
+  ["bkPw", "bkPw2"].forEach(function (id) { $(id).addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("exportBtn").click(); } }); });
+  ["s_pw", "s_pw2"].forEach(function (id) { $(id).addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("s_pdf").click(); } }); });
   $("bkUsePw").addEventListener("change", function () {
     var on = $("bkUsePw").checked; $("bkPwRow").hidden = !on;
     $("bkNote").textContent = on ? "암호를 잊으면 되살릴 수 없어요." : "암호 없이 저장돼요. 학생 이름이 그대로 들어 있어요.";
@@ -3080,7 +3391,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (!(window.crypto && crypto.subtle)) { showToast("이 브라우저에서는 암호를 걸 수 없어요.", false); return; }
       encryptText(payload, pw).then(function (encd) {
         var at2 = records.reduce(function (m, r) { return r.createdAt > m ? r.createdAt : m; }, "");
-        offerFile("고래실록-백업-" + isoDay(now) + "-암호.json", encd, "암호를 건 백업 파일을 저장했어요 (" + records.length + "건)", function () {
+        var fn1 = "고래실록-백업-" + isoDay(now) + "-암호.json";
+        offerFile(fn1, encd, "", function () {
+          bkConfirm("bkConfOut", records.length + "건을 암호 건 파일로 저장했어요", "파일 이름: " + fn1);
           try { localStorage.setItem(BACKUP_KEY, JSON.stringify({ at: at2 })); } catch (e) {}
           $("bkPw").value = ""; $("bkPw2").value = ""; renderBackup();
         });
@@ -3088,7 +3401,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       return;
     }
     var at = records.reduce(function (m, r) { return r.createdAt > m ? r.createdAt : m; }, "");
-    offerFile("고래실록-백업-" + isoDay(now) + ".json", payload, "백업 파일을 저장했어요 (" + records.length + "건)", function () {
+    var fn2 = "고래실록-백업-" + isoDay(now) + ".json";
+    offerFile(fn2, payload, "", function () {
+      bkConfirm("bkConfOut", records.length + "건을 파일로 저장했어요", "파일 이름: " + fn2 + " · 암호 없이 저장됐어요");
       try { localStorage.setItem(BACKUP_KEY, JSON.stringify({ at: at })); } catch (e) {}
       renderBackup();
     });
@@ -3106,7 +3421,6 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var raw; try { raw = JSON.parse(reader.result); } catch (e) { raw = null; }
       if (raw && raw.app === "goraesillok" && raw.enc) {
         pendingEnc = raw; $("bkUnlock").hidden = false; $("bkPwIn").value = ""; $("bkPwIn").focus();
-        showToast("암호가 걸린 파일이에요. 암호를 넣어 주세요.", false);
         return;
       }
       importData(raw);
@@ -3122,12 +3436,21 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var d; try { d = JSON.parse(txt); } catch (e) { d = null; }
       pendingEnc = null; $("bkUnlock").hidden = true; $("bkPwIn").value = "";
       importData(d);
-    }, function () { showToast("암호가 맞지 않아요.", false); });
+    }, function () { bkConfirm("bkConfIn", "암호가 맞지 않아요", "다시 한 번 확인해 주세요.", true); $("bkPwIn").select(); });
   });
   $("bkPwIn").addEventListener("keydown", function (e) { if (e.key === "Enter") $("bkUnlockBtn").click(); });
+  var bkTimers = {};
+  function bkConfirm(id, title, sub, bad) {
+    var el = $(id); if (!el) return;
+    el.className = "bkconf" + (bad ? " bad" : "");
+    el.innerHTML = '<b>' + (bad ? "⚠️ " : "✓ ") + esc(title) + "</b>" + (sub ? "<small>" + esc(sub) + "</small>" : "");
+    el.hidden = false;
+    el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    clearTimeout(bkTimers[id]); bkTimers[id] = setTimeout(function () { el.hidden = true; }, bad ? 8000 : 7000);
+  }
   function importData(data) {
     {
-      if (!data || data.app !== "goraesillok" || !Array.isArray(data.records)) { showToast("고래실록 백업 파일이 아니에요. 내보내기로 만든 .json 파일을 골라 주세요.", false); return; }
+      if (!data || data.app !== "goraesillok" || !Array.isArray(data.records)) { bkConfirm("bkConfIn", "고래실록 백업 파일이 아니에요", "파일로 저장으로 만든 .json 파일을 골라 주세요.", true); return; }
       var have = {}; records.forEach(function (r) { have[r.id] = true; });
       var added = 0, skipped = 0, bad = 0;
       data.records.forEach(function (r) {
@@ -3170,7 +3493,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (noteAdded) msg += " · 나에게 쪽지 " + noteAdded + "장";
       if (skipped) msg += " · 이미 있는 " + skipped + "건은 그대로 뒀어요";
       if (bad) msg += " · 읽을 수 없는 " + bad + "건 제외";
-      showToast(msg, false);
+      var subs = [];
+      if (caseAdded) subs.push("응대 기록 " + caseAdded + "건");
+      if (noteAdded) subs.push("나에게 쪽지 " + noteAdded + "장");
+      if (skipped) subs.push("이미 있는 " + skipped + "건은 그대로 뒀어요");
+      if (bad) subs.push("읽을 수 없는 " + bad + "건 제외");
+      bkConfirm("bkConfIn", added ? added + "건을 새로 불러왔어요" : "새로 불러올 기록이 없어요", subs.join(" · ") || (added ? "타임라인에서 바로 볼 수 있어요." : "이미 모두 이 기기에 있어요."), false);
     }
   }
 
@@ -3199,7 +3527,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   setMode(m, true);
   tickNow(); setInterval(tickNow, 15000);
   loadCases();
-  setClass(false); cover(true); maybeIntro();
+  setClass(false); renderLock(); cover(true); maybeIntro();
   applyUI();
   setTimeout(function () { sampleChecked = true; aiNote(); }, 11000);
   loadNotes();
