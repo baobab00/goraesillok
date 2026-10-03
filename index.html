@@ -222,7 +222,7 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .clsbtn { margin-left: auto; align-self: center; border: 1px solid rgba(255,246,213,.35); background: transparent; color: rgba(255,246,213,.85); border-radius: 7px; padding: 3px 10px; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 12.5px; cursor: pointer; white-space: nowrap; }
 .clsbtn[aria-pressed="true"] { background: #C3A6FF; border-color: #C3A6FF; color: #1B1F52; }
 #p-quick.classmode .cls-info { display: block; }
-#p-quick.classmode .isle, #p-quick.classmode #today, #p-quick.classmode .modes, #p-quick.classmode #goodBtn, #p-quick.classmode .seal { display: none !important; }
+#p-quick.classmode .isle, #p-quick.classmode #today, #p-quick.classmode .modes, #p-quick.classmode .seal { display: none !important; }
 #p-quick.classmode .card { border-color: color-mix(in srgb, var(--lilac) 45%, var(--line)); }
 #p-quick.classmode #input { min-height: 84px; color: transparent; text-shadow: 0 0 9px color-mix(in srgb, var(--ink) 75%, transparent); caret-color: var(--ink); }
 #p-quick.classmode #input::placeholder { color: var(--ink-soft); text-shadow: none; }
@@ -1599,9 +1599,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   }
   function updateSave() {
     if (!input.value.trim() && mode !== "detail") { pendingSource = null; pendingType = ""; } save.disabled = !hasContent(); }
-  var goodOn = false;
-  function setGood(v) { goodOn = false; }
-  function clearForm() { input.value = ""; FIELDS.forEach(function (f) { $(f.id).value = ""; }); setType(null); setGood(false); }
+  function clearForm() { input.value = ""; FIELDS.forEach(function (f) { $(f.id).value = ""; }); setType(null); }
   var LINES = [
     "오늘도 많이 애쓰셨어요. 여기엔 있는 그대로 적어도 괜찮아요.",
     "화나는 일도, 속상한 일도 여기 두고 가요. 제가 꼭 품고 있을게요.",
@@ -1803,7 +1801,6 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   }
 
   function doSave() {
-    var timeOnly = false;
     if (!hasContent()) return;
     var now = new Date();
     var rec = { id: now.getTime().toString(36) + Math.random().toString(36).slice(2, 6), createdAt: now.toISOString() };
@@ -1816,8 +1813,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var v = detailValues();
       rec.fields = v;
       rec.text = [v.type].concat(FIELDS.map(function (f) { return v[f.key]; })).filter(Boolean).join("\n");
-    } else rec.text = timeOnly ? "(시간만 기록)" : input.value.trim();
-    if (timeOnly) rec.timeOnly = true;
+    } else rec.text = input.value.trim();
     if (pendingSource) { rec.source = pendingSource; pendingSource = null; }
     if (pendingType) { rec.userType = pendingType; pendingType = ""; }
     records.push(rec);
@@ -1839,10 +1835,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       persist(); clearForm();
       if (r.fields) {
         setMode("detail", true);
-        setGood(r.good);
         FIELDS.forEach(function (f) { $(f.id).value = r.fields[f.key] || ""; });
         setType(r.fields.type || null);
-      } else { setMode("simple", true); input.value = r.timeOnly ? "" : r.text; setGood(r.good); }
+      } else { setMode("simple", true); input.value = r.timeOnly ? "" : r.text; }
       var wasTime = r.timeOnly;
       updateSave();
     }
@@ -1860,7 +1855,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     $("p-quick").classList.toggle("classmode", classOn);
     $("classBtn").setAttribute("aria-pressed", classOn ? "true" : "false");
     $("classBtn").textContent = classOn ? "수업 끝" : "수업 중";
-    if (classOn) { setMode("simple", true); setGood(false); input.placeholder = "글자는 흐리게 보여요. 짧게 적어 두세요."; }
+    if (classOn) { setMode("simple", true); input.placeholder = "글자는 흐리게 보여요. 짧게 적어 두세요."; }
     else input.placeholder = "지금 있었던 일을 그냥 적어두세요.\n이름만 들어가 있으면 나중에 찾을 수 있어요.";
     eventAt = null; updateClassInfo(); updateSave();
     if (!classOn && pendingList().length) whaleSay("수업 중에 시간만 찍어 둔 기록이 " + pendingList().length + "개 있어요. 잊기 전에 채워 볼까요?");
@@ -2387,15 +2382,11 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     return x == null ? "" : String(x);
   }
   function fmtAt(iso) { var d = new Date(iso); return shortDate(d) + " " + timeStr(d); }
-  var UI_KEY = "goraesillok.replyUI", replyUI = "chat";
 
   function applyUI() {
-    var p = $("p-reply"), chat = replyUI === "chat";
-    p.classList.toggle("chat", chat);
-    $("r_make").textContent = chat ? "응대 준비" : "응대 준비하기";
-    $("r_msg").placeholder = chat ? "보호자가 한 말을 붙여넣거나 적어 주세요" : "문자를 붙여넣거나, 통화 내용을 요약해 적어 주세요.";
-    if (!chat) $("r_msg").style.height = "";
-    try { localStorage.setItem(UI_KEY, replyUI); } catch (e) {}
+    $("p-reply").classList.add("chat");
+    $("r_make").textContent = "응대 준비";
+    $("r_msg").placeholder = "보호자가 한 말을 붙여넣거나 적어 주세요";
     updateBar();
   }
   $("chatBar").addEventListener("click", function () {
@@ -2510,7 +2501,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   $("r_name").addEventListener("input", function () { setTimeout(updateBar, 0); });
   $("r_mask").addEventListener("input", updateBar);
   $("r_list").addEventListener("change", updateBar);
-  $("r_msg").addEventListener("input", function () { var t = $("r_msg"); if (replyUI === "chat") { t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight + 2, 150) + "px"; } });
+  $("r_msg").addEventListener("input", function () { var t = $("r_msg"); t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight + 2, 150) + "px"; });
   var _prevCase = null;
   function closeBarOnCase() { if (currentCase && currentCase !== _prevCase) $("p-reply").classList.remove("bar-open"); _prevCase = currentCase; }
   function renderCaseHead() {
