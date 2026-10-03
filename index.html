@@ -2122,8 +2122,10 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   // 새 기록을 적기 시작하면 되돌리기를 거둔다. 되돌리면 그 기록이 입력칸으로 돌아와 적던 글을 덮기 때문이다.
   // 시간만 찍은 기록은 입력칸을 건드리지 않으니 그대로 둔다.
   function onNewEntry() { if (!$("saved").hidden && !savedStamp) hideSaved(); }
+  $("undo").addEventListener("mousedown", function (e) { e.preventDefault(); }); // 눌러도 입력칸의 커서를 빼앗지 않는다
   $("undo").addEventListener("click", function () {
     if (!lastSavedId) return;
+    var byKey = document.activeElement === $("undo");
     var idx = records.findIndex(function (r) { return r.id === lastSavedId; }), wasTime = false;
     if (idx !== -1) {
       var r = records.splice(idx, 1)[0];
@@ -2141,7 +2143,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     }
     hideSaved();
     afterChange();
-    openTab("quick");
+    // 시간 기록을 되돌릴 때는 적던 자리(커서와 스크롤)를 그대로 둔다
+    if (!wasTime) openTab("quick"); else if (byKey) focusFirst();
     showToast(wasTime ? "찍은 시간을 지웠어요." : "기록을 되돌렸어요. 내용은 입력칸에 남아 있어요.");
   });
   function ctrlEnter(e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); doSave(); } }
