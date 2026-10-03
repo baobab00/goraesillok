@@ -1631,7 +1631,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
           <li>공용 PC, 공유 폴더, GitHub에 두지 않기</li>
         </ul>
       </details>
-      <p class="bkdanger">⚠️ 웨일 설정에서 <b>쿠키 및 사이트 데이터</b>를 지우면 기록이 모두 지워져요. 지우기 전에 꼭 내보내 두세요.</p>
+      <p class="bkdanger">⚠️ 브라우저 설정에서 <b>쿠키 및 사이트 데이터</b>를 지우면 기록이 모두 지워져요. 지우기 전에 꼭 내보내 두세요.</p>
       <div class="wipezone">
         <button type="button" class="wipebtn" id="wipeBtn">이 기기의 기록 모두 지우기</button>
         <div class="wipeconf" id="wipeConf" hidden>
@@ -1709,7 +1709,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       <button type="button" class="ctforgot" id="ctForgot">비밀번호가 기억나지 않나요?</button>
     </div>
   </div>
-  <div class="ct-foot" id="ctFoot">화면을 누르면 열려요 · Alt + T 시간만 찍기</div>
+  <div class="ct-foot" id="ctFoot">화면을 누르면 열려요</div>
 </div>
 
 <div class="intro" id="intro" hidden>
@@ -1743,6 +1743,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 <script>
 (function () {
   var KEY = "goraesillok.records.v1", MODE_KEY = "goraesillok.mode", BACKUP_KEY = "goraesillok.lastBackup";
+  var TOUCH = !!(window.matchMedia && matchMedia("(hover: none) and (pointer: coarse)").matches); // 주 입력이 터치인 기기: 키보드 단축키 안내를 뺀다
   var PAGE = 20;
   var records = [], shown = PAGE, lastSavedId = null, toastTimer = null;
   var $ = function (id) { return document.getElementById(id); };
@@ -2220,7 +2221,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     $("lockPin").value = ""; $("lockPin2").value = ""; $("lockMsg").textContent = ""; $("lockMsg").className = "lk-msg";
     $("lockToggle").textContent = lockMode === "on" ? "지금 잠그기" : lockMode === "off" ? "잠금 끄기" : "잠금 켜기";
     $("lockOff").hidden = lockMode !== "on";
-    $("ctFoot").textContent = on ? "🔒 잠겨 있어요 · 비밀번호를 넣으면 열려요" : "화면을 누르면 열려요 · Alt + T 시간만 찍기";
+    $("ctFoot").textContent = on ? "🔒 잠겨 있어요 · 비밀번호를 넣으면 열려요" : "화면을 누르면 열려요" + (TOUCH ? "" : " · Alt + T 시간만 찍기");
   }
   function lockMsg(t, ok) { $("lockMsg").textContent = t; $("lockMsg").className = "lk-msg" + (ok ? " ok" : " bad"); }
   $("lockOff").addEventListener("click", function () { renderLock("off"); $("lockPin").focus(); });
@@ -2411,7 +2412,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       ms.map(function (m, k) { var d = new Date(m.at); return '<div class="memo"><span class="time">' + (r.timeOnly && k === 0 ? "채운 내용 · " : "") + dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " + timeStr(d) + '</span><div class="mt">' + esc(m.text) + "</div></div>"; }).join("") +
       (ms.length ? '<button type="button" class="addmemo">＋ 메모 덧붙이기</button>' : "") +
       '<div class="memo-compose"' + (ms.length ? " hidden" : "") + '><textarea class="textfield" rows="2" placeholder="' + (r.timeOnly && !ms.length ? "그때 있었던 일을 적어 채워 주세요" : "이후 경과, 추가로 알게 된 일, 보호자와 나눈 이야기…") + '"></textarea>' +
-      '<div class="acts"><span class="hint">남기면 고칠 수 없어요 · Ctrl+Enter</span><button type="button" class="go" disabled>남기기</button></div></div>';
+      '<div class="acts"><span class="hint">남기면 고칠 수 없어요' + (TOUCH ? "" : " · Ctrl+Enter") + '</span><button type="button" class="go" disabled>남기기</button></div></div>';
     var ta = el.querySelector("textarea"), bt = el.querySelector(".go"), am = el.querySelector(".addmemo");
     if (am) am.addEventListener("click", function () { am.hidden = true; el.querySelector(".memo-compose").hidden = false; ta.focus(); });
     ta.addEventListener("input", function () { bt.disabled = !ta.value.trim(); });
@@ -4132,7 +4133,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
   }
 
-  if ("ontouchstart" in window) $("hint").textContent = "원본은 저장 후 고칠 수 없어요";
+  if (TOUCH) { $("hint").textContent = "원본은 저장 후 고칠 수 없어요"; $("bInput").placeholder = $("bInput").placeholder.replace(" (Ctrl+Enter로 넣기)", ""); }
   load();
   autoClassifyAll();
   var m = "simple"; try { m = localStorage.getItem(MODE_KEY) || "simple"; } catch (e) {}
