@@ -1830,6 +1830,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (name === "backup") renderBackup();
     if (name === "quick") focusFirst();
     window.scrollTo(0, 0);
+    if (name === "quick" && !$("saved").hidden) $("saved").scrollIntoView({ block: "nearest" }); // 되돌리기가 떠 있으면 그 줄이 보이게
   }
   tabs.forEach(function (t, i) {
     t.addEventListener("click", function () { openTab(t.dataset.tab); });
@@ -2021,7 +2022,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     afterChange();
     if (!onCurtain) {
       lastSavedId = rec.id; showSaved(timeStr(now) + " 시간을 찍었어요", true);
-      if ($("p-quick").hidden) showToast(timeStr(now) + " 시간을 찍었어요. 퀵록에서 되돌릴 수 있어요.");
+      if (!savedInView()) showToast(timeStr(now) + " 시간을 찍었어요. " + ($("p-quick").hidden ? "퀵록에서" : "기록 버튼 옆에서") + " 되돌릴 수 있어요.");
       return;
     }
     $("ctDone").innerHTML = timeStr(now) + " 시간을 찍었어요<button type=\"button\" id=\"ctUndo\">되돌리기</button>";
@@ -2099,6 +2100,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var seal = $("seal"); seal.classList.remove("on"); void seal.offsetWidth; seal.classList.add("on");
     afterChange();
     showSaved(timeStr(now) + "에 기록했어요");
+    if (!savedInView()) showToast(timeStr(now) + "에 기록했어요. 기록 버튼 옆에서 되돌릴 수 있어요.");
     if (wasClass) { eventAt = null; updateClassInfo(); } else
     whaleSay(wasGood ? ["아이의 성장이 하나 적혔어요. 이런 기록이 쌓이면 아이의 역사가 돼요.", "곱게 적어 두었어요. 나중에 보호자와 이야기할 때 꺼내 드릴게요.", "이런 모습도 꼭 남겨야죠. 잘했어요!"][Math.floor(Math.random() * 3)] : AFTER[Math.floor(Math.random() * AFTER.length)]); typedOnce = false;
     focusFirst();
@@ -2111,6 +2113,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     clearTimeout(savedTimer); savedTimer = setTimeout(hideSaved, 10000);
   }
   function hideSaved() { clearTimeout(savedTimer); $("saved").hidden = true; $("hint").hidden = false; lastSavedId = null; }
+  // 저장 줄이 지금 눈에 보이는지. 다른 탭이거나 시트 뒤, 스크롤 밖이면 토스트로도 알려야 한다
+  function savedInView() {
+    if ($("p-quick").hidden || qsa(".sheet").some(function (x) { return !x.hidden; })) return false;
+    var r = $("saved").getBoundingClientRect();
+    return r.height > 0 && r.top >= document.querySelector(".top").getBoundingClientRect().bottom && r.bottom <= window.innerHeight;
+  }
   // 새 기록을 적기 시작하면 되돌리기를 거둔다. 되돌리면 그 기록이 입력칸으로 돌아와 적던 글을 덮기 때문이다.
   // 시간만 찍은 기록은 입력칸을 건드리지 않으니 그대로 둔다.
   function onNewEntry() { if (!$("saved").hidden && !savedStamp) hideSaved(); }
