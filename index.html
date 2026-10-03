@@ -3999,6 +3999,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         if (r.inClass === true) c.inClass = true;
         if (r.timeOnly === true) c.timeOnly = true;
         if (typeof r.userType === "string") c.userType = r.userType;
+        var rs = cleanSrc(r.source); if (rs) c.source = rs;
         if (r.cv === 2 && ["", "교권", "학폭", "민원", "성장", "생활지도", "갑질"].indexOf(r.autoType) !== -1) { c.cv = 2; c.autoType = r.autoType; }
         if (r.fields) { c.fields = { type: String(r.fields.type || "") }; FIELDS.forEach(function (f) { c.fields[f.key] = String(r.fields[f.key] || ""); }); }
         if (Array.isArray(r.memos)) c.memos = r.memos.filter(function (m) { return m && typeof m.text === "string"; }).map(function (m) { return { id: String(m.id || ""), at: String(m.at || r.createdAt), text: m.text }; });
