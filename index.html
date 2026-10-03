@@ -372,6 +372,14 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .doc h4.sub { font-size: 13px; margin: 20px 0 6px; color: #15304A; }
 .doc .foot { margin-top: 16px; font-size: 11px; color: #6b7a88; line-height: 1.6; }
 .doc .none { color: #6b7a88; padding: 18px 0; text-align: center; }
+/* 아이콘: 선 아이콘(.ic)은 글자색을 따르고, 픽셀 아이콘(.px)은 그린 색 그대로 쓴다. 모양은 <body> 맨 위 .sprite에 있다 */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.ic { width: 1.15em; height: 1.15em; vertical-align: -.2em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.px { vertical-align: -.2em; flex-shrink: 0; margin-right: .25em; shape-rendering: crispEdges; }
+.cb-av .px, .wa .px, .ci-av .px, .ct-wx .px, .smodes i .px, .big .px, .c-whale .px, .i-whale .px { margin-right: 0; }
+.brand .px { vertical-align: -5px; margin-right: 3px; }
+.lockbtn { color: var(--star); }
+.lockbtn .ic { width: 15px; height: 15px; vertical-align: -2px; }
 .printlink { border: 0; background: none; color: var(--tide); font: inherit; font-weight: 500; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 /* '종이로 바로 인쇄'를 눌렀을 때만: 문서만 A4에 */
 @media print {
@@ -1099,9 +1107,34 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 </style>
 </head>
 <body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="p-whale" viewBox="0 0 26 12"><path fill="#2F5B9A" d="M5 0h10v1h-10zM24 0h1v1h-1zM3 1h2v1h-2zM15 1h2v1h-2zM22 1h1v1h-1zM25 1h1v1h-1zM2 2h1v1h-1zM17 2h1v1h-1zM21 2h1v1h-1zM24 2h1v1h-1zM1 3h1v2h-1zM18 3h1v2h-1zM23 3h1v1h-1zM20 4h1v1h-1zM22 4h1v1h-1zM0 5h1v4h-1zM19 5h1v1h-1zM21 5h1v1h-1zM20 6h1v1h-1zM19 7h1v2h-1zM1 9h1v2h-1zM18 9h1v2h-1zM2 11h16v1h-16z"/><path fill="#7DB0E8" d="M5 1h1v1h-1zM8 1h6v1h-6zM3 2h1v1h-1zM10 2h4v2h-4zM2 3h2v1h-2zM2 4h4v1h-4zM8 4h4v1h-4zM13 4h1v1h-1zM1 5h4v1h-4zM6 5h1v1h-1zM8 5h3v1h-3zM12 5h1v1h-1zM1 6h13v1h-13zM1 7h3v1h-3zM6 7h2v1h-2zM11 7h2v1h-2zM1 8h8v1h-8zM10 8h4v1h-4z"/><path fill="#B8D8F7" d="M6 1h2v1h-2zM4 2h6v2h-6zM7 4h1v1h-1z"/><path fill="#6396D6" d="M14 1h1v1h-1zM23 1h2v1h-2zM14 2h3v1h-3zM22 2h2v1h-2zM14 3h4v2h-4zM22 3h1v1h-1zM21 4h1v1h-1zM14 5h5v1h-5zM20 5h1v1h-1zM14 6h6v1h-6zM15 7h4v1h-4zM14 8h5v1h-5z"/><path fill="#1C2A44" d="M6 4h1v1h-1zM12 4h1v1h-1zM5 5h1v1h-1zM7 5h1v1h-1zM11 5h1v1h-1zM13 5h1v1h-1zM8 7h3v1h-3z"/><path fill="#FF9EA6" d="M4 7h2v1h-2zM13 7h2v1h-2z"/><path fill="#E86F7E" d="M9 8h1v1h-1z"/><path fill="#E6F2FD" d="M2 9h16v2h-16z"/></symbol>
+  <symbol id="p-whale-mini" viewBox="0 0 12 9"><path fill="#6396D6" d="M9 0h1v1h-1zM11 0h1v1h-1zM10 1h1v1h-1zM8 3h1v2h-1zM8 6h1v1h-1z"/><path fill="#2F5B9A" d="M2 1h6v1h-6zM9 1h1v1h-1zM11 1h1v1h-1zM1 2h1v1h-1zM8 2h1v1h-1zM10 2h1v1h-1zM0 3h1v4h-1zM9 3h1v4h-1zM1 7h1v1h-1zM8 7h1v1h-1zM2 8h6v1h-6z"/><path fill="#7DB0E8" d="M2 2h1v1h-1zM5 2h3v1h-3zM1 3h1v2h-1zM4 3h4v1h-4zM3 4h4v1h-4zM3 5h1v1h-1zM6 5h1v1h-1zM1 6h3v1h-3zM6 6h2v1h-2z"/><path fill="#B8D8F7" d="M3 2h2v1h-2zM2 3h2v1h-2z"/><path fill="#1C2A44" d="M2 4h1v1h-1zM7 4h1v1h-1zM4 5h2v1h-2z"/><path fill="#FF9EA6" d="M1 5h2v1h-2zM7 5h2v1h-2z"/><path fill="#E86F7E" d="M4 6h2v1h-2z"/><path fill="#E6F2FD" d="M2 7h6v1h-6z"/></symbol>
+  <symbol id="p-bottle" viewBox="0 0 11 5"><path fill="#4F9C9E" d="M1 0h6v1h-6zM0 1h1v3h-1zM7 1h2v1h-2zM7 3h2v1h-2zM1 4h6v1h-6z"/><path fill="#BFF0EA" d="M1 1h1v1h-1zM6 1h1v1h-1zM6 2h3v1h-3zM1 3h1v1h-1zM6 3h1v1h-1z"/><path fill="#FFF1CF" d="M2 1h4v1h-4zM2 2h1v1h-1zM4 2h2v1h-2zM2 3h4v1h-4z"/><path fill="#B07A4E" d="M9 1h2v3h-2z"/><path fill="#FFFFFF" d="M1 2h1v1h-1z"/><path fill="#9B7FD4" d="M3 2h1v1h-1z"/></symbol>
+  <symbol id="p-calm" viewBox="0 0 9 8"><path fill="#9FD3F5" d="M1 0h2v1h-2zM8 0h1v1h-1zM0 1h1v1h-1zM3 1h1v1h-1zM7 1h1v1h-1zM4 2h3v1h-3z"/><path fill="#5B8FD6" d="M1 1h2v1h-2zM8 1h1v1h-1zM0 2h1v1h-1zM3 2h1v1h-1zM7 2h1v1h-1zM4 3h3v1h-3z"/><path fill="#7DB0E8" d="M1 4h2v1h-2zM8 4h1v1h-1zM0 5h1v1h-1zM3 5h1v1h-1zM7 5h1v1h-1zM4 6h3v1h-3z"/><path fill="#2F5B9A" d="M1 5h2v1h-2zM8 5h1v1h-1zM0 6h1v1h-1zM3 6h1v1h-1zM7 6h1v1h-1zM4 7h3v1h-3z"/></symbol>
+  <symbol id="p-swirl" viewBox="0 0 9 9"><path fill="#9A6410" d="M4 0h3v1h-3zM3 1h1v1h-1zM7 1h1v1h-1zM2 2h1v1h-1zM8 2h1v2h-1zM1 3h1v2h-1zM7 4h1v1h-1zM0 5h1v3h-1zM0 8h9v1h-9z"/><path fill="#FFE9A8" d="M4 1h1v1h-1zM3 2h1v1h-1zM2 3h1v1h-1z"/><path fill="#E0A93A" d="M5 1h2v1h-2zM4 2h1v1h-1zM6 2h2v1h-2zM3 3h1v1h-1zM7 3h1v1h-1zM2 4h2v1h-2zM6 4h1v1h-1zM1 5h3v1h-3zM1 6h4v1h-4zM1 7h6v1h-6z"/></symbol>
+  <symbol id="p-storm" viewBox="0 0 9 9"><path fill="#FFFFFF" d="M3 0h3v1h-3zM2 1h1v1h-1zM6 1h2v1h-2zM1 2h1v1h-1zM8 2h1v3h-1zM0 3h1v2h-1zM1 5h2v1h-2zM5 5h3v1h-3z"/><path fill="#6A5DB0" d="M3 1h1v1h-1zM2 2h1v1h-1z"/><path fill="#3A2F6B" d="M4 1h2v1h-2zM3 2h5v1h-5zM1 3h7v1h-7zM1 4h3v1h-3zM6 4h2v1h-2z"/><path fill="#FFD84A" d="M4 4h2v1h-2zM3 5h2v1h-2zM2 6h3v1h-3zM4 7h1v1h-1z"/><path fill="#F2811E" d="M5 6h1v2h-1zM3 8h1v1h-1z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M8.5 11V7.5a3.5 3.5 0 0 1 7 0V11"/><circle cx="12" cy="16" r="1.2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="3"/><path d="M14.5 11V7.5a3.5 3.5 0 0 1 7 0v1"/><circle cx="12" cy="16" r="1.2" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.5 5.6Q12 3 13.5 5.6L20 17.4Q21.5 20 18.5 20H5.5Q2.5 20 4 17.4Z"/><path d="M12 9.5v4"/><circle cx="12" cy="16.7" r="1.1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7.2C10.3 5.7 8 5 5 5A2 2 0 0 0 3 7v9a2 2 0 0 0 2 2c3 0 5.3.6 7 2 1.7-1.4 4-2 7-2a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2c-3 0-5.3.7-7 2.2z"/><path d="M12 7.2V20"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 8a3 3 0 0 1 3-3h2.4q1 0 1.6.8l1 1.4q.6.8 1.6.8H18a3 3 0 0 1 3 3v5.5a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 9h6M9 14h3.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.5"/><path d="M5 20.5a7 6 0 0 1 14 0"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7 4h10a4 4 0 0 1 4 4v5a4 4 0 0 1-4 4h-5.5L7 20.5V17a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4z"/></symbol>
+  <symbol id="i-reply" viewBox="0 0 24 24"><path d="M5 5v5a5 5 0 0 0 5 5h9.5"/><path d="M15.5 11l4 4-4 4"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 21V11"/><path d="M12 14.5c-5 0-8-2.2-8-7 5 0 8 2.2 8 7z"/><path d="M12 11c0-4 2.5-6.5 7.5-6.5 0 4-2.5 6.5-7.5 6.5z"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M11 5H7a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h9a3 3 0 0 0 3-3v-4"/><path d="M17.2 3.8a2.1 2.1 0 0 1 3 3L13 14l-3.5.8.8-3.5z"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M10 6c.7 4.4 2.6 6.3 7 7-4.4.7-6.3 2.6-7 7-.7-4.4-2.6-6.3-7-7 4.4-.7 6.3-2.6 7-7z"/><path d="M18.5 3v5M16 5.5h5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M20.5 3.5 3.5 10.5l7 3 3 7z"/><path d="M10.5 13.5l4.5-4.5"/></symbol>
+  <symbol id="i-quiet" viewBox="0 0 24 24"><path d="M3 12c2.4-3.8 5.4-5.5 9-5.5s6.6 1.7 9 5.5c-2.4 3.8-5.4 5.5-9 5.5S5.4 15.8 3 12z"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><path d="M5 4.5l14 15"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M3 12c2.4-3.8 5.4-5.5 9-5.5s6.6 1.7 9 5.5c-2.4 3.8-5.4 5.5-9 5.5S5.4 15.8 3 12z"/><circle cx="12" cy="12" r="2.4"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 0 0-5.7-5.7l-.9.9"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.6 2.6a4 4 0 0 0 5.7 5.7l.9-.9"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14.5" rx="3"/><path d="M4 10.5h16M8.5 3.5v4M15.5 3.5v4"/></symbol>
+</svg>
 <div class="wrap">
   <div class="top">
-    <div class="brand"><span>🐋 고래실록</span><small>기억보다 먼저, 기록.</small><button type="button" class="lockbtn" id="lockBtn" aria-label="잠금 설정" title="잠금">🔓</button><button type="button" class="clsbtn" id="classBtn" aria-pressed="false">수업 중</button></div>
+    <div class="brand"><span><svg class="px" aria-hidden="true" width="52" height="24"><use href="#p-whale"/></svg> 고래실록</span><small>기억보다 먼저, 기록.</small><button type="button" class="lockbtn" id="lockBtn" aria-label="잠금 설정" title="잠금"><svg class="ic" aria-hidden="true"><use href="#i-unlock"/></svg></button><button type="button" class="clsbtn" id="classBtn" aria-pressed="false">수업 중</button></div>
     <nav class="tabs" role="tablist" aria-label="고래실록 메뉴">
       <button class="tab" role="tab" data-tab="quick" aria-selected="true">퀵록</button>
       <button class="tab" role="tab" data-tab="timeline" aria-selected="false">타임라인</button>
@@ -1113,7 +1146,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   <!-- 퀵록 -->
   <section class="panel" id="p-quick" role="tabpanel">
-    <p class="clshint" id="clsHint">🤫 수업 중이에요. 글자는 흐리게 보이고, 다른 화면으로 가면 가려져요. 수업이 끝나면 위쪽 <b>수업 끝</b>을 눌러 주세요.</p>
+    <p class="clshint" id="clsHint"><svg class="ic" aria-hidden="true"><use href="#i-quiet"/></svg> 수업 중이에요. 글자는 흐리게 보이고, 다른 화면으로 가면 가려져요. 수업이 끝나면 위쪽 <b>수업 끝</b>을 눌러 주세요.</p>
     <div class="isle pixel" id="isle">
       <svg class="art-pixel px-night" viewBox="0 0 120 66" preserveAspectRatio="xMidYMid slice" shape-rendering="crispEdges" aria-hidden="true">
         <g>
@@ -1429,35 +1462,35 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
     <div id="replyNow">
     <button type="button" class="chatbar" id="chatBar" aria-expanded="false">
-      <span class="cb-who"><span class="cb-av">🐋</span><span><b id="barName">학생을 골라 주세요</b><small id="barMeta">근거 기록과 이름 가림 설정</small></span></span>
-      <span class="cb-wx" id="barWx" title="바다 날씨">🌊 잔잔</span><span class="cb-chev">▾</span>
+      <span class="cb-who"><span class="cb-av"><svg class="px" aria-hidden="true" width="24" height="18"><use href="#p-whale-mini"/></svg></span><span><b id="barName">학생을 골라 주세요</b><small id="barMeta">근거 기록과 이름 가림 설정</small></span></span>
+      <span class="cb-wx" id="barWx" title="바다 날씨"><svg class="px" aria-hidden="true" width="18" height="16"><use href="#p-calm"/></svg> 잔잔</span><span class="cb-chev">▾</span>
     </button>
     <p class="ainote" id="aiNote" hidden></p>
     <div id="setup" class="step">
-      <div class="step-h"><span class="ico">👤</span>누구에 대한 연락인가요?</div>
+      <div class="step-h"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span>누구에 대한 연락인가요?</div>
       <input id="r_name" class="textfield" type="search" placeholder="학생 이름 (예: 한고래)" autocomplete="off">
       <div id="r_list"></div>
       <details class="mini" id="maskBox">
-        <summary>🔒 AI에 보낼 때 가릴 이름 · <span id="maskPreview">없음</span></summary>
+        <summary><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> AI에 보낼 때 가릴 이름 · <span id="maskPreview">없음</span></summary>
         <input id="r_mask" class="textfield" type="text" placeholder="예: 한고래, 윤바다" autocomplete="off" style="margin-top:8px">
         <p class="desc" style="margin:6px 2px 0">적은 이름은 학생A, 학생B로 바꿔서 보내요. 나머지 기록과 보호자 말은 AI(Claude)로 전송돼요.</p>
       </details>
     </div>
     <div id="caseHead" class="casehead" hidden></div>
 
-    <div class="empty-chat" id="emptyChat"><span class="big">🐋</span>보호자에게 연락이 왔나요?<br>받은 문자나 통화 내용을 아래에 적으면<br>같이 작전을 세워 볼게요.</div>
+    <div class="empty-chat" id="emptyChat"><span class="big"><svg class="px" aria-hidden="true" width="78" height="36"><use href="#p-whale"/></svg></span>보호자에게 연락이 왔나요?<br>받은 문자나 통화 내용을 아래에 적으면<br>같이 작전을 세워 볼게요.</div>
     <div id="thread"></div>
 
     <div class="step composer">
-      <div class="step-h"><span class="ico" id="msgNum">💬</span><span id="msgLabel">보호자가 뭐라고 했나요?</span></div>
+      <div class="step-h"><span class="ico" id="msgNum"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg></span><span id="msgLabel">보호자가 뭐라고 했나요?</span></div>
       <div class="cmode" role="group" aria-label="입력 종류">
         <button type="button" data-m="parent" aria-pressed="true">보호자 말</button>
         <button type="button" data-m="out" aria-pressed="false">먼저 연락</button>
-        <button type="button" data-m="ask" aria-pressed="false" class="askbtn">🐋 고래에게 묻기</button>
+        <button type="button" data-m="ask" aria-pressed="false" class="askbtn"><svg class="px" aria-hidden="true" width="24" height="18"><use href="#p-whale-mini"/></svg> 고래에게 묻기</button>
         <button type="button" class="askx" id="askX" aria-label="묻기 닫기">닫기 ✕</button>
       </div>
       <details class="askfaq" id="askFaq" open>
-        <summary>🐋 저경력 선생님들이 자주 묻는 질문</summary>
+        <summary><svg class="px" aria-hidden="true" width="24" height="18"><use href="#p-whale-mini"/></svg> 저경력 선생님들이 자주 묻는 질문</summary>
         <div class="qchips" id="qChips"></div>
       </details>
       <div class="chips outp" id="outP" role="group" aria-label="연락 목적" hidden>
@@ -1515,9 +1548,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   <!-- 한눈에 쏙 -->
   <section class="panel" id="p-summary" role="tabpanel" hidden>
     <div class="smodes" id="s_mode" role="group" aria-label="내보낼 내용" hidden>
-      <button type="button" data-sm="all" aria-pressed="true"><i>📜</i><b>기록 전체</b><small>사안 보고용</small></button>
-      <button type="button" data-sm="grow" aria-pressed="false"><i>🌱</i><b>성장 기록</b><small>상담·세특용</small></button>
-      <button type="button" data-sm="cases" aria-pressed="false"><i>🐋</i><b>보호자 응대</b><small>특이민원용</small></button>
+      <button type="button" data-sm="all" aria-pressed="true"><i><svg class="ic" aria-hidden="true"><use href="#i-scroll"/></svg></i><b>기록 전체</b><small>사안 보고용</small></button>
+      <button type="button" data-sm="grow" aria-pressed="false"><i><svg class="ic" aria-hidden="true"><use href="#i-sprout"/></svg></i><b>성장 기록</b><small>상담·세특용</small></button>
+      <button type="button" data-sm="cases" aria-pressed="false"><i><svg class="px" aria-hidden="true" width="24" height="18"><use href="#p-whale-mini"/></svg></i><b>보호자 응대</b><small>특이민원용</small></button>
     </div>
     <p class="desc" id="s_desc" hidden style="margin:8px 2px 0">교권보호위원회나 사안 보고에 붙일 기록 표를 만들어요.</p>
     <div class="fcard">
@@ -1558,7 +1591,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     </div>
     <details class="pickbox" id="s_pick">
       <summary>담을 기록 고르기 <b id="s_pickN"></b></summary>
-      <div class="pickhead"><p class="pickhint">이 사안과 상관없는 기록은 체크를 풀면 빠져요.</p><button type="button" class="pickeye" id="s_pickEye" aria-pressed="false">👁 내용 보기</button></div>
+      <div class="pickhead"><p class="pickhint">이 사안과 상관없는 기록은 체크를 풀면 빠져요.</p><button type="button" class="pickeye" id="s_pickEye" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg> 내용 보기</button></div>
       <div class="picklist" id="s_pickList"></div>
       <div class="pickacts"><button type="button" id="s_pickAll">모두 담기</button><button type="button" id="s_pickNone">모두 빼기</button></div>
     </details>
@@ -1582,7 +1615,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   <!-- 백업 -->
   <section class="panel" id="p-backup" role="tabpanel" hidden>
     <div class="bkstatus" id="bkStatus">
-      <div class="bks-icon" aria-hidden="true">🗂️</div>
+      <div class="bks-icon" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg></div>
       <div class="bks-body">
         <small>마지막 백업</small>
         <b id="backupMeta">아직 없어요</b>
@@ -1634,7 +1667,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
           <li>공용 PC, 공유 폴더, GitHub에 두지 않기</li>
         </ul>
       </details>
-      <p class="bkdanger">⚠️ 브라우저 설정에서 <b>쿠키 및 사이트 데이터</b>를 지우면 기록이 모두 지워져요. 지우기 전에 꼭 내보내 두세요.</p>
+      <p class="bkdanger"><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg> 브라우저 설정에서 <b>쿠키 및 사이트 데이터</b>를 지우면 기록이 모두 지워져요. 지우기 전에 꼭 내보내 두세요.</p>
       <div class="wipezone">
         <button type="button" class="wipebtn" id="wipeBtn">이 기기의 기록 모두 지우기</button>
         <div class="wipeconf" id="wipeConf" hidden>
@@ -1646,7 +1679,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     </div>
 
     <div class="appfoot">
-      <div class="af-links"><a href="guide.html" target="_blank" rel="noopener">📖 사용법</a><span>·</span><button type="button" class="introagain" id="introAgain">처음 안내</button></div>
+      <div class="af-links"><a href="guide.html" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg> 사용법</a><span>·</span><button type="button" class="introagain" id="introAgain">처음 안내</button></div>
       <p class="copy">© 2026 padosorinmyheart · 고래실록 · All rights reserved.</p>
     </div>
   </section>
@@ -1654,7 +1687,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
 <div class="sheet" id="bottleSheet" hidden>
   <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="bTitle">
-    <div class="sheet-h"><b id="bTitle">💌 나에게 쪽지</b><button type="button" class="x" id="bClose" aria-label="닫기">✕</button></div>
+    <div class="sheet-h"><b id="bTitle"><svg class="px" aria-hidden="true" width="22" height="10"><use href="#p-bottle"/></svg> 나에게 쪽지</b><button type="button" class="x" id="bClose" aria-label="닫기">✕</button></div>
     <p class="bintro">좋았던 순간이나 나에게 해 주고 싶은 말을 유리병에 넣어 두세요. <b>힘들 때나 응원이 필요할 때</b> 유리병을 열면 쪽지가 한 장씩 무작위로 나와요. 선생님만 보는 공간이라 학생 기록과는 섞이지 않아요.</p>
     <div id="bNote"></div>
     <div class="acts" id="bActs"><button type="button" id="bAnother">다른 쪽지 꺼내기</button></div>
@@ -1668,7 +1701,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 <div class="sheet" id="lockSheet" hidden>
   <div class="sheet-card lockcard" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
     <button type="button" class="x lockx" id="lockClose" aria-label="닫기">✕</button>
-    <div class="lk-icon" id="lockIcon" aria-hidden="true">🔓</div>
+    <div class="lk-icon" id="lockIcon" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-unlock"/></svg></div>
     <h3 id="lockTitle">잠금</h3>
     <p class="lk-desc" id="lockDesc">열 때마다 비밀번호를 물어요.<br>시간만 찍기는 잠긴 채로도 돼요.</p>
     <div class="lk-pins" id="lockRow">
@@ -1683,7 +1716,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
 <div class="sheet" id="comfortSheet" hidden>
   <div class="sheet-card comfort" role="dialog" aria-modal="true" aria-labelledby="cTitle">
-    <div class="c-whale" aria-hidden="true">🐋</div>
+    <div class="c-whale" aria-hidden="true"><svg class="px" aria-hidden="true" width="78" height="36"><use href="#p-whale"/></svg></div>
     <h3 id="cTitle">많이 힘드셨죠.</h3>
     <p class="c-line" id="cLine1"></p>
     <p class="c-line" id="cLine2"></p>
@@ -1718,20 +1751,20 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 <div class="intro" id="intro" hidden>
   <div class="intro-card" role="dialog" aria-modal="true" aria-labelledby="introT">
     <div class="intro-step" data-step="0">
-      <div class="i-whale">🐋</div>
+      <div class="i-whale"><svg class="px" aria-hidden="true" width="78" height="36"><use href="#p-whale"/></svg></div>
       <h3 id="introT">고래실록에 오신 걸 환영해요</h3>
       <p>기억보다 먼저, 기록.<br>선생님을 지키는 30초 기록과<br>보호자 응대를 돕는 도구예요.</p>
     </div>
     <div class="intro-step" data-step="1" hidden>
-      <div class="i-whale">📝</div>
+      <div class="i-whale"><svg class="ic" aria-hidden="true"><use href="#i-note"/></svg></div>
       <h3>쓰고, 찾고, 꺼내 쓰기</h3>
       <p><b>퀵록</b>에 적으면 끝이에요.<br><b>타임라인</b>에서 이름으로 찾고,<br>보호자 연락엔 <b>고래와 작전 회의</b>,<br>제출 서류는 <b>한눈에 쏙</b>.</p>
     </div>
     <div class="intro-step" data-step="2" hidden>
-      <div class="i-whale">🔒</div>
+      <div class="i-whale"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg></div>
       <h3>내 기록은 내 기기에만</h3>
       <p>기록은 이 브라우저에만 저장되고,<br>내용은 눌러야 보여요.<br>열 때마다 가림 화면이 먼저 나와요.<br>수업 중엔 <b>시간만 찍기</b>로 시각만 남겨요.</p>
-      <p style="font-size:13px"><a href="guide.html" target="_blank" rel="noopener">📖 자세한 사용법 보기</a></p>
+      <p style="font-size:13px"><a href="guide.html" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg> 자세한 사용법 보기</a></p>
     </div>
     <div class="intro-dots"><span></span><span></span><span></span></div>
     <button type="button" class="primary" id="introNext" style="width:100%">다음</button>
@@ -1751,6 +1784,11 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   var $ = function (id) { return document.getElementById(id); };
   var qsa = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
   var input = $("input"), save = $("save"), quick = $("quick");
+  /* ---------- 아이콘 ---------- */
+  var PXD = {"whale":[26,12],"whale-mini":[12,9],"bottle":[11,5],"calm":[9,8],"swirl":[9,9],"storm":[9,9]}; // 픽셀 아이콘의 칸 수 [가로, 세로]
+  // label을 주면 글자 없이 혼자 쓰이는 아이콘에 읽어 줄 이름이 붙는다
+  function ic(n, label) { return '<svg class="ic" ' + (label ? 'role="img" aria-label="' + label + '"' : 'aria-hidden="true"') + '><use href="#i-' + n + '"/></svg>'; }
+  function px(n, s, label) { var d = PXD[n]; s = s || 2; return '<svg class="px" ' + (label ? 'role="img" aria-label="' + label + '"' : 'aria-hidden="true"') + ' width="' + d[0] * s + '" height="' + d[1] * s + '"><use href="#p-' + n + '"/></svg>'; }
   var FIELDS = [
     { key: "students", id: "f_students", label: "관련 학생" },
     { key: "place", id: "f_place", label: "장소·시간" },
@@ -2069,7 +2107,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var n = records.filter(function (r) { return dayKey(new Date(r.createdAt)) === k; }).length;
     $("today").innerHTML = (n ? "오늘 " + n + "건 기록했어요. " : "오늘은 아직 기록이 없어요. ") +
       (records.length ? '<button type="button" id="goTimeline">타임라인에서 보기</button> · ' : "") +
-      '<button type="button" id="goBottle">💌 나에게 쪽지</button>' +
+      '<button type="button" id="goBottle">' + px("bottle") + " 나에게 쪽지</button>" +
       (pendingList().length ? '<br><button type="button" id="goPending">시간만 찍은 기록 ' + pendingList().length + "개 채우기</button>" : "");
     var g = $("goTimeline"); if (g) g.addEventListener("click", function () { openTab("timeline"); });
     $("goBottle").addEventListener("click", function () { openBottle(true); });
@@ -2241,9 +2279,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function renderLock(mode) {
     var on = !!lockData();
     lockMode = mode || (on ? "on" : "set");
-    $("lockBtn").textContent = on ? "🔒" : "🔓"; $("lockBtn").classList.toggle("on", on);
+    $("lockBtn").innerHTML = ic(on ? "lock" : "unlock"); $("lockBtn").classList.toggle("on", on);
     $("lockBtn").setAttribute("aria-label", on ? "잠금 켜짐" : "잠금 설정");
-    $("lockIcon").textContent = on ? "🔒" : "🔓";
+    $("lockIcon").innerHTML = ic(on ? "lock" : "unlock");
     $("lockTitle").textContent = on ? "잠금이 켜져 있어요" : "잠금";
     $("lockDesc").innerHTML = lockMode === "off" ? "지금 비밀번호를 넣으면 잠금이 꺼져요." : on ? "자리를 비울 땐 바로 잠가 두세요.<br>다른 앱으로 넘어가도 저절로 잠겨요." : "열 때마다 비밀번호를 물어요.<br>시간만 찍기는 잠긴 채로도 돼요.";
     $("lockRow").hidden = lockMode === "on";
@@ -2252,7 +2290,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     $("lockPin").value = ""; $("lockPin2").value = ""; $("lockMsg").textContent = ""; $("lockMsg").className = "lk-msg";
     $("lockToggle").textContent = lockMode === "on" ? "지금 잠그기" : lockMode === "off" ? "잠금 끄기" : "잠금 켜기";
     $("lockOff").hidden = lockMode !== "on";
-    $("ctFoot").textContent = on ? "🔒 잠겨 있어요 · 비밀번호를 넣으면 열려요" : "화면을 누르면 열려요" + (TOUCH ? "" : " · Alt + T 시간만 찍기");
+    $("ctFoot").innerHTML = on ? ic("lock") + " 잠겨 있어요 · 비밀번호를 넣으면 열려요" : "화면을 누르면 열려요" + (TOUCH ? "" : " · Alt + T 시간만 찍기");
   }
   function lockMsg(t, ok) { $("lockMsg").textContent = t; $("lockMsg").className = "lk-msg" + (ok ? " ok" : " bad"); }
   $("lockOff").addEventListener("click", function () { renderLock("off"); $("lockPin").focus(); });
@@ -2308,7 +2346,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     item.className = "item"; extra.className = "extra";
     b.className = "rec" + (isGood(r) ? " good" : "") + (r.timeOnly && !(r.memos && r.memos.length) ? " tonly" : ""); b.type = "button";
     if (recType(r)) b.setAttribute("data-type", recType(r)); b.setAttribute("aria-expanded", "false");
-    b.innerHTML = '<span class="time">' + (showDate ? dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " : "") + (filled(r) ? timeStr(d) + " 시간 찍음 · " + timeStr(new Date(filled(r).at)) + " 내용 채움" : r.eventAt ? timeStr(new Date(r.eventAt)) + " 일 (" + timeStr(d) + " 기록)" : timeStr(d)) + (r.inClass ? " · 🤫" : "") +
+    b.innerHTML = '<span class="time">' + (showDate ? dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " : "") + (filled(r) ? timeStr(d) + " 시간 찍음 · " + timeStr(new Date(filled(r).at)) + " 내용 채움" : r.eventAt ? timeStr(new Date(r.eventAt)) + " 일 (" + timeStr(d) + " 기록)" : timeStr(d)) + (r.inClass ? " · " + ic("quiet", "수업 중에 적음") : "") +
       (recType(r) ? " · " + esc(recType(r)) + (typeInfo(r).src === "auto" ? " 후보" : "") : "") + (r.summary ? " · 정리본 있음" : "") + (r.memos && r.memos.length > (filled(r) ? 1 : 0) ? " · 메모 " + (r.memos.length - (filled(r) ? 1 : 0)) : "") + "</span>" +
       '<span class="text veil">' + bodyHtml(r, ts) + "</span>";
     b.addEventListener("click", function () {
@@ -2437,7 +2475,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     renderMemos(r, mb); renderAI(r, ab);
   }
   function renderMemos(r, el) {
-    if (r.source && !el.parentNode.querySelector(".srcline")) { var sl = document.createElement("p"); sl.className = "srcline"; sl.innerHTML = "🔗 출처: <a href=\"" + esc(r.source.url) + "\" target=\"_blank\" rel=\"noopener\">" + esc(srcLabel(r.source)) + "</a> · " + esc(fmtAt(r.source.at || r.createdAt)) + " 가져옴"; el.parentNode.insertBefore(sl, el); }
+    if (r.source && !el.parentNode.querySelector(".srcline")) { var sl = document.createElement("p"); sl.className = "srcline"; sl.innerHTML = ic("link") + " 출처: <a href=\"" + esc(r.source.url) + "\" target=\"_blank\" rel=\"noopener\">" + esc(srcLabel(r.source)) + "</a> · " + esc(fmtAt(r.source.at || r.createdAt)) + " 가져옴"; el.parentNode.insertBefore(sl, el); }
     var ms = r.memos || [];
     el.className = "memos";
     el.innerHTML = '<div class="memo-h"><b>추가 메모</b><small>원본은 그대로, 이후 경과는 여기에</small></div>' +
@@ -2484,7 +2522,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       return;
     }
     var a2 = document.createElement("div"); a2.className = "acts aiacts";
-    a2.innerHTML = '<button type="button" class="aisum" title="흩어진 기록을 육하원칙으로 정리해요">✨ 육하원칙으로 정리</button>';
+    a2.innerHTML = '<button type="button" class="aisum" title="흩어진 기록을 육하원칙으로 정리해요">' + ic("sparkle") + " 육하원칙으로 정리</button>";
     a2.firstChild.addEventListener("click", function () { askMask(r, el); });
     el.appendChild(a2);
   }
@@ -2525,7 +2563,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (!persist()) { delete r.summary; throw { code: "storage" }; }
       renderAI(r, el);
       var t = el.closest(".item") && el.closest(".item").querySelector(".time");
-      if (t && t.textContent.indexOf("정리본 있음") === -1) t.textContent += " · 정리본 있음";
+      if (t && t.textContent.indexOf("정리본 있음") === -1) t.appendChild(document.createTextNode(" · 정리본 있음")); // 글자만 덧붙인다 (textContent로 쓰면 줄 안의 아이콘이 지워진다)
     }).catch(function (e) {
       var c = e && e.code;
       var msg = c === "not_granted" ? "AI 사용을 허용하지 않아서 정리하지 못했어요." :
@@ -2698,7 +2736,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     $("chatBar").setAttribute("aria-expanded", o ? "true" : "false");
     if (o && !currentCase) $("r_name").focus();
   });
-  var WX = { "없음": ["🌊 잔잔", ""], "주의": ["🌀 파도 조심", "wave"], "높음": ["⛈ 폭풍", "storm"] };
+  var WX = { "없음": ["calm", "잔잔", ""], "주의": ["swirl", "파도 조심", "wave"], "높음": ["storm", "폭풍", "storm"] };
   var COMFORT = [
     "그런 말을 들어야 할 이유는 없어요. 선생님이 잘못한 게 아니에요.",
     "끝까지 차분하게 대응하셨어요. 정말 잘하셨어요.",
@@ -2799,7 +2837,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (!nm && document.activeElement !== $("r_name")) p.classList.add("bar-open");
     }
     var w = WX[wx] || WX["없음"];
-    $("barWx").textContent = w[0]; $("barWx").className = "cb-wx " + w[1];
+    $("barWx").innerHTML = px(w[0]) + " " + w[1]; $("barWx").className = "cb-wx " + w[2];
     $("chatBar").setAttribute("aria-expanded", p.classList.contains("bar-open") ? "true" : "false");
     aiNote();
   }
@@ -2810,8 +2848,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   var _prevCase = null;
   function closeBarOnCase() { if (currentCase && currentCase !== _prevCase) $("p-reply").classList.remove("bar-open"); _prevCase = currentCase; }
   function renderCaseHead() {
-    if (!currentCase) { $("caseHead").hidden = true; $("setup").hidden = false; $("msgLabel").textContent = "보호자가 뭐라고 했나요?"; $("msgNum").textContent = "💬"; return; }
-    $("msgNum").textContent = "↩️";
+    if (!currentCase) { $("caseHead").hidden = true; $("setup").hidden = false; $("msgLabel").textContent = "보호자가 뭐라고 했나요?"; $("msgNum").innerHTML = ic("chat"); return; }
+    $("msgNum").innerHTML = ic("reply");
     $("setup").hidden = true; $("caseHead").hidden = false;
     $("caseHead").innerHTML = "<b>" + esc(currentCase.student) + "</b> 학생 응대 · " + fmtAt(currentCase.createdAt) + " 시작 · 근거 기록 " + (+currentCase.recordCount || 0) + "건";
     $("msgLabel").textContent = currentCase.turns.length ? "보호자가 이어서 한 말" : "보호자가 뭐라고 했나요?";
@@ -2842,24 +2880,24 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var isLast = it.at === lastAt, key = it.at;
       if (it.o) {
         if (isLast || openTurns[key]) { box.appendChild(outEl(it.o, isLast, key)); return; }
-        box.appendChild(compactEl(key, "먼저 연락", it.o.note || "(메모 없음)", it.o.sent, "📨")); return;
+        box.appendChild(compactEl(key, "먼저 연락", it.o.note || "(메모 없음)", it.o.sent, ic("send"))); return;
       }
       if (it.a) {
         if (isLast || openTurns[key]) { var ae = askEl(it.a); if (!isLast) ae.appendChild(foldBtn(key)); box.appendChild(ae); return; }
         box.appendChild(compactEl(key, "질문", it.a.q, it.a.res.문장 || it.a.res.답, "")); return;
       }
       var t = it.t, i = it.i, r = t.res, v = r.교권침해 || {};
-      var lv = v.판단 || "없음", wx = lv === "높음" ? "⛈" : lv === "주의" ? "🌀" : "🌊";
+      var lv = v.판단 || "없음", wxn = lv === "높음" ? "storm" : lv === "주의" ? "swirl" : "calm", wxl = lv === "높음" ? "폭풍" : lv === "주의" ? "파도 조심" : "잔잔", wx = px(wxn);
       var escalated = lv !== prevLevel && lv !== "없음"; prevLevel = lv;
-      if (!isLast && !openTurns[key]) { box.appendChild(compactEl(key, "보호자", t.parent, t.sent, wx)); return; }
+      if (!isLast && !openTurns[key]) { box.appendChild(compactEl(key, "보호자", t.parent, t.sent, px(wxn, 2, wxl))); return; } // 접힌 줄은 글자가 없으니 아이콘에 이름을 붙인다
       var el = document.createElement("div"); el.className = "turn";
       var wcls = lv === "높음" ? " storm" : lv === "주의" ? " wave" : "";
-      var wtag = lv === "높음" ? "⛈ 폭풍" : lv === "주의" ? "🌀 파도 조심" : "🌊 잔잔";
+      var wtag = wx + (lv === "높음" ? " 폭풍" : lv === "주의" ? " 파도 조심" : " 잔잔");
       var more = ((lv !== "없음") && v.이유 ? "<p>" + rich(v.이유) + "</p>" : "") +
         ((lv !== "없음") && v.권장조치 && v.권장조치.length && (escalated || isLast) ? listHtml(v.권장조치) : "") +
-        (r.근거 ? '<div class="basis">📜 ' + rich(r.근거) + "</div>" : "");
+        (r.근거 ? '<div class="basis">' + ic("scroll") + " " + rich(r.근거) + "</div>" : "");
       var h = '<div class="bub parent"><span class="who">보호자 · ' + fmtAt(t.at) + (t.source ? " · 출처: " + esc(srcLabel(t.source)) : "") + "</span>" + kwMark(t.parent) + "</div>";
-      h += '<div class="wnote' + wcls + '"><span class="wa">🐋</span><div class="wb"><small>' + wtag + (r.요지 ? " · 요지: " + esc(oneLine(r.요지, 40)) : "") + "</small>" +
+      h += '<div class="wnote' + wcls + '"><span class="wa">' + px("whale-mini") + '</span><div class="wb"><small>' + wtag + (r.요지 ? " · 요지: " + esc(oneLine(r.요지, 40)) : "") + "</small>" +
         rich(r.핵심 || (t.template ? "기본 틀이에요. [ ] 부분을 채워서 써요." : "")) +
         (more ? '<details class="why"><summary>왜 그런지 · 근거</summary>' + more + "</details>" : "") +
         (t.template ? '<label class="isel">상황이 다르면 바꾸기 <select>' + INTENTS.map(function (x) { return '<option value="' + x[0] + '"' + (r.intent === x[0] ? " selected" : "") + ">" + x[1] + "</option>"; }).join("") + "</select></label>" : "") + "</div></div>";
@@ -2905,7 +2943,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   }
   function compactEl(key, who, a, b, wx) {
     var el = document.createElement("button"); el.type = "button"; el.className = "cturn";
-    el.innerHTML = '<span class="ct-wx">' + (wx || "💬") + '</span><span class="ct-body"><span class="ct-a"><b>' + who + "</b> " + esc(oneLine(a, 46)) + '</span><span class="ct-b">→ ' + esc(oneLine(b, 46)) + "</span></span>";
+    el.innerHTML = '<span class="ct-wx">' + (wx || ic("chat")) + '</span><span class="ct-body"><span class="ct-a"><b>' + who + "</b> " + esc(oneLine(a, 46)) + '</span><span class="ct-b">→ ' + esc(oneLine(b, 46)) + "</span></span>";
     el.addEventListener("click", function () { openTurns[key] = true; renderThread(); });
     return el;
   }
@@ -2936,16 +2974,16 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (it.a) {
         var a = it.a;
         return h + '<div class="turn"><div class="qbub"><span class="who">나 · 고래에게 질문 · ' + timeStr(d) + "</span>" + esc(a.q) + "</div>" +
-          '<div class="wnote ans"><span class="wa">🐋</span><div class="wb"><small>고래 · 답변' + (a.template ? " (기본 안내)" : "") + "</small>" + rich(a.res.답) +
+          '<div class="wnote ans"><span class="wa">' + px("whale-mini") + '</span><div class="wb"><small>고래 · 답변' + (a.template ? " (기본 안내)" : "") + "</small>" + rich(a.res.답) +
           (a.res.문장 ? '<div class="say"><b>이렇게 말해 보세요</b>' + esc(a.res.문장) + "</div>" : "") +
-          (a.res.근거 ? '<div class="basis">📜 ' + rich(a.res.근거) + "</div>" : "") + "</div></div></div>";
+          (a.res.근거 ? '<div class="basis">' + ic("scroll") + " " + rich(a.res.근거) + "</div>" : "") + "</div></div></div>";
       }
       var t = it.t, r = t.res, v = r.교권침해 || {};
       h += '<div class="turn"><div class="bub parent"><span class="who">보호자 · ' + timeStr(d) + "</span>" + kwMark(t.parent) + "</div>";
       var wcls = v.판단 === "높음" ? " storm" : v.판단 === "주의" ? " wave" : "";
-      var wtag = v.판단 === "높음" ? "⛈ 폭풍 · 교권침해 가능성" : v.판단 === "주의" ? "🌀 파도 조심" : "🌊 잔잔한 바다";
+      var wtag = v.판단 === "높음" ? px("storm") + " 폭풍 · 교권침해 가능성" : v.판단 === "주의" ? px("swirl") + " 파도 조심" : px("calm") + " 잔잔한 바다";
       if (r.핵심 || v.판단 === "높음" || v.판단 === "주의")
-        h += '<div class="wnote' + wcls + '"><span class="wa">🐋</span><div class="wb"><small>고래 · ' + wtag + "</small>" + rich(r.핵심 || "") +
+        h += '<div class="wnote' + wcls + '"><span class="wa">' + px("whale-mini") + '</span><div class="wb"><small>고래 · ' + wtag + "</small>" + rich(r.핵심 || "") +
           ((v.판단 === "높음" || v.판단 === "주의") && v.이유 ? "<br>" + rich(v.이유) : "") + "</div></div>";
       h += '<div class="bub mine"><span class="who">' + (t.way === "call" ? "통화에서 한 말" : "보낸 문자") + (t.sent !== r.초안 ? " · 고친 내용" : "") + "</span>" +
         '<div class="said">' + esc(t.sent || "(추천 문구 없음)") + "</div></div></div>";
@@ -2961,7 +2999,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var wrap = document.createElement("div"); wrap.className = "case";
       var bt = document.createElement("button"); bt.type = "button"; bt.className = "caseitem"; bt.setAttribute("aria-expanded", "false");
       var last = c.turns[c.turns.length - 1], hot = c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "높음"; });
-      var worst = c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "높음"; }) ? "⛈" : c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "주의"; }) ? "🌀" : "🌊";
+      var worst = c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "높음"; }) ? px("storm", 2, "폭풍") : c.turns.some(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "주의"; }) ? px("swirl", 2, "파도 조심") : px("calm", 2, "잔잔");
       bt.innerHTML = '<span class="ci-av">' + worst + '</span><span class="ci-body"><small>' + fmtAt(c.createdAt) + " · 주고받은 말 " + c.turns.length + "번" + (hot ? '<span class="badge">교권침해 가능성</span>' : "") + (c.endedAt ? '<span class="endb">마침</span>' : "") + "</small>" +
         '<span class="veil"><b>' + esc(c.student) + "</b>" + (last && last.res.핵심 ? " · " + esc(last.res.핵심.replace(/\*\*/g, "")) : "") + "</span></span>";
       var tx = document.createElement("div"); tx.className = "tx";
@@ -2978,7 +3016,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
             cases = cases.filter(function (x) { return x !== c; });
             if (currentCase === c) currentCase = null;
             persistCases(); renderCaseList(); renderThread();
-            var gn = document.createElement("p"); gn.className = "goneNote"; gn.innerHTML = '<span style="font-size:22px;display:block;margin-bottom:2px">🐋</span>응대를 지웠어요.<br>마음도 조금 가벼워지길 바라요.';
+            var gn = document.createElement("p"); gn.className = "goneNote"; gn.innerHTML = '<span style="display:block;margin-bottom:4px">' + px("whale") + '</span>응대를 지웠어요.<br>마음도 조금 가벼워지길 바라요.';
             $("caseList").insertBefore(gn, $("caseList").firstChild);
             gn.scrollIntoView({ behavior: "smooth", block: "center" });
             setTimeout(function () { if (gn.parentNode) gn.remove(); }, 6000);
@@ -3062,7 +3100,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (nxt) lines.push(nxt);
       lines.push("더 궁금하신 점 있으십니까?");
       var call = lines.map(function (x, k) { return (k + 1) + ". " + x; }).join("\n");
-      return out({ 교권침해: o.v || NONE, 요지: o.요지, 핵심: o.핵심 + (off ? " · 🌙 지금은 근무시간 밖이라 꼭 바로 답하지 않아도 돼요." : ""), 초안: way === "call" ? call : text, 근거: o.근거, 사실관계: o.사실관계 });
+      return out({ 교권침해: o.v || NONE, 요지: o.요지, 핵심: o.핵심 + (off ? " · 지금은 근무시간 밖이라 꼭 바로 답하지 않아도 돼요." : ""), 초안: way === "call" ? call : text, 근거: o.근거, 사실관계: o.사실관계 });
     }
     if (intent === "폭언") return out({
       교권침해: HIGHV("**폭언이나 위협**으로 볼 수 있는 표현이 있어요. 경범죄처벌법(불안감조성)이나 협박에 해당될 수 있어요."),
@@ -3284,15 +3322,15 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function faqAnswer(q) {
     var emo = EMO.test(q), lead = COMFORT_LEAD[Math.floor(Math.random() * COMFORT_LEAD.length)];
     for (var i = 0; i < FAQ.length; i++) if (FAQ[i].re.test(q)) return { 답: (emo && !FAQ[i].soft ? lead + " " : "") + FAQ[i].a, 문장: FAQ[i].say, 근거: FAQ[i].basis };
-    if (emo) return { 답: lead + " 마음이 무거울 땐 **지금 바로 답하지 않아도 돼요.** 숨 한 번 고르고, 퀵록에 있었던 일만 짧게 남겨 두세요. 연락은 마음이 조금 가라앉은 뒤, 사실 위주로 짧게 하면 충분해요. 혼자 버겁다면 동료나 학교 교권보호 담당, 교원치유지원센터에 이야기해도 괜찮아요. 🐋 저도 옆에 있을게요.", 문장: "", 근거: "학교 민원 응대 안내자료(2024): 감정적으로 맞대응하지 않고 **사실 위주로 짧게**" };
+    if (emo) return { 답: lead + " 마음이 무거울 땐 **지금 바로 답하지 않아도 돼요.** 숨 한 번 고르고, 퀵록에 있었던 일만 짧게 남겨 두세요. 연락은 마음이 조금 가라앉은 뒤, 사실 위주로 짧게 하면 충분해요. 혼자 버겁다면 동료나 학교 교권보호 담당, 교원치유지원센터에 이야기해도 괜찮아요. 저도 옆에 있을게요.", 문장: "", 근거: "학교 민원 응대 안내자료(2024): 감정적으로 맞대응하지 않고 **사실 위주로 짧게**" };
     return { fallback: true, 답: "좋은 질문이에요. 다만 제가 확실히 알려 드리기 어려운 내용이에요. 확실하지 않은 건 **그 자리에서 답하지 않아도 괜찮아요.** \"확인 후 다시 연락드리겠습니다\"로 넘긴 뒤, 학년부나 교권보호 담당 선생님께 확인해 보세요.", 문장: "그 부분은 확인 후 다시 연락드리겠습니다.", 근거: "확실하지 않을 땐 **즉답하지 않기** (학교 민원 응대 안내자료)" };
   }
   function askEl(a) {
     var w = document.createElement("div"); w.className = "turn";
     w.innerHTML = '<div class="qbub"><span class="who">나 · 고래에게 질문 · ' + fmtAt(a.at) + "</span>" + esc(a.q) + "</div>" +
-      '<div class="wnote ans"><span class="wa">🐋</span><div class="wb"><small>고래 · 답변' + (a.template ? " (기본 안내)" : "") + "</small>" + rich(a.res.답) +
+      '<div class="wnote ans"><span class="wa">' + px("whale-mini") + '</span><div class="wb"><small>고래 · 답변' + (a.template ? " (기본 안내)" : "") + "</small>" + rich(a.res.답) +
       (a.res.문장 ? '<div class="say"><b>이렇게 말해 보세요</b>' + esc(a.res.문장) + "</div>" : "") +
-      (a.res.근거 ? '<div class="basis">📜 ' + rich(a.res.근거) + "</div>" : "") +
+      (a.res.근거 ? '<div class="basis">' + ic("scroll") + " " + rich(a.res.근거) + "</div>" : "") +
       (a.res.문장 ? '<div class="acts"><button type="button" data-a="acopy">문장 복사</button>' + (CAN_SHARE ? '<button type="button" data-a="ashare">보내기</button>' : "") + '</div>' : "") + "</div></div>";
     var cb = w.querySelector('[data-a="acopy"]');
     if (cb) cb.addEventListener("click", function () { copyText(a.res.문장, cb); });
@@ -3438,10 +3476,10 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var el = document.createElement("div"); el.className = "turn";
     var plabel = (PURPOSES.filter(function (x) { return x[0] === o.purpose; })[0] || ["", "먼저 연락"])[1];
     el.innerHTML = '<div class="qbub outbub"><span class="who">내가 먼저 연락 · ' + plabel + " · " + fmtAt(o.at) + "</span>" + esc(o.note || "(메모 없음)") + "</div>" +
-      '<div class="wnote"><span class="wa">🐋</span><div class="wb"><small>고래 · ' + plabel + (o.template ? " 기본 틀" : "") + "</small>" + rich(o.res.핵심 || "") +
-      (o.res.근거 ? '<details class="why"><summary>근거</summary><div class="basis">📜 ' + rich(o.res.근거) + "</div></details>" : "") + "</div></div>" +
+      '<div class="wnote"><span class="wa">' + px("whale-mini") + '</span><div class="wb"><small>고래 · ' + plabel + (o.template ? " 기본 틀" : "") + "</small>" + rich(o.res.핵심 || "") +
+      (o.res.근거 ? '<details class="why"><summary>근거</summary><div class="basis">' + ic("scroll") + " " + rich(o.res.근거) + "</div></details>" : "") + "</div></div>" +
       '<div class="bub mine"><div class="mine-h"><span class="who">' + (o.way === "call" ? "통화에서 할 말" : "보낼 문자") + (o.sent !== o.res.초안 ? " · 고침" : "") + '</span><span class="mbtns">' + shareBtnHtml() + '<button type="button" class="copybtn" data-a="copy">복사</button></span></div><textarea class="draftta"></textarea>' +
-      (o.purpose === "상담" ? '<div class="calrow"><button type="button" class="calbtn">📅 상담 일정을 캘린더에 넣기</button><div class="calform" hidden><input type="date" class="textfield cal-d"><input type="time" class="textfield cal-t" value="15:00" step="600"><select class="textfield cal-m"><option>학교 방문</option><option>전화</option><option>화상</option></select><button type="button" class="primary cal-go">만들기</button></div></div>' : "") + '</div>';
+      (o.purpose === "상담" ? '<div class="calrow"><button type="button" class="calbtn">' + ic("calendar") + ' 상담 일정을 캘린더에 넣기</button><div class="calform" hidden><input type="date" class="textfield cal-d"><input type="time" class="textfield cal-t" value="15:00" step="600"><select class="textfield cal-m"><option>학교 방문</option><option>전화</option><option>화상</option></select><button type="button" class="primary cal-go">만들기</button></div></div>' : "") + '</div>';
     var ta = el.querySelector("textarea"); ta.value = o.sent;
     function fit() { ta.style.height = "auto"; ta.style.height = (ta.scrollHeight + 2) + "px"; }
     setTimeout(fit, 0); ta.addEventListener("input", fit);
@@ -3734,7 +3772,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   var pickShow = false;
   $("s_pickEye").addEventListener("click", function () {
     pickShow = !pickShow; $("s_pickEye").setAttribute("aria-pressed", pickShow ? "true" : "false");
-    $("s_pickEye").textContent = pickShow ? "🙈 내용 가리기" : "👁 내용 보기";
+    $("s_pickEye").innerHTML = pickShow ? ic("quiet") + " 내용 가리기" : ic("eye") + " 내용 보기";
     qsa("#s_pickList .pk-x").forEach(function (x) { x.classList.toggle("veil", !pickShow); });
   });
   $("s_pickList").addEventListener("change", function (e) {
@@ -4038,7 +4076,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function bkConfirm(id, title, sub, bad) {
     var el = $(id); if (!el) return;
     el.className = "bkconf" + (bad ? " bad" : "");
-    el.innerHTML = '<b>' + (bad ? "⚠️ " : "✓ ") + esc(title) + "</b>" + (sub ? "<small>" + esc(sub) + "</small>" : "");
+    el.innerHTML = '<b>' + (bad ? ic("alert") + " " : "✓ ") + esc(title) + "</b>" + (sub ? "<small>" + esc(sub) + "</small>" : "");
     el.hidden = false;
     el.scrollIntoView({ behavior: "smooth", block: "nearest" });
     clearTimeout(bkTimers[id]); bkTimers[id] = setTimeout(function () { el.hidden = true; }, bad ? 8000 : 7000);
