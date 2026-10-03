@@ -3789,18 +3789,22 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (pdfPw !== $("s_pw2").value) { showToast("두 암호가 달라요. 다시 확인해 주세요.", false); return; }
     }
     btn.disabled = true; btn.textContent = "PDF 만드는 중…";
-    var cuts = [], docH = 1, sheet = null;
+    var cuts = [], docH = 1, sheet = null, scale = 2;
     loadLibs().then(function () {
       // 화면의 미리보기는 가린 채로 두고, A4 본문 폭의 복제본을 화면 밖에 만들어 그것을 찍는다.
       // 폰에서든 PC에서든 같은 PDF가 나오고, 글자 크기가 '종이로 바로 인쇄'와 같아진다.
       sheet = doc.cloneNode(true); sheet.removeAttribute("id"); sheet.classList.remove("veil"); sheet.setAttribute("aria-hidden", "true");
       sheet.style.cssText = "position:absolute;left:-10000px;top:0;width:" + PDF_W + "px;min-width:0;padding:0";
       document.body.appendChild(sheet);
+      sheet.getBoundingClientRect(); // 배치를 한 번 돌려 필요한 글꼴 요청을 시작시킨다
+      return document.fonts && document.fonts.ready; // 글꼴을 받는 중이면 끝난 뒤에 잰다 (안 그러면 잰 자리와 찍힌 그림이 어긋난다)
+    }).then(function () {
       // 표의 행이 쪽 경계에서 반으로 잘리지 않게, 잘라도 되는 자리(행과 문단의 끝)를 미리 재 둔다
       var box = sheet.getBoundingClientRect(); docH = box.height || 1;
       cuts = Array.prototype.map.call(sheet.querySelectorAll(".meta, tbody tr, p"), function (el) { return el.getBoundingClientRect().bottom - box.top; });
       // 문서가 길면 캔버스가 브라우저 한도를 넘지 않도록 해상도를 낮춘다
-      return window.html2canvas(sheet, { scale: Math.min(2, Math.sqrt(15e6 / (PDF_W * docH))), backgroundColor: "#ffffff", useCORS: true });
+      scale = Math.min(2, Math.sqrt(15e6 / (PDF_W * docH)));
+      return window.html2canvas(sheet, { scale: scale, backgroundColor: "#ffffff", useCORS: true });
     }).then(function (canvas) {
       var jsPDF = window.jspdf.jsPDF, opts = { unit: "mm", format: "a4" };
       if (pdfPw) opts.encryption = { userPassword: pdfPw, ownerPassword: pdfPw + "-" + Math.random().toString(36).slice(2), userPermissions: ["print"] };
@@ -3809,7 +3813,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var pxPerMm = canvas.width / W, pagePx = Math.floor(H * pxPerMm), y = 0, first = true;
       var k = canvas.height / docH;
       cuts = cuts.map(function (c) { return Math.round(c * k); });
-      while (y < canvas.height - 2) { // 반올림으로 남은 한두 줄 때문에 빈 쪽이 붙지 않게
+      var end = cuts.length ? Math.max.apply(null, cuts) : canvas.height; // 마지막 내용의 아래 끝. 그 뒤에 남은 여백만으로 빈 쪽을 만들지 않는다
+      while (y < end - 2) {
         var h = canvas.height - y;
         if (h > pagePx) {
           // 이 쪽에 들어가는 가장 아래 자리에서 끊는다. 한 행이 한 쪽보다 길면 쪽 높이대로 자른다.
