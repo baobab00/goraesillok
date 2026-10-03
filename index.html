@@ -3829,7 +3829,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         y += h; first = false;
       }
       var who = splitTerms($("s_name").value).join("") || "전체";
-      return offerFile("고래실록-" + (sumMode === "cases" ? "응대기록-" : sumMode === "grow" ? "성장기록-" : "요약-") + who + (pdfPw ? "-암호" : "") + "-" + isoDay(new Date()) + ".pdf", pdf.output("arraybuffer"), pdfPw ? "암호를 건 PDF를 저장했어요. 열 때 암호를 물어봐요." : "PDF를 저장했어요", function () { $("s_pw").value = ""; $("s_pw2").value = ""; });
+      // 아주 긴 문서는 해상도를 낮춰 찍으므로(위 scale) 글자가 흐려진다. 나눠서 저장하라고 알려 준다
+      var blur = scale < 1 ? " 문서가 길어 글자가 흐릴 수 있어요. 유형이나 기간으로 나누면 또렷해져요." : "";
+      return offerFile("고래실록-" + (sumMode === "cases" ? "응대기록-" : sumMode === "grow" ? "성장기록-" : "요약-") + who + (pdfPw ? "-암호" : "") + "-" + isoDay(new Date()) + ".pdf", pdf.output("arraybuffer"), pdfPw ? "암호를 건 PDF를 저장했어요. 열 때 암호를 물어봐요." + blur : "PDF를 저장했어요" + (blur ? "." + blur : ""), function () { $("s_pw").value = ""; $("s_pw2").value = ""; });
     }).catch(function () {
       showToast("PDF를 만들지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.", false);
     }).then(function () { if (sheet) sheet.remove(); btn.disabled = !doc.querySelector("tbody tr"); btn.textContent = "PDF로 저장"; });
