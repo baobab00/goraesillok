@@ -1997,7 +1997,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var t = $("bInput").value.trim(); if (!t) return;
     var n = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), text: t, createdAt: new Date().toISOString() };
     notes.push(n);
-    if (!persistNotes()) { notes.pop(); showToast("저장 공간에 쓸 수 없어요.", false); return; }
+    if (!persistNotes()) { notes.pop(); showToast("저장 공간에 쓸 수 없어요."); return; }
     $("bInput").value = ""; $("bSave").disabled = true;
     lastNote = notes.length - 1;
     $("bNote").innerHTML = '<div class="note pop">' + esc(n.text) + "<small>방금 유리병에 넣었어요</small></div>";
@@ -2016,12 +2016,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var rec = { id: now.getTime().toString(36) + Math.random().toString(36).slice(2, 6), createdAt: now.toISOString(), text: "(시간만 기록)", timeOnly: true, cv: 2, autoType: "" };
     if (classOn) rec.inClass = true;
     records.push(rec);
-    if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요.", false); return; }
+    if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요."); return; }
     askKeep();
     afterChange();
     if (!onCurtain) {
       lastSavedId = rec.id; showSaved(timeStr(now) + " 시간을 찍었어요", true);
-      if ($("p-quick").hidden) showToast(timeStr(now) + " 시간을 찍었어요. 퀵록에서 되돌릴 수 있어요.", false);
+      if ($("p-quick").hidden) showToast(timeStr(now) + " 시간을 찍었어요. 퀵록에서 되돌릴 수 있어요.");
       return;
     }
     $("ctDone").innerHTML = timeStr(now) + " 시간을 찍었어요<button type=\"button\" id=\"ctUndo\">되돌리기</button>";
@@ -2052,13 +2052,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         openTab("quick"); setMode("simple", true); input.value = text; updateSave(); onNewEntry();
         pendingSource = srcObj; pendingType = d.type === "grow" ? "성장" : "";
         if ($("curtain").hidden) input.focus();
-        showToast(d.type === "grow" ? "고른 글을 성장 기록으로 담았어요. 확인하고 기록을 눌러 주세요." : "고른 글을 퀵록에 담았어요. 확인하고 기록을 눌러 주세요.", false);
+        showToast(d.type === "grow" ? "고른 글을 성장 기록으로 담았어요. 확인하고 기록을 눌러 주세요." : "고른 글을 퀵록에 담았어요. 확인하고 기록을 눌러 주세요.");
       } else if (d.type === "parent") {
         openTab("reply"); var pb = document.querySelector('.cmode [data-m="parent"]'); if (pb) pb.click();
         $("r_msg").value = text;
         if ($("curtain").hidden) $("r_msg").focus();
         replySource = srcObj;
-        showToast("고른 보호자 글을 담았어요. 학생을 고르고 응대 준비를 눌러 주세요.", false);
+        showToast("고른 보호자 글을 담았어요. 학생을 고르고 응대 준비를 눌러 주세요.");
       }
     });
   })();
@@ -2092,7 +2092,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (pendingSource) { rec.source = pendingSource; pendingSource = null; }
     if (pendingType) { rec.userType = pendingType; pendingType = ""; }
     records.push(rec);
-    if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요. 브라우저 설정을 확인해 주세요.", false); return; }
+    if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요. 브라우저 설정을 확인해 주세요."); return; }
     askKeep();
     lastSavedId = rec.id;
     clearForm();
@@ -2134,7 +2134,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     hideSaved();
     afterChange();
     openTab("quick");
-    showToast(wasTime ? "찍은 시간을 지웠어요." : "기록을 되돌렸어요. 내용은 입력칸에 남아 있어요.", false);
+    showToast(wasTime ? "찍은 시간을 지웠어요." : "기록을 되돌렸어요. 내용은 입력칸에 남아 있어요.");
   });
   function ctrlEnter(e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); doSave(); } }
   var typedOnce = false;
@@ -2442,7 +2442,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var t = ta.value.trim(); if (!t) return;
       r.memos = (r.memos || []).concat([{ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), at: new Date().toISOString(), text: t }]);
       if (r.timeOnly && r.memos.length === 1 && r.userType === undefined) { r.autoType = classify(t); r.cv = 2; }
-      if (!persist()) { r.memos.pop(); showToast("저장 공간에 쓸 수 없어요.", false); return; }
+      if (!persist()) { r.memos.pop(); showToast("저장 공간에 쓸 수 없어요."); return; }
       var item = el.closest(".item");
       if (item && item.parentNode) {
         var showDate = /월 \d+일/.test((item.querySelector(".time") || {}).textContent || "");
@@ -2450,7 +2450,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         item.parentNode.replaceChild(ni, item);
         var nb = ni.querySelector(".rec"); if (nb) nb.click();
       } else renderMemos(r, el);
-      showToast(r.timeOnly && r.memos.length === 1 ? "내용을 채웠어요" : "메모를 남겼어요", false);
+      showToast(r.timeOnly && r.memos.length === 1 ? "내용을 채웠어요" : "메모를 남겼어요");
       renderToday();
     });
   }
@@ -2462,7 +2462,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       a.innerHTML = '<button type="button" data-a="redo">다시 정리</button><button type="button" data-a="del">정리본 지우기</button>';
       a.querySelector('[data-a="redo"]').addEventListener("click", function () { askMask(r, el); });
       a.querySelector('[data-a="del"]').addEventListener("click", function () {
-        delete r.summary; persist(); renderAI(r, el); showToast("정리본을 지웠어요. 원본은 그대로예요.", false);
+        delete r.summary; persist(); renderAI(r, el); showToast("정리본을 지웠어요. 원본은 그대로예요.");
       });
       if (!sampleFn) a.querySelector('[data-a="redo"]').remove();
       el.appendChild(a);
@@ -2521,7 +2521,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         c === "rate_limited" ? "요청이 많아요. 잠시 후 다시 눌러 주세요." :
         c === "storage" ? "저장 공간에 쓸 수 없어요." : "정리하지 못했어요. 다시 시도해 주세요.";
       renderAI(r, el);
-      showToast(msg, false);
+      showToast(msg);
     });
   }
   function recType(r) { return typeInfo(r).t; }
@@ -2709,7 +2709,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var hot = c.turns.filter(function (t) { return t.res.교권침해 && t.res.교권침해.판단 === "높음"; });
     currentCase = null; $("r_msg").value = ""; renderThread();
     if (hot.length) openComfort(c, hot[hot.length - 1]);
-    else showToast("응대를 마쳤어요. 지난 응대에 저장됐어요.", false);
+    else showToast("응대를 마쳤어요. 지난 응대에 저장됐어요.");
   }
   function openComfort(c, t) {
     var a = COMFORT.slice().sort(function () { return Math.random() - .5; });
@@ -2748,8 +2748,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var id = $("comfortSheet").dataset.caseId, c = cases.filter(function (x) { return x.id === id; })[0];
     if (!c) return;
     var txt = reportText(c);
-    function ok() { showToast("보고서 초안을 복사했어요. 학교 양식에 붙여 넣고 다듬어 주세요.", false); }
-    function fb() { var ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); ok(); } catch (e) { showToast("복사하지 못했어요.", false); } ta.remove(); }
+    function ok() { showToast("보고서 초안을 복사했어요. 학교 양식에 붙여 넣고 다듬어 주세요."); }
+    function fb() { var ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); ok(); } catch (e) { showToast("복사하지 못했어요."); } ta.remove(); }
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, fb); else fb();
   });
   $("cClose").addEventListener("click", closeComfort);
@@ -2767,7 +2767,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     updateSave(); onNewEntry();
     openTab("quick");
     input.focus();
-    showToast("내용을 채워 두었어요. 확인하고 기록을 눌러 주세요.", false);
+    showToast("내용을 채워 두었어요. 확인하고 기록을 눌러 주세요.");
   });
   function updateBar() {
     var p = $("p-reply");
@@ -2905,8 +2905,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   }
 
   function copyText(v, ta) {
-    function fb() { ta.focus(); ta.select(); try { document.execCommand("copy"); showToast("문구를 복사했어요", false); } catch (e) { showToast("길게 눌러 직접 복사해 주세요", false); } }
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(function () { showToast("문구를 복사했어요", false); }, fb);
+    function fb() { ta.focus(); ta.select(); try { document.execCommand("copy"); showToast("문구를 복사했어요"); } catch (e) { showToast("길게 눌러 직접 복사해 주세요"); } }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(function () { showToast("문구를 복사했어요"); }, fb);
     else fb();
   }
 
@@ -3317,7 +3317,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   })();
   function runAsk() {
     var q = $("r_msg").value.trim();
-    if (!q) { showToast("궁금한 걸 적어 주세요.", false); return; }
+    if (!q) { showToast("궁금한 걸 적어 주세요."); return; }
     var fresh = !currentCase, c = currentCase || makeCase();
     if (!c.asks) c.asks = [];
     function commit(res, tpl) {
@@ -3346,7 +3346,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     sampleFn.json(prompt, { cache: false }).then(function (res) {
       var un = function (x) { return unmask(toStr(x), c.map || []).trim(); };
       commit({ 답: un(res && res.답), 문장: un(res && res.문장).replace(/\*\*/g, ""), 근거: un(res && res.근거) }, false);
-    }).catch(function () { commit(faqFollow(c, q), true); showToast("AI 대신 기본 안내로 답했어요.", false); })
+    }).catch(function () { commit(faqFollow(c, q), true); showToast("AI 대신 기본 안내로 답했어요."); })
       .then(function () { btn.disabled = false; btn.textContent = cmode === "ask" ? "묻기" : "응대 준비"; });
   }
 
@@ -3407,7 +3407,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     sampleFn.json(prompt, { cache: false }).then(function (res) {
       var un = function (x) { return unmask(toStr(x), c.map || []).trim(); };
       commit({ 핵심: un(res && res.핵심), 초안: un(res && res.초안).replace(/\*\*/g, ""), 근거: un(res && res.근거) }, false);
-    }).catch(function () { commit(outTemplate(c, outPurpose, note, way), true); showToast("AI 대신 기본 틀로 만들었어요.", false); })
+    }).catch(function () { commit(outTemplate(c, outPurpose, note, way), true); showToast("AI 대신 기본 틀로 만들었어요."); })
       .then(function () { btn.disabled = false; btn.textContent = "연락 문구 만들기"; });
   }
   var CAN_SHARE = !!(navigator.share) && /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
@@ -3444,7 +3444,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       cb.addEventListener("click", function () { cf.hidden = !cf.hidden; });
       el.querySelector(".cal-go").addEventListener("click", function () {
         var dv = cd.value, tv = el.querySelector(".cal-t").value || "15:00", how = el.querySelector(".cal-m").value;
-        if (!dv) { showToast("날짜를 골라 주세요.", false); return; }
+        if (!dv) { showToast("날짜를 골라 주세요."); return; }
         var st = new Date(dv + "T" + tv + ":00"), who = (currentCase && currentCase.student) || "학생";
         var ics = makeIcs(who + " 학생 보호자 상담 (" + how + ")", st, 30, "고래실록에서 만든 상담 일정" + (o.note ? "\n상담 내용: " + o.note : ""));
         offerFile("고래실록-상담-" + dv + ".ics", ics, "캘린더 파일을 만들었어요. 열면 캘린더에 들어가요.");
@@ -3473,7 +3473,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   function runReply(presetMsg, presetWay, onFail) {
     var msg = (presetMsg || $("r_msg").value).trim(), way = presetWay || getWay();
-    if (!msg) { showToast("보호자가 한 말을 적어 주세요.", false); return; }
+    if (!msg) { showToast("보호자가 한 말을 적어 주세요."); return; }
     var fresh = !currentCase, c = currentCase;
     if (fresh) c = makeCase();
     function commitTemplate(why) {
@@ -3486,7 +3486,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (!presetMsg) $("r_msg").value = "";
       renderThread();
       var last = $("thread").lastChild; if (last) last.scrollIntoView({ behavior: "smooth", block: "start" });
-      if (why) showToast(why, false);
+      if (why) showToast(why);
     }
     if (!sampleFn) { commitTemplate(); return; }
     var nowD = new Date(), wk = nowD.getDay(), hh = nowD.getHours();
@@ -3514,7 +3514,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       c.updatedAt = new Date().toISOString();
       if (fresh) { cases.push(c); currentCase = c; }
       $("pastBtn").textContent = "지난 응대 (" + cases.length + ")";
-      if (!persistCases()) showToast("저장 공간이 부족해서 응대 기록을 저장하지 못했어요.", false);
+      if (!persistCases()) showToast("저장 공간이 부족해서 응대 기록을 저장하지 못했어요.");
       if (!presetMsg) $("r_msg").value = "";
       renderThread();
       var last = $("thread").lastChild; if (last) last.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -3523,7 +3523,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var code = e && e.code;
       if (code === "not_granted") { if (onFail) onFail(); if (!presetMsg || true) { commitTemplate("AI 사용을 허용하지 않아서 기본 틀로 준비했어요."); } return; }
       if (onFail) onFail();
-      showToast(code === "not_granted" ? "AI 사용을 허용하지 않아서 준비하지 못했어요." : code === "rate_limited" ? "요청이 많아요. 잠시 후 다시 눌러 주세요." : "준비하지 못했어요. 다시 시도해 주세요.", false);
+      showToast(code === "not_granted" ? "AI 사용을 허용하지 않아서 준비하지 못했어요." : code === "rate_limited" ? "요청이 많아요. 잠시 후 다시 눌러 주세요." : "준비하지 못했어요. 다시 시도해 주세요.");
     }).then(function () { btn.disabled = false; btn.textContent = "응대 준비하기"; });
   }
   $("r_make").addEventListener("click", function () { if (cmode === "ask") runAsk(); else if (cmode === "out") runOut(); else runReply(); });
@@ -3766,12 +3766,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function offerFile(filename, data, okMsg, onSaved) {
     if (window.claude && typeof window.claude.use === "function") {
       return window.claude.use("downloads").then(function (dl) {
-        if (!dl) { showToast("Claude에 로그인하면 파일로 저장할 수 있어요.", false); return; }
-        return dl.save({ filename: filename, data: data }).then(function () { if (onSaved) onSaved(); if (okMsg) showToast(okMsg, false); }, function (err) {
+        if (!dl) { showToast("Claude에 로그인하면 파일로 저장할 수 있어요."); return; }
+        return dl.save({ filename: filename, data: data }).then(function () { if (onSaved) onSaved(); if (okMsg) showToast(okMsg); }, function (err) {
           var c = err && err.code;
-          if (c === "declined") showToast("저장을 취소했어요.", false);
-          else if (c === "rate_limited") showToast("저장 창이 이미 열려 있어요. 잠시 후 다시 눌러 주세요.", false);
-          else showToast("파일을 저장할 수 없어요. 다시 시도해 주세요.", false);
+          if (c === "declined") showToast("저장을 취소했어요.");
+          else if (c === "rate_limited") showToast("저장 창이 이미 열려 있어요. 잠시 후 다시 눌러 주세요.");
+          else showToast("파일을 저장할 수 없어요. 다시 시도해 주세요.");
         });
       });
     }
@@ -3780,22 +3780,22 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename;
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
-      if (onSaved) onSaved(); if (okMsg) showToast(okMsg, false);
-    } catch (e) { showToast("파일을 저장할 수 없어요.", false); }
+      if (onSaved) onSaved(); if (okMsg) showToast(okMsg);
+    } catch (e) { showToast("파일을 저장할 수 없어요."); }
     return Promise.resolve();
   }
   $("s_copy").addEventListener("click", function () {
-    var doc = $("doc"); if (!doc.querySelector("tbody tr")) { showToast("복사할 내용이 없어요.", false); return; }
+    var doc = $("doc"); if (!doc.querySelector("tbody tr")) { showToast("복사할 내용이 없어요."); return; }
     var c = doc.cloneNode(true); c.classList.remove("veil");
     Array.prototype.forEach.call(c.querySelectorAll("table"), function (t) { t.setAttribute("border", "1"); t.style.cssText = "border-collapse:collapse;width:100%"; });
     Array.prototype.forEach.call(c.querySelectorAll("th,td"), function (x) { x.style.cssText = "border:1px solid #999;padding:4px 6px;vertical-align:top;white-space:pre-wrap;font-size:10pt"; });
     Array.prototype.forEach.call(c.querySelectorAll("th"), function (x) { x.style.background = "#EEF0F6"; });
     var html = c.innerHTML, text = doc.innerText; // 글자만 받는 곳을 위해: 화면의 표에서 읽어야 칸은 탭, 행은 줄바꿈으로 나뉜다
-    function done() { showToast("표를 복사했어요. 한글이나 워드에 붙여 넣으세요.", false); }
+    function done() { showToast("표를 복사했어요. 한글이나 워드에 붙여 넣으세요."); }
     function fallback() {
       var box = document.createElement("div"); box.contentEditable = "true"; box.style.cssText = "position:fixed;left:-9999px;top:0"; box.innerHTML = html; document.body.appendChild(box);
       var rg = document.createRange(); rg.selectNodeContents(box); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(rg);
-      try { document.execCommand("copy"); done(); } catch (e) { showToast("복사하지 못했어요.", false); }
+      try { document.execCommand("copy"); done(); } catch (e) { showToast("복사하지 못했어요."); }
       sel.removeAllRanges(); box.remove();
     }
     try {
@@ -3810,8 +3810,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var btn = $("s_pdf"), doc = $("doc");
     var usePw = $("s_usePw").checked, pdfPw = usePw ? $("s_pw").value : "";
     if (usePw) {
-      if (pdfPw.length < 4) { showToast("암호는 4자 이상으로 적어 주세요.", false); $("s_pw").focus(); return; }
-      if (pdfPw !== $("s_pw2").value) { showToast("두 암호가 달라요. 다시 확인해 주세요.", false); return; }
+      if (pdfPw.length < 4) { showToast("암호는 4자 이상으로 적어 주세요."); $("s_pw").focus(); return; }
+      if (pdfPw !== $("s_pw2").value) { showToast("두 암호가 달라요. 다시 확인해 주세요."); return; }
     }
     btn.disabled = true; btn.textContent = "PDF 만드는 중…";
     var cuts = [], docH = 1, sheet = null, scale = 2;
@@ -3858,14 +3858,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var blur = scale < 1 ? " 문서가 길어 글자가 흐릴 수 있어요. 유형이나 기간으로 나누면 또렷해져요." : "";
       return offerFile("고래실록-" + (sumMode === "cases" ? "응대기록-" : sumMode === "grow" ? "성장기록-" : "요약-") + who + (pdfPw ? "-암호" : "") + "-" + isoDay(new Date()) + ".pdf", pdf.output("arraybuffer"), pdfPw ? "암호를 건 PDF를 저장했어요. 열 때 암호를 물어봐요." + blur : "PDF를 저장했어요" + (blur ? "." + blur : ""), function () { $("s_pw").value = ""; $("s_pw2").value = ""; });
     }).catch(function () {
-      showToast("PDF를 만들지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.", false);
+      showToast("PDF를 만들지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.");
     }).then(function () { if (sheet) sheet.remove(); btn.disabled = !doc.querySelector("tbody tr"); btn.textContent = "PDF로 저장"; });
   });
 
   /* 인쇄: 누를 때만 문서 한 장짜리 인쇄 모양으로 바꾼다 (평소 Ctrl+P는 그대로) */
   $("s_print").hidden = IN_CLAUDE;
   $("s_print").addEventListener("click", function () {
-    if (!$("doc").querySelector("tbody tr")) { showToast("인쇄할 내용이 없어요.", false); return; }
+    if (!$("doc").querySelector("tbody tr")) { showToast("인쇄할 내용이 없어요."); return; }
     document.documentElement.classList.add("print-doc");
     try { window.print(); } catch (e) { document.documentElement.classList.remove("print-doc"); }
   });
@@ -3917,13 +3917,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   $("exportBtn").addEventListener("click", function () {
     if (!records.length) return;
     var usePw = $("bkUsePw").checked, pw = usePw ? $("bkPw").value : "", pw2 = $("bkPw2").value;
-    if (usePw && !pw) { showToast("암호를 적어 주세요. 암호 없이 내보내려면 '암호 걸기'를 꺼 주세요.", false); $("bkPw").focus(); return; }
-    if (pw && pw.length < 4) { showToast("암호는 4자 이상으로 해 주세요.", false); return; }
-    if (pw && pw !== pw2) { showToast("두 암호가 달라요. 다시 확인해 주세요.", false); return; }
+    if (usePw && !pw) { showToast("암호를 적어 주세요. 암호 없이 내보내려면 '암호 걸기'를 꺼 주세요."); $("bkPw").focus(); return; }
+    if (pw && pw.length < 4) { showToast("암호는 4자 이상으로 해 주세요."); return; }
+    if (pw && pw !== pw2) { showToast("두 암호가 달라요. 다시 확인해 주세요."); return; }
     var now = new Date();
     var payload = JSON.stringify({ app: "goraesillok", version: 1, exportedAt: now.toISOString(), records: records, cases: cases, notes: notes }, null, 2);
     if (pw) {
-      if (!(window.crypto && crypto.subtle)) { showToast("이 브라우저에서는 암호를 걸 수 없어요.", false); return; }
+      if (!(window.crypto && crypto.subtle)) { showToast("이 브라우저에서는 암호를 걸 수 없어요."); return; }
       encryptText(payload, pw).then(function (encd) {
         var at2 = records.reduce(function (m, r) { return r.createdAt > m ? r.createdAt : m; }, "");
         var fn1 = "고래실록-백업-" + isoDay(now) + "-암호.json";
@@ -4009,13 +4009,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       }
       importData(raw);
     };
-    reader.onerror = function () { showToast("파일을 읽을 수 없어요.", false); };
+    reader.onerror = function () { showToast("파일을 읽을 수 없어요."); };
     reader.readAsText(file);
   });
   var pendingEnc = null;
   $("bkUnlockBtn").addEventListener("click", function () {
     if (!pendingEnc) return;
-    var pw = $("bkPwIn").value; if (!pw) { showToast("암호를 넣어 주세요.", false); return; }
+    var pw = $("bkPwIn").value; if (!pw) { showToast("암호를 넣어 주세요."); return; }
     decryptText(pendingEnc, pw).then(function (txt) {
       var d; try { d = JSON.parse(txt); } catch (e) { d = null; }
       pendingEnc = null; $("bkUnlock").hidden = true; $("bkPwIn").value = "";
@@ -4073,7 +4073,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         });
         if (noteAdded) persistNotes();
       }
-      if (added && !persist()) { load(); showToast("저장 공간에 쓸 수 없어서 불러오지 못했어요.", false); return; }
+      if (added && !persist()) { load(); showToast("저장 공간에 쓸 수 없어서 불러오지 못했어요."); return; }
       if (added) autoClassifyAll();
       if (added || caseAdded || noteAdded) askKeep();
       if (caseAdded) { if (!$("replyPast").hidden) renderCaseList(); else $("pastBtn").textContent = "지난 응대 (" + cases.length + ")"; }
@@ -4094,7 +4094,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
 
   /* ---------- common ---------- */
-  function showToast(msg, canUndo) {
+  function showToast(msg) {
     var t = $("toast");
     $("toastText").textContent = msg;
     t.style.top = (document.querySelector(".top").getBoundingClientRect().bottom + 8) + "px"; // 헤더 바로 아래
