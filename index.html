@@ -127,7 +127,7 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .detail input:focus-visible, .detail textarea:focus-visible { border-color: var(--tide); }
 .saverow { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 8px; }
 .hint { font-size: 12px; color: var(--ink-soft); }
-.saved { flex: 1; font-size: 12.5px; color: var(--ink); }
+.saved { flex: 1; order: -1; font-size: 12.5px; color: var(--ink); } /* 보이는 자리는 왼쪽, Tab 순서는 '기록' 다음 */
 .saved button { border: 0; background: none; color: var(--tide); font: inherit; font-weight: 700; padding: 6px 8px; margin: -6px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .today { margin: 14px 2px 0; font-size: 13px; color: var(--ink-soft); }
 .today button { border: 0; background: none; color: var(--tide); font: inherit; font-weight: 500; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
@@ -1387,8 +1387,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       </div>
       <div class="saverow">
         <span class="hint" id="hint" style="flex:1">Ctrl + Enter로도 기록돼요</span>
-        <span class="saved" id="saved" role="status" hidden><span id="savedText"></span> <button type="button" id="undo">되돌리기</button></span>
         <button class="primary" id="save" disabled>기록</button>
+        <span class="saved" id="saved" role="status" hidden><span id="savedText"></span> <button type="button" id="undo">되돌리기</button></span>
       </div>
       <div class="seal" id="seal" aria-hidden="true">기록<br>완료</div>
     </div>
