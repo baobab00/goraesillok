@@ -217,11 +217,8 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .isle.pixel:not(.day) .px-day, .isle.pixel.day .px-night { display: none; }
 .isle.day { background: #8FD0F6; }
 
-.classbar { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin: -4px 0 8px; }
-.cls-info { display: none; flex: 1; font-size: 13px; color: var(--ink-soft); }
 .clsbtn { margin-left: auto; align-self: center; border: 1px solid rgba(255,246,213,.35); background: transparent; color: rgba(255,246,213,.85); border-radius: 7px; padding: 3px 10px; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 12.5px; cursor: pointer; white-space: nowrap; }
 .clsbtn[aria-pressed="true"] { background: #C3A6FF; border-color: #C3A6FF; color: #1B1F52; }
-#p-quick.classmode .cls-info { display: block; }
 #p-quick.classmode .isle, #p-quick.classmode #today, #p-quick.classmode .modes, #p-quick.classmode .seal { display: none !important; }
 #p-quick.classmode .card { border-color: color-mix(in srgb, var(--lilac) 45%, var(--line)); }
 #p-quick.classmode #input { min-height: 84px; color: transparent; text-shadow: 0 0 9px color-mix(in srgb, var(--ink) 75%, transparent); caret-color: var(--ink); }
@@ -469,7 +466,6 @@ input[type="date"].textfield { padding: 0 8px; }
 .cb-wx.storm { background: var(--storm); color: #fff; font-weight: 700; }
 .cb-chev { color: var(--ink-soft); font-size: 12px; transition: transform .2s; }
 #p-reply.chat.bar-open .cb-chev { transform: rotate(180deg); }
-#p-reply.chat .intro { display: none; }
 #p-reply.chat #setup, #p-reply.chat #caseHead { display: none; }
 #p-reply.chat.bar-open.no-case #setup { display: block; }
 #p-reply.chat.bar-open.has-case #caseHead { display: block; }
@@ -1105,7 +1101,6 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   <!-- 퀵록 -->
   <section class="panel" id="p-quick" role="tabpanel">
-    <span id="clsInfo" hidden></span>
     <p class="clshint" id="clsHint">🤫 수업 중이에요. 글자는 흐리게 보이고, 다른 화면으로 가면 가려져요. 수업이 끝나면 위쪽 <b>수업 끝</b>을 눌러 주세요.</p>
     <div class="isle pixel" id="isle">
       <svg class="art-pixel px-night" viewBox="0 0 120 66" preserveAspectRatio="xMidYMid slice" shape-rendering="crispEdges" aria-hidden="true">
@@ -1424,7 +1419,6 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       <span class="cb-who"><span class="cb-av">🐋</span><span><b id="barName">학생을 골라 주세요</b><small id="barMeta">근거 기록과 이름 가림 설정</small></span></span>
       <span class="cb-wx" id="barWx" title="바다 날씨">🌊 잔잔</span><span class="cb-chev">▾</span>
     </button>
-    <p class="desc intro" style="margin:12px 2px 0">남겨 둔 기록을 근거로, AI가 선생님 편에서 답을 준비해요.</p>
     <p class="ainote" id="aiNote" hidden></p>
     <div id="setup" class="step">
       <div class="step-h"><span class="ico">👤</span>누구에 대한 연락인가요?</div>
@@ -2128,7 +2122,6 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     try { localStorage.setItem(CLASS_KEY, classOn ? "1" : ""); } catch (e) {}
   }
   function updateClassInfo() {
-    $("clsInfo").textContent = eventAt ? "🤫 " + timeStr(eventAt) + " 일 · 적는 중" : "🤫 수업 중 · 글자가 흐리게 보여요";
     tickNow();
   }
   $("classBtn").addEventListener("click", function () { setClass(!classOn); focusFirst(); });
