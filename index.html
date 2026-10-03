@@ -3748,12 +3748,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     return Promise.resolve();
   }
   $("s_copy").addEventListener("click", function () {
-    var doc = $("doc"); if (!doc.querySelector("table") && !doc.textContent.trim()) return;
+    var doc = $("doc"); if (!doc.querySelector("tbody tr")) { showToast("복사할 내용이 없어요.", false); return; }
     var c = doc.cloneNode(true); c.classList.remove("veil");
     Array.prototype.forEach.call(c.querySelectorAll("table"), function (t) { t.setAttribute("border", "1"); t.style.cssText = "border-collapse:collapse;width:100%"; });
     Array.prototype.forEach.call(c.querySelectorAll("th,td"), function (x) { x.style.cssText = "border:1px solid #999;padding:4px 6px;vertical-align:top;white-space:pre-wrap;font-size:10pt"; });
     Array.prototype.forEach.call(c.querySelectorAll("th"), function (x) { x.style.background = "#EEF0F6"; });
-    var html = c.innerHTML, text = c.innerText || c.textContent;
+    var html = c.innerHTML, text = doc.innerText; // 글자만 받는 곳을 위해: 화면의 표에서 읽어야 칸은 탭, 행은 줄바꿈으로 나뉜다
     function done() { showToast("표를 복사했어요. 한글이나 워드에 붙여 넣으세요.", false); }
     function fallback() {
       var box = document.createElement("div"); box.contentEditable = "true"; box.style.cssText = "position:fixed;left:-9999px;top:0"; box.innerHTML = html; document.body.appendChild(box);
