@@ -556,7 +556,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 .typerow .tn { flex-basis: 100%; font-size: 11.5px; color: var(--ink-soft); }
 
 /* 유형별 파스텔 테두리 */
-:root { --t-grow: #EBC35E; --t-hak: #EE9A9A; --t-kyo: #B79AEC; --t-min: #8FBCEB; --t-life: #8FD1A8; --t-etc: #C9C9C9; }
+:root { --t-grow: #EBC35E; --t-hak: #EE9A9A; --t-kyo: #B79AEC; --t-min: #8FBCEB; --t-life: #8FD1A8; --t-gap: #9AA6BA; --t-etc: #C9C9C9; }
 .typerow button[data-t="성장"], #tfilter button[data-v="good"] { border-color: var(--t-grow); }
 .typerow button[data-t="학폭"], #tfilter button[data-v="학폭"] { border-color: var(--t-hak); }
 .typerow button[data-t="교권"], #tfilter button[data-v="교권"] { border-color: var(--t-kyo); }
@@ -1013,6 +1013,58 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 .lk-msg:empty { min-height: 0; margin: 0; }
 .lk-pins { margin-bottom: 10px !important; }
 #lockRow[hidden] + .lk-msg:empty { margin: 0; }
+
+.typerow button[data-t="갑질"], #tfilter button[data-v="갑질"], #types button:nth-child(5) { border-color: var(--t-gap); }
+.typerow button[data-t="갑질"][aria-pressed="true"], #tfilter button[data-v="갑질"][aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--t-gap) !important; }
+.rec[data-type="갑질"], #list .item.open .rec[data-type="갑질"] { background: color-mix(in srgb, var(--t-gap) 14%, var(--paper)); }
+.rec[data-type="갑질"]::before { border-color: var(--t-gap); background: var(--t-gap); }
+.srcline { margin: 0 0 8px; font-size: 12px; color: var(--ink-soft); word-break: break-all; }
+.srcline a { color: var(--lilac); }
+.mbtns { display: inline-flex; gap: 6px; }
+.sharebtn { background: var(--paper) !important; color: var(--ink) !important; border: 1.5px solid var(--btn) !important; }
+.calrow { margin-top: 8px; }
+.calbtn { border: 1px dashed color-mix(in srgb, var(--lilac) 55%, var(--line)); background: transparent; color: var(--ink); border-radius: 8px; padding: 5px 10px; font: inherit; font-size: 12.5px; cursor: pointer; }
+.calform { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.calform[hidden] { display: none; }
+.calform .textfield { height: 34px; font-size: 13px; padding: 0 8px; flex: 1 1 120px; min-width: 0; }
+.calform .cal-go { flex: 0 0 auto; }
+
+#s_typeRow[hidden] { display: none; }
+#s_types button[data-t="학폭"][aria-pressed="true"] { border-color: var(--t-hak); }
+#s_types button[data-t="교권"][aria-pressed="true"] { border-color: var(--t-kyo); }
+#s_types button[data-t="민원"][aria-pressed="true"] { border-color: var(--t-min); }
+#s_types button[data-t="생활지도"][aria-pressed="true"] { border-color: var(--t-life); }
+#s_types button[data-t="갑질"][aria-pressed="true"] { border-color: var(--t-gap); }
+.pickbox { margin-top: 8px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+.pickbox[hidden] { display: none; }
+.pickbox summary { cursor: pointer; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 13.5px; color: var(--ink); }
+.pickbox summary b { font-family: "Noto Sans KR", sans-serif; font-weight: 500; font-size: 12px; color: var(--ink-soft); margin-left: 4px; }
+.pickhint { margin: 6px 0; font-size: 11.5px; color: var(--ink-soft); }
+.picklist { max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+.pk { display: flex; align-items: center; gap: 7px; padding: 5px 4px; border-radius: 6px; font-size: 12.5px; cursor: pointer; }
+.pk:hover { background: color-mix(in srgb, var(--lilac) 6%, var(--paper)); }
+.pk input { accent-color: var(--lilac); flex-shrink: 0; }
+.pk-d { flex-shrink: 0; width: 34px; color: var(--ink-soft); font-size: 11.5px; }
+.pk-t { flex-shrink: 0; font-size: 10.5px; padding: 0 6px; border-radius: 8px; border: 1px solid var(--line); color: var(--ink-soft); }
+.pk-t[data-type="성장"] { border-color: var(--t-grow); } .pk-t[data-type="학폭"] { border-color: var(--t-hak); } .pk-t[data-type="교권"] { border-color: var(--t-kyo); }
+.pk-t[data-type="민원"], .pk-t[data-type="응대"] { border-color: var(--t-min); } .pk-t[data-type="생활지도"] { border-color: var(--t-life); } .pk-t[data-type="갑질"] { border-color: var(--t-gap); }
+.pk-x { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
+.pk.off .pk-x, .pk.off .pk-d { text-decoration: line-through; opacity: .5; }
+.pickacts { display: flex; gap: 12px; justify-content: flex-end; margin-top: 6px; }
+.pickacts button { border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* 유형 한 줄 (옆으로 밀기) */
+#s_mode[hidden], #s_desc[hidden] { display: none !important; }
+#s_types, #s_period { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px; mask-image: linear-gradient(90deg, #000 88%, transparent); }
+#s_types::-webkit-scrollbar, #s_period::-webkit-scrollbar { display: none; }
+#s_types button, #s_period button { flex-shrink: 0; white-space: nowrap; }
+#s_types button[data-t="성장"][aria-pressed="true"] { border-color: var(--t-grow); }
+#s_types button[data-t="응대"][aria-pressed="true"] { border-color: var(--t-min); }
+.pickhead { display: flex; align-items: center; gap: 8px; }
+.pickhead .pickhint { flex: 1; }
+.pickeye { flex-shrink: 0; border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft); border-radius: 12px; padding: 2px 9px; font: inherit; font-size: 11.5px; cursor: pointer; }
+.pickeye[aria-pressed="true"] { border-color: var(--lilac); color: var(--ink); }
+.pk .pk-x.veil { pointer-events: none; }
 </style>
 </head>
 <body>
@@ -1059,6 +1111,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
             <button type="button" aria-pressed="false">교권</button>
             <button type="button" aria-pressed="false">민원</button>
             <button type="button" aria-pressed="false">생활지도</button>
+            <button type="button" aria-pressed="false">갑질</button>
             <button type="button" aria-pressed="false">기타</button>
           </div>
         </div>
@@ -1082,6 +1135,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       <button type="button" aria-pressed="false" data-v="교권">교권</button>
       <button type="button" aria-pressed="false" data-v="민원">민원</button>
       <button type="button" aria-pressed="false" data-v="생활지도">생활지도</button>
+      <button type="button" aria-pressed="false" data-v="갑질">갑질</button>
     </div>
     <div class="section-title" style="margin-top:18px">
       <h2 id="listTitle">전체 기록</h2>
@@ -1191,14 +1245,27 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   <!-- 한눈에 쏙 -->
   <section class="panel" id="p-summary" role="tabpanel" hidden>
-    <div class="smodes" id="s_mode" role="group" aria-label="내보낼 내용">
+    <div class="smodes" id="s_mode" role="group" aria-label="내보낼 내용" hidden>
       <button type="button" data-sm="all" aria-pressed="true"><i>📜</i><b>기록 전체</b><small>사안 보고용</small></button>
       <button type="button" data-sm="grow" aria-pressed="false"><i>🌱</i><b>성장 기록</b><small>상담·세특용</small></button>
       <button type="button" data-sm="cases" aria-pressed="false"><i>🐋</i><b>보호자 응대</b><small>특이민원용</small></button>
     </div>
-    <p class="desc" id="s_desc" style="margin:8px 2px 0">교권보호위원회나 사안 보고에 붙일 기록 표를 만들어요.</p>
+    <p class="desc" id="s_desc" hidden style="margin:8px 2px 0">교권보호위원회나 사안 보고에 붙일 기록 표를 만들어요.</p>
     <div class="fcard">
-      <div class="frow"><label class="fl" for="s_name">학생</label><input id="s_name" class="textfield" type="search" placeholder="비우면 전체 (예: 한고래)" autocomplete="off"></div>
+      <div class="frow"><label class="fl" for="s_name">찾기</label><input id="s_name" class="textfield" type="search" placeholder="이름이나 단어 (예: 한고래, 교감)" autocomplete="off"></div>
+      <div class="frow" id="s_typeRow"><span class="fl">유형</span>
+        <div class="pchips" id="s_types">
+          <button type="button" data-t="" aria-pressed="true">전체</button>
+          <button type="button" data-t="성장" aria-pressed="false">성장</button>
+          <button type="button" data-t="학폭" aria-pressed="false">학폭</button>
+          <button type="button" data-t="교권" aria-pressed="false">교권</button>
+          <button type="button" data-t="민원" aria-pressed="false">민원</button>
+          <button type="button" data-t="생활지도" aria-pressed="false">생활지도</button>
+          <button type="button" data-t="갑질" aria-pressed="false">갑질</button>
+          <button type="button" data-t="기타" aria-pressed="false">기타</button>
+          <button type="button" data-t="응대" aria-pressed="false">보호자 응대</button>
+        </div>
+      </div>
       <div class="frow"><span class="fl">기간</span>
         <div class="pchips" id="s_period">
           <button type="button" data-p="all" aria-pressed="true">전체</button>
@@ -1210,16 +1277,22 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       </div>
       <div class="frow" id="s_dates" hidden><span class="fl"></span><input id="s_from" class="textfield" type="date" aria-label="시작일"><span class="tilde">~</span><input id="s_to" class="textfield" type="date" aria-label="종료일"></div>
       <details class="mini fopts" id="s_opts">
-        <summary>싣는 내용</summary>
-        <label class="chk"><input type="checkbox" id="s_useSum" checked>정리본이 있으면 정리본으로</label>
-        <label class="chk"><input type="checkbox" id="s_useGood">성장 기록도 함께 (상담용)</label>
-        <label class="chk"><input type="checkbox" id="s_useCases" checked>보호자 응대 기록도 함께</label>
+        <summary>정리본</summary>
+        <label class="chk"><input type="checkbox" id="s_useSum" checked>AI 정리본이 있으면 정리본으로 싣기</label>
+        <input type="checkbox" id="s_useGood" checked hidden>
+        <input type="checkbox" id="s_useCases" checked hidden>
       </details>
       <details class="mini fopts authorbox" id="authorBox">
         <summary>작성자 · <span id="authorShow">아직 없어요</span></summary>
         <input id="s_author" class="textfield" type="text" placeholder="예: 과학 교사 홍길동" autocomplete="off" style="margin-top:8px">
       </details>
     </div>
+    <details class="pickbox" id="s_pick">
+      <summary>담을 기록 고르기 <b id="s_pickN"></b></summary>
+      <div class="pickhead"><p class="pickhint">이 사안과 상관없는 기록은 체크를 풀면 빠져요.</p><button type="button" class="pickeye" id="s_pickEye" aria-pressed="false">👁 내용 보기</button></div>
+      <div class="picklist" id="s_pickList"></div>
+      <div class="pickacts"><button type="button" id="s_pickAll">모두 담기</button><button type="button" id="s_pickNone">모두 빼기</button></div>
+    </details>
     <div class="savebar sbnight">
       <div class="savebar-top">
         <span class="sb-count"><small>담기는 내용</small><span id="s_count"></span></span>
@@ -1517,7 +1590,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var v = detailValues();
     return !!(v.type || FIELDS.some(function (f) { return v[f.key]; }));
   }
-  function updateSave() { save.disabled = !hasContent(); }
+  function updateSave() {
+    if (!input.value.trim() && mode !== "detail") { pendingSource = null; pendingType = ""; } save.disabled = !hasContent(); }
   var goodOn = false;
   function setGood(v) { goodOn = false; }
   function clearForm() { input.value = ""; FIELDS.forEach(function (f) { $(f.id).value = ""; }); setType(null); setGood(false); }
@@ -1661,8 +1735,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   function tickNow() {
     if (typeof classOn !== "undefined" && classOn && eventAt) { $("now").textContent = timeStr(eventAt) + "에 있었던 일"; return; } var n = new Date(); $("now").textContent = dateStr(n, true) + " " + timeStr(n); }
   $("stampBtn").addEventListener("click", function (e) { e.stopPropagation(); stampTime(); });
-  function stampTime() {
-    var now = new Date(), onCurtain = !$("curtain").hidden;
+  function stampTime(at) {
+    var now = at ? new Date(at) : new Date(), onCurtain = !$("curtain").hidden;
+    if (isNaN(now.getTime())) now = new Date();
     var rec = { id: now.getTime().toString(36) + Math.random().toString(36).slice(2, 6), createdAt: now.toISOString(), text: "(시간만 기록)", timeOnly: true, cv: 2, autoType: "" };
     if (classOn) rec.inClass = true;
     records.push(rec);
@@ -1681,6 +1756,32 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (e.altKey && !e.ctrlKey && !e.metaKey && e.code === "KeyT" && $("intro").hidden) { e.preventDefault(); stampTime(); return; }
     if (!$("curtain").hidden && $("intro").hidden && (e.key === "Enter" || e.key === " ") && document.activeElement !== $("stampBtn") && !/^(INPUT|TEXTAREA|BUTTON)$/.test((document.activeElement || {}).tagName || "")) { e.preventDefault(); stampTime(); }
   });
+  /* ---------- 웨일 확장앱과 이어지기 ---------- */
+  var pendingSource = null, pendingType = "", replySource = null;
+  function srcLabel(src) { if (!src) return ""; var h = ""; try { h = new URL(src.url).hostname.replace(/^www\./, ""); } catch (e) {} return (src.title ? src.title : h) + (src.title && h ? " · " + h : ""); }
+  (function () {
+    var inFrame = false; try { inFrame = window.parent && window.parent !== window; } catch (e) { inFrame = true; }
+    window.addEventListener("message", function (e) {
+      if (!/^(chrome|whale)-extension:\/\//.test(e.origin || "")) return;
+      var d = e.data || {}; if (d.source !== "goraesillok-ext") return;
+      if (d.type === "stamp") { stampTime(d.at); return; }
+      var text = String(d.text || "").slice(0, 4000);
+      if (!text) return;
+      var srcObj = d.src && d.src.url && /^https?:/.test(String(d.src.url)) ? { title: String(d.src.title || "").slice(0, 120), url: String(d.src.url).slice(0, 300), at: d.at || new Date().toISOString() } : null;
+      if (d.type === "quick" || d.type === "grow") {
+        openTab("quick"); setMode("simple", true); input.value = text; updateSave();
+        pendingSource = srcObj; pendingType = d.type === "grow" ? "성장" : "";
+        if ($("curtain").hidden) input.focus();
+        showToast(d.type === "grow" ? "고른 글을 성장 기록으로 담았어요. 확인하고 기록을 눌러 주세요." : "고른 글을 퀵록에 담았어요. 확인하고 기록을 눌러 주세요.", false);
+      } else if (d.type === "parent") {
+        openTab("reply"); var pb = document.querySelector('.cmode [data-m="parent"]'); if (pb) pb.click();
+        $("r_msg").value = text;
+        if ($("curtain").hidden) $("r_msg").focus();
+        replySource = srcObj;
+        showToast("고른 보호자 글을 담았어요. 학생을 고르고 응대 준비를 눌러 주세요.", false);
+      }
+    });
+  })();
   function pendingList() { return records.filter(function (r) { return r.timeOnly && !(r.memos && r.memos.length); }); }
   function renderToday() {
     var k = dayKey(new Date());
@@ -1710,6 +1811,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       rec.text = [v.type].concat(FIELDS.map(function (f) { return v[f.key]; })).filter(Boolean).join("\n");
     } else rec.text = timeOnly ? "(시간만 기록)" : input.value.trim();
     if (timeOnly) rec.timeOnly = true;
+    if (pendingSource) { rec.source = pendingSource; pendingSource = null; }
+    if (pendingType) { rec.userType = pendingType; pendingType = ""; }
     records.push(rec);
     if (!persist()) { records.pop(); showToast("저장 공간에 쓸 수 없어요. 브라우저 설정을 확인해 주세요.", false); return; }
     lastSavedId = rec.id;
@@ -1964,16 +2067,20 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
      교원의 학생생활지도에 관한 고시(생활지도 범위) */
   var KW = {
     teacher: /(나한테|나에게|내게|저한테|저에게|교사에게|교사한테|선생님(한테|에게|께|을|를)|담임(한테|에게)|수업 중인 나)/,
-    teacherAct: /(욕|폭언|모욕|반말|대들|소리(를)? ?지르|고함|위협|협박|때리|때렸|때려|때린|밀치|밀었|던졌|멱살|노려|비웃|조롱|성희롱|성적|만지|촬영|찍었|찍어|녹음|녹취|합성|유포|올렸)/,
+    teacherAct: /(욕|폭언|모욕|반말|대들|소리(를)? ?지르|고함(을)? ?(치|침|쳐|쳤|지르|지름|질러|질렀)|위협|협박|때리|때렸|때려|때린|밀치|밀었|던졌|멱살|노려|비웃|조롱|성희롱|성적|만지|촬영|찍었|찍어|녹음|녹취|합성|유포|올렸)/,
     kyogwon: /(수업 ?방해|수업을 방해|교육활동 ?침해|교권|몰래 (촬영|녹음|찍)|무단 ?(촬영|녹음|방문)|아동학대로 신고|아동학대 신고|신고하겠|고소하겠|고소한다|가만 ?안 ?(둔|두)|반복(적으로)? ?(민원|전화|연락)|계속 전화|밤늦게 (전화|연락|문자)|새벽에 (전화|연락|문자)|주말에 (전화|연락|문자)|예고 없이 찾아|찾아와서 (면담|소리))/,
     hakpok: /(때리|때렸|때림|때려|때린|폭행|폭력|맞았|맞음|발로 ?차|걷어차|찼다|밀치|밀었|멱살|주먹|꼬집|할퀴|목을 조|몸싸움|싸움|싸웠|다쳤|상처|피가|감금|가두|못 나가게|협박|위협|죽여|죽인다|돈을? ?(뺏|빼앗|달라)|갈취|빵 ?셔틀|셔틀|심부름을? 시키|강제로|강요|놀리|놀림|별명|욕을? ?했|욕설|모욕|뒷담|험담|소문|따돌|왕따|은따|안 끼워|무리에서 빼|단톡|카톡방|단체방|sns|인스타|디엠|dm|사이버|저격|사진을? ?올|몰래 찍|성희롱|추행|만졌|신체 접촉)/i,
-    minwon: /(보호자|학부모|어머니|아버지|어머님|아버님|엄마|아빠|할머니|할아버지|교육청|교장실|교감|민원|항의|사과 ?요구|사과를 요구|담임 ?교체|반 ?교체|찾아옴|찾아왔|방문해서|전화 ?옴|전화가 ?왔|문자 ?옴|문자가 ?왔)/,
+    minwon: /(보호자|학부모|어머니|아버지|어머님|아버님|엄마|아빠|할머니|할아버지|교육청|민원|항의|사과 ?요구|사과를 요구|담임 ?교체|반 ?교체|찾아옴|찾아왔|방문해서|전화 ?옴|전화가 ?왔|문자 ?옴|문자가 ?왔)/,
+    gapSubj: /(교장|교감|부장|관리자|상사|선배 ?(교사|선생)|동료 ?(교사|선생)|행정실장|실장님)/,
+    gapAct: /(질책|폭언|소리(를)? ?지르|고함(을)? ?(치|침|쳐|쳤|지르|지름|질러|질렀)|모욕|면박|망신|반말|막말|강요|부당|사적|개인적인 ?(일|용무|심부름)|심부름|운전|태워 ?(달|줘|주라)|회식|술자리|휴가|연가|조퇴 ?(불허|안 ?돼)|결재(를)? ?(안|거부|반려)|업무(를)? ?(떠넘|몰아|전가)|인사 ?(불이익|평정)|근평|성과급|퇴근 ?(후|뒤)|주말(에)? ?(업무|카톡|연락|전화)|밤(에)? ?(업무|카톡|연락)|외모|성희롱|따돌|무시|협박|위협|불이익)/,
+    gapWord: /(갑질|직장 ?내 ?괴롭힘|부당(한)? ?(업무)? ?지시|부당한 ?요구)/,
     life: /(휴대폰|핸드폰|휴대전화|폰 ?사용|폰을|지각|결석|조퇴|무단 ?(결과|지각|조퇴|외출)|복장|교복|두발|화장|엎드려|잠을|졸았|졸고|자고 있|떠들|떠듦|잡담|장난|과제|숙제|준비물|자리 ?이탈|돌아다|실험 ?안전|안전 ?수칙|보안경|청소|급식|거짓말|흡연|담배|전자 ?담배|분리 ?보관|주의를? ?줌|주의 ?줌|지도함|훈계|반성문)/
   };
   function isGood(r) { return typeInfo(r).t === "성장"; }
   var POS = /(열심히|성실|꾸준|끝까지|스스로|자발|먼저 (도와|챙기|나서)|도와줌|도와주|도왔|챙겨|챙김|배려|양보|칭찬|잘함|잘했|잘 해|훌륭|멋지|대단|발표를? 잘|질문을? (많이|열심히)|참여|협력|협동|리더|이끌|봉사|뒷정리|정리를? 잘|나아졌|좋아졌|성장|늘었|향상|노력|집중|몰입|창의|아이디어|탐구|꼼꼼|책임감|고맙다|감사하다고)/;
   function classify(text) {
     var t = String(text || "");
+    if (KW.gapWord.test(t) || (KW.gapSubj.test(t) && KW.gapAct.test(t))) return "갑질";
     if ((KW.teacher.test(t) && KW.teacherAct.test(t)) || KW.kyogwon.test(t)) return "교권";
     if (KW.hakpok.test(t)) return "학폭";
     if (KW.minwon.test(t)) return "민원";
@@ -1997,7 +2104,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     return { t: r.autoType || "", src: "auto" };
   }
   function renderTypeRow(r, el) {
-    var ti = typeInfo(r), TY = ["성장", "학폭", "교권", "민원", "생활지도", "기타", ""];
+    var ti = typeInfo(r), TY = ["성장", "학폭", "교권", "민원", "생활지도", "갑질", "기타", ""];
     el.className = "typerow";
     el.innerHTML = '<span class="tl">유형</span>' + TY.map(function (x) {
       return '<button type="button" data-t="' + x + '" aria-pressed="' + (ti.t === x ? "true" : "false") + '">' + (x || "없음") + "</button>";
@@ -2024,6 +2131,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     renderMemos(r, mb); renderAI(r, ab);
   }
   function renderMemos(r, el) {
+    if (r.source && !el.parentNode.querySelector(".srcline")) { var sl = document.createElement("p"); sl.className = "srcline"; sl.innerHTML = "🔗 출처: <a href=\"" + esc(r.source.url) + "\" target=\"_blank\" rel=\"noopener\">" + esc(srcLabel(r.source)) + "</a> · " + esc(fmtAt(r.source.at || r.createdAt)) + " 가져옴"; el.parentNode.insertBefore(sl, el); }
     var ms = r.memos || [];
     el.className = "memos";
     el.innerHTML = '<div class="memo-h"><b>추가 메모</b><small>원본은 그대로, 이후 경과는 여기에</small></div>' +
@@ -2098,7 +2206,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       "4. 학생A, 학생B 같은 표기는 그대로 두세요.\n" +
       "5. 짧고 중립적인 사실 문장으로, 문장 끝은 '~함', '~했음' 체로 쓰세요. 비속어나 감정적 표현은 사실 서술로 바꾸되 의미를 바꾸지 마세요.\n" +
       "6. '교사 대응'에는 메모에 적힌 교사의 지도나 조치만 쓰세요.\n" +
-      "7. '유형'은 학폭, 교권, 민원, 생활지도, 기타 중 하나로 고르세요. 학생 간 폭력·괴롭힘·따돌림은 학폭, 학생이나 보호자가 교사에게 한 폭언·위협·무시는 교권, 보호자의 항의·요구는 민원, 그 외 수업 태도·규칙 위반 지도는 생활지도입니다.\n\n" +
+      "7. '유형'은 학폭, 교권, 민원, 생활지도, 갑질, 기타 중 하나로 고르세요. 관리자·동료 교직원의 부당한 지시·폭언·사적 요구는 갑질입니다. 학생 간 폭력·괴롭힘·따돌림은 학폭, 학생이나 보호자가 교사에게 한 폭언·위협·무시는 교권, 보호자의 항의·요구는 민원, 그 외 수업 태도·규칙 위반 지도는 생활지도입니다.\n\n" +
       "메모:\n\"\"\"\n" + m.text + "\n\"\"\"\n\n" +
       '다음 키를 가진 JSON 객체 하나로만 답하세요: {"누가": "", "언제": "", "어디서": "", "무엇을": "", "어떻게": "", "왜": "", "교사 대응": "", "유형": ""}';
     el.innerHTML = '<p class="sum-note">정리하는 중이에요… (처음이면 AI 사용 허용 창이 먼저 떠요)</p>';
@@ -2106,7 +2214,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (!res || typeof res !== "object") throw { code: "bad_output" };
       var items = {};
       KEYS.forEach(function (k) { items[k] = unmask(typeof res[k] === "string" ? res[k].trim() : "", m.map) || "기록 없음"; });
-      var TYPES = ["학폭", "교권", "민원", "생활지도", "기타"], ty = typeof res["유형"] === "string" ? res["유형"].trim() : "";
+      var TYPES = ["학폭", "교권", "민원", "생활지도", "갑질", "기타"], ty = typeof res["유형"] === "string" ? res["유형"].trim() : "";
       r.summary = { items: items, at: new Date().toISOString(), type: TYPES.indexOf(ty) !== -1 ? ty : "" };
       if (!persist()) { delete r.summary; throw { code: "storage" }; }
       renderAI(r, el);
@@ -2447,13 +2555,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var more = ((lv !== "없음") && v.이유 ? "<p>" + rich(v.이유) + "</p>" : "") +
         ((lv !== "없음") && v.권장조치 && v.권장조치.length && (escalated || isLast) ? listHtml(v.권장조치) : "") +
         (r.근거 ? '<div class="basis">📜 ' + rich(r.근거) + "</div>" : "");
-      var h = '<div class="bub parent"><span class="who">보호자 · ' + fmtAt(t.at) + "</span>" + kwMark(t.parent) + "</div>";
+      var h = '<div class="bub parent"><span class="who">보호자 · ' + fmtAt(t.at) + (t.source ? " · 출처: " + esc(srcLabel(t.source)) : "") + "</span>" + kwMark(t.parent) + "</div>";
       h += '<div class="wnote' + wcls + '"><span class="wa">🐋</span><div class="wb"><small>' + wtag + (r.요지 ? " · 요지: " + esc(oneLine(r.요지, 40)) : "") + "</small>" +
         rich(r.핵심 || (t.template ? "기본 틀이에요. [ ] 부분을 채워서 써요." : "")) +
         (more ? '<details class="why"><summary>왜 그런지 · 근거</summary>' + more + "</details>" : "") +
         (t.template ? '<label class="isel">상황이 다르면 바꾸기 <select>' + INTENTS.map(function (x) { return '<option value="' + x[0] + '"' + (r.intent === x[0] ? " selected" : "") + ">" + x[1] + "</option>"; }).join("") + "</select></label>" : "") + "</div></div>";
       h += '<div class="bub mine"><div class="mine-h"><span class="who">' + (t.way === "call" ? "통화에서 할 말" : "보낼 문자") + (t.template ? " · 기본 틀" : "") + (t.sent !== r.초안 ? " · 고침" : "") + "</span>" +
-        '<button type="button" class="copybtn" data-a="copy">복사</button></div>' +
+        '<span class="mbtns">' + shareBtnHtml() + '<button type="button" class="copybtn" data-a="copy">복사</button></span></div>' +
         '<textarea class="draftta" aria-label="' + (i + 1) + '번째 추천 문구"></textarea>' +
         '<div class="mine-f">' + (t.sent !== r.초안 ? '<button type="button" data-a="orig">처음 추천으로</button>' : "") +
         (isLast ? '<button type="button" data-a="redo">다시 추천</button>' : "") +
@@ -2484,6 +2592,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       });
       ta.addEventListener("change", function () { t.sent = ta.value; t.editedAt = new Date().toISOString(); persistCases(); renderThread(); });
       el.querySelector('[data-a="copy"]').addEventListener("click", function () { copyText(ta.value, ta); });
+      var shb = el.querySelector('[data-a="share"]'); if (shb) shb.addEventListener("click", function () { shareText(ta.value); });
       var o = el.querySelector('[data-a="orig"]');
       if (o) o.addEventListener("click", function () { t.sent = r.초안; persistCases(); renderThread(); });
       var tp = el.querySelector('[data-a="tips"]');
@@ -2557,7 +2666,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         var open = wrap.classList.toggle("open"); bt.setAttribute("aria-expanded", open ? "true" : "false");
         if (open && !tx.dataset.done) {
           tx.innerHTML = transcriptHtml(c) + '<div class="caseacts2"><button type="button" class="go">이 응대 이어가기</button><button type="button" class="delcase">이 응대 지우기</button></div>' +
-            '<div class="delconfirm" hidden><p>마음이 힘든 기록은 지워도 괜찮아요. 다만 지우면 <b>되돌릴 수 없고</b>, 나중에 교권보호위원회 등에 낼 근거도 함께 사라져요. 필요하면 먼저 <b>한눈에 쏙 → 보호자 응대만</b>에서 PDF로 저장해 두세요.</p><div class="caseacts2"><button type="button" class="delno">그대로 둘게요</button><button type="button" class="delyes">지울게요</button></div></div>';
+            '<div class="delconfirm" hidden><p>마음이 힘든 기록은 지워도 괜찮아요. 다만 지우면 <b>되돌릴 수 없고</b>, 나중에 교권보호위원회 등에 낼 근거도 함께 사라져요. 필요하면 먼저 <b>한눈에 쏙</b>에서 유형 <b>보호자 응대</b>를 골라 PDF로 저장해 두세요.</p><div class="caseacts2"><button type="button" class="delno">그대로 둘게요</button><button type="button" class="delyes">지울게요</button></div></div>';
           tx.querySelector(".go").addEventListener("click", function () { delete c.endedAt; persistCases(); currentCase = c; setView("now"); renderThread(); $("r_msg").focus(); });
           var dc = tx.querySelector(".delconfirm");
           tx.querySelector(".delcase").addEventListener("click", function () { dc.hidden = false; dc.scrollIntoView({ behavior: "smooth", block: "nearest" }); });
@@ -2818,6 +2927,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   ];
   FAQ.unshift(FAQ.pop());
   FAQ = [
+    { soft: true, re: /((교장|교감|부장|관리자|상사).{0,14}(부당|지시|시켜|시키|강요|소리|폭언|질책|심부름|운전|회식)|부당(한)? ?(업무)? ?지시|직장 ?내 ?괴롭힘)/,
+      a: "윗사람이라 더 말하기 어렵죠. 그래도 **직무와 관련 없거나 직무 범위를 벗어난 부당한 지시·요구는 갑질**이에요. 공무원 행동강령에도 그렇게 정해져 있어요. 사적인 심부름, 회식 강요, 근무시간 밖 업무 연락, 공개적인 폭언 같은 것들이요. 그 자리에서 맞서기보다 **언제, 누가, 무슨 말을 했는지** 퀵록에 그대로 남기고, 문자나 메신저는 캡처해 두세요. 혼자 판단하기 어려우면 교원단체나 교원치유지원센터에 먼저 상담해도 괜찮아요.",
+      say: "",
+      basis: "공무원 행동강령: 직무와 관련 없거나 직무 범위를 벗어난 **부당한 지시·요구 금지** (공무원 간 갑질 포함)" },
+    { soft: true, re: /(갑질.{0,10}(신고|어디|상담)|(신고|어디).{0,10}갑질|갑질 ?신고)/,
+      a: "신고하기까지 마음이 많이 무거우셨을 거예요. 국공립 교사는 공무원이라, **교육청 감사관실의 갑질(행동강령 위반) 신고센터**가 기본 창구예요. 이름은 교육청마다 조금씩 달라요. **국민신문고**로도 신고할 수 있어요. 국공립 교직원에게는 근로기준법의 직장 내 괴롭힘 조항이 바로 적용되지 않고 행동강령으로 다뤄지고, 사립학교는 다를 수 있어서 학교 사정에 맞는지 교원단체에 함께 확인해 보면 좋아요. 신고 전에 날짜별 기록을 모아 두면 큰 힘이 돼요. 한눈에 쏙에서 '갑질'로 검색해 PDF로 정리할 수 있어요.",
+      say: "",
+      basis: "공공분야 갑질 근절 종합대책(2018): 기관마다 **갑질 피해신고 지원센터** 운영 (교육청은 감사관실)" },
     { soft: true, re: /((전화|통화|상담|면담).{0,8}(끊어도|끊을|그만|종료|안 받|안받|거절)|(끊어도|거절해도) ?(돼|되나|될까))/,
       a: "오래 붙잡혀 있으면 정말 지치죠. **끊어도 괜찮아요.** 폭언이 있거나 같은 말이 반복되면 정중히 마쳐도 된다는 게 교육부 민원 응대 안내자료의 원칙이고, 2026년 4월 개정된 초·중등교육법에는 학교가 악성 민원에 대해 **응대를 종료하고, 퇴거를 요청하고, 출입을 잠시 제한할 수 있는 근거**도 생겼어요(10월 말 시행). 마치기 전에 한 번 예고하고, 마친 뒤엔 내용을 기록해 두세요.",
       say: "오늘 말씀은 충분히 들었습니다. 다른 업무 처리를 위해 통화는 여기서 마치겠습니다. 추가로 요청하실 내용은 학교 공식 창구로 남겨 주십시오.",
@@ -2856,7 +2973,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (prev && isFollow && res.fallback) {
       var pa = faqAnswer(prev.q);
       if (!pa.fallback) {
-        return { 답: "방금 이야기에 이어서 말씀드릴게요. " + (/(뭐라고|어떻게 말|말해)/.test(q) && pa.문장 ? "보호자에게는 아래처럼 짧게 말하면 돼요. 더 덧붙이지 않아도 괜찮아요." : pa.a.split(". ").slice(-2).join(". ")) + " 그래도 마음이 걸리면 학교 담당 선생님과 한 번 더 확인해요.", 문장: pa.문장, 근거: pa.근거 };
+        return { 답: "방금 이야기에 이어서 말씀드릴게요. " + (/(뭐라고|어떻게 말|말해)/.test(q) && pa.문장 ? "보호자에게는 아래처럼 짧게 말하면 돼요. 더 덧붙이지 않아도 괜찮아요." : String(pa.답 || "").split(". ").slice(-2).join(". ")) + " 그래도 마음이 걸리면 학교 담당 선생님과 한 번 더 확인해요.", 문장: pa.문장, 근거: pa.근거 };
       }
     }
     return res;
@@ -2873,9 +2990,10 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       '<div class="wnote ans"><span class="wa">🐋</span><div class="wb"><small>고래 · 답변' + (a.template ? " (기본 안내)" : "") + "</small>" + rich(a.res.답) +
       (a.res.문장 ? '<div class="say"><b>이렇게 말해 보세요</b>' + esc(a.res.문장) + "</div>" : "") +
       (a.res.근거 ? '<div class="basis">📜 ' + rich(a.res.근거) + "</div>" : "") +
-      (a.res.문장 ? '<div class="acts"><button type="button">문장 복사</button></div>' : "") + "</div></div>";
-    var cb = w.querySelector(".acts button");
+      (a.res.문장 ? '<div class="acts"><button type="button" data-a="acopy">문장 복사</button>' + (CAN_SHARE ? '<button type="button" data-a="ashare">보내기</button>' : "") + '</div>' : "") + "</div></div>";
+    var cb = w.querySelector('[data-a="acopy"]');
     if (cb) cb.addEventListener("click", function () { copyText(a.res.문장, cb); });
+    var asb = w.querySelector('[data-a="ashare"]'); if (asb) asb.addEventListener("click", function () { shareText(a.res.문장); });
     return w;
   }
   var COMMON_Q = [
@@ -2893,6 +3011,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     "학폭 같은데 어떻게 하죠?",
     "고소한다고 해요",
     "학교에서 감당이 안 돼요",
+    "관리자가 부당한 지시를 해요",
+    "갑질은 어디에 신고하나요?",
     "연락하기가 너무 무서워요"
   ];
   (function () {
@@ -2997,18 +3117,47 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     }).catch(function () { commit(outTemplate(c, outPurpose, note, way), true); showToast("AI 대신 기본 틀로 만들었어요.", false); })
       .then(function () { btn.disabled = false; btn.textContent = "연락 문구 만들기"; });
   }
+  var CAN_SHARE = !!(navigator.share) && /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
+  function shareBtnHtml() { return CAN_SHARE ? '<button type="button" class="copybtn sharebtn" data-a="share">보내기</button>' : ""; }
+  function shareText(t) { if (!CAN_SHARE || !t) return; navigator.share({ text: t }).catch(function () {}); }
+  function icsEsc(t) { return String(t || "").replace(/\\/g, "\\\\").replace(/([,;])/g, "\\$1").replace(/\n/g, "\\n"); }
+  function icsStamp(d) { function z(n) { return (n < 10 ? "0" : "") + n; } return d.getFullYear() + z(d.getMonth() + 1) + z(d.getDate()) + "T" + z(d.getHours()) + z(d.getMinutes()) + "00"; }
+  function makeIcs(title, start, mins, desc) {
+    var end = new Date(start.getTime() + mins * 60000), now = new Date();
+    var utc = now.toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//goraesillok//KO", "CALSCALE:GREGORIAN", "BEGIN:VEVENT",
+      "UID:" + now.getTime().toString(36) + "@goraesillok", "DTSTAMP:" + utc, "DTSTART:" + icsStamp(start), "DTEND:" + icsStamp(end),
+      "SUMMARY:" + icsEsc(title), "DESCRIPTION:" + icsEsc(desc), "BEGIN:VALARM", "TRIGGER:-PT30M", "ACTION:DISPLAY", "DESCRIPTION:" + icsEsc(title), "END:VALARM",
+      "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+  }
   function outEl(o, isLast, key) {
     var el = document.createElement("div"); el.className = "turn";
     var plabel = (PURPOSES.filter(function (x) { return x[0] === o.purpose; })[0] || ["", "먼저 연락"])[1];
     el.innerHTML = '<div class="qbub outbub"><span class="who">내가 먼저 연락 · ' + plabel + " · " + fmtAt(o.at) + "</span>" + esc(o.note || "(메모 없음)") + "</div>" +
       '<div class="wnote"><span class="wa">🐋</span><div class="wb"><small>고래 · ' + plabel + (o.template ? " 기본 틀" : "") + "</small>" + rich(o.res.핵심 || "") +
       (o.res.근거 ? '<details class="why"><summary>근거</summary><div class="basis">📜 ' + rich(o.res.근거) + "</div></details>" : "") + "</div></div>" +
-      '<div class="bub mine"><div class="mine-h"><span class="who">' + (o.way === "call" ? "통화에서 할 말" : "보낼 문자") + (o.sent !== o.res.초안 ? " · 고침" : "") + '</span><button type="button" class="copybtn">복사</button></div><textarea class="draftta"></textarea></div>';
+      '<div class="bub mine"><div class="mine-h"><span class="who">' + (o.way === "call" ? "통화에서 할 말" : "보낼 문자") + (o.sent !== o.res.초안 ? " · 고침" : "") + '</span><span class="mbtns">' + shareBtnHtml() + '<button type="button" class="copybtn" data-a="copy">복사</button></span></div><textarea class="draftta"></textarea>' +
+      (o.purpose === "상담" ? '<div class="calrow"><button type="button" class="calbtn">📅 상담 일정을 캘린더에 넣기</button><div class="calform" hidden><input type="date" class="textfield cal-d"><input type="time" class="textfield cal-t" value="15:00" step="600"><select class="textfield cal-m"><option>학교 방문</option><option>전화</option><option>화상</option></select><button type="button" class="primary cal-go">만들기</button></div></div>' : "") + '</div>';
     var ta = el.querySelector("textarea"); ta.value = o.sent;
     function fit() { ta.style.height = "auto"; ta.style.height = (ta.scrollHeight + 2) + "px"; }
     setTimeout(fit, 0); ta.addEventListener("input", fit);
     ta.addEventListener("change", function () { o.sent = ta.value; persistCases(); renderThread(); });
-    el.querySelector(".copybtn").addEventListener("click", function () { copyText(ta.value, ta); });
+    el.querySelector('[data-a="copy"]').addEventListener("click", function () { copyText(ta.value, ta); });
+    var sb = el.querySelector('[data-a="share"]'); if (sb) sb.addEventListener("click", function () { shareText(ta.value); });
+    var cb = el.querySelector(".calbtn");
+    if (cb) {
+      var cf = el.querySelector(".calform"), cd = el.querySelector(".cal-d");
+      var tm = new Date(); tm.setDate(tm.getDate() + 1); cd.value = isoDay(tm);
+      cb.addEventListener("click", function () { cf.hidden = !cf.hidden; });
+      el.querySelector(".cal-go").addEventListener("click", function () {
+        var dv = cd.value, tv = el.querySelector(".cal-t").value || "15:00", how = el.querySelector(".cal-m").value;
+        if (!dv) { showToast("날짜를 골라 주세요.", false); return; }
+        var st = new Date(dv + "T" + tv + ":00"), who = (currentCase && currentCase.student) || "학생";
+        var ics = makeIcs(who + " 학생 보호자 상담 (" + how + ")", st, 30, "고래실록에서 만든 상담 일정" + (o.note ? "\n상담 내용: " + o.note : ""));
+        offerFile("고래실록-상담-" + dv + ".ics", ics, "캘린더 파일을 만들었어요. 열면 캘린더에 들어가요.");
+        cf.hidden = true;
+      });
+    }
     if (!isLast) el.appendChild(foldBtn(key));
     return el;
   }
@@ -3036,7 +3185,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (fresh) c = makeCase();
     function commitTemplate(why) {
       var out = templateOut(c, msg, way);
-      c.turns.push({ at: new Date().toISOString(), parent: msg, way: way, res: out, sent: out.초안, template: true });
+      c.turns.push({ at: new Date().toISOString(), parent: msg, way: way, res: out, sent: out.초안, template: true, source: replySource || undefined }); replySource = null;
       c.updatedAt = new Date().toISOString();
       if (fresh) { cases.push(c); currentCase = c; }
       $("pastBtn").textContent = "지난 응대 (" + cases.length + ")";
@@ -3068,7 +3217,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         예상질문: Array.isArray(res.예상질문) ? res.예상질문.map(function (q) { return { 질문: un(q && q.질문), 답: un(q && q.답) }; }).filter(function (q) { return q.질문; }) : []
       };
       c.convo = turns.concat([{ role: "assistant", content: JSON.stringify(res) }]);
-      c.turns.push({ at: new Date().toISOString(), parent: msg, way: way, res: out, sent: out.초안 });
+      c.turns.push({ at: new Date().toISOString(), parent: msg, way: way, res: out, sent: out.초안, source: replySource || undefined }); replySource = null;
       c.updatedAt = new Date().toISOString();
       if (fresh) { cases.push(c); currentCase = c; }
       $("pastBtn").textContent = "지난 응대 (" + cases.length + ")";
@@ -3088,17 +3237,23 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   $("r_msg").addEventListener("keydown", function (e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); if (cmode === "ask") runAsk(); else if (cmode === "out") runOut(); else runReply(); } });
 
   /* ---------- 한눈에 쏙 ---------- */
-  function summaryRecords() {
+  var sumTypes = [], sumExcl = {};
+  function typeOk(r) { if (!sumTypes.length) return true; var t = typeInfo(r).t || "기타"; return sumTypes.indexOf(t) !== -1; }
+  function casesOn() { return !sumTypes.length || sumTypes.indexOf("응대") !== -1; }
+  function syncMode() { sumMode = sumTypes.length === 1 && sumTypes[0] === "성장" ? "grow" : sumTypes.length === 1 && sumTypes[0] === "응대" ? "cases" : "all"; }
+  function summaryBase() {
     var ts = splitTerms($("s_name").value), from = $("s_from").value, to = $("s_to").value;
     return records.filter(function (r) {
       var k = isoDay(new Date(r.createdAt));
       if (from && k < from) return false;
       if (to && k > to) return false;
-      if (isGood(r) && !$("s_useGood").checked) return false;
+      if (!typeOk(r)) return false;
       return !ts.length || matches(r, ts);
     }).sort(byOld);
   }
-  function summaryCases() {
+  function summaryRecords() { return summaryBase().filter(function (r) { return !sumExcl[r.id]; }); }
+  function summaryCases() { return summaryCasesBase().filter(function (c) { return !sumExcl["c_" + c.id]; }); }
+  function summaryCasesBase() {
     var ts = splitTerms($("s_name").value), from = $("s_from").value, to = $("s_to").value;
     return cases.filter(function (c) {
       var k = isoDay(new Date(c.createdAt));
@@ -3122,6 +3277,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       sumMode = b.dataset.sm;
       qsa("#s_mode button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
       $("s_opts").hidden = sumMode !== "all";
+      $("s_typeRow").hidden = sumMode !== "all";
       $("s_desc").textContent = sumMode === "grow" ? "아이의 노력과 변화를 모아요. 상담이나 세특 자료로 쓸 수 있어요." : sumMode === "cases" ? "보호자와 주고받은 말을 모아요. 특이민원 보고에 붙일 수 있어요." : "교권보호위원회나 사안 보고에 붙일 기록 표를 만들어요.";
       renderDoc();
     });
@@ -3152,7 +3308,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       (cs.length ? body : '<p class="none">조건에 맞는 보호자 응대가 없어요.</p>') +
       '<p class="foot">이 문서는 교사가 고래실록에 남긴 보호자 응대 기록을 날짜순으로 옮긴 것입니다. 보호자 말은 교사가 받은 문자 또는 통화 내용을 그대로 적은 것이며, 교사 응대란은 실제로 보내거나 말한 문구입니다.</p>';
   }
-  function growthRecords() {
+  function growthBase() {
     var ts = splitTerms($("s_name").value), from = $("s_from").value, to = $("s_to").value;
     return records.filter(function (r) {
       if (!isGood(r)) return false;
@@ -3162,6 +3318,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       return !ts.length || matches(r, ts);
     }).sort(byOld);
   }
+  function growthRecords() { return growthBase().filter(function (r) { return !sumExcl[r.id]; }); }
   function renderGrowthDoc() {
     var rs = growthRecords(), ts = splitTerms($("s_name").value), now = new Date();
     var from = $("s_from").value, to = $("s_to").value;
@@ -3181,14 +3338,34 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       (rs.length ? '<table class="grow"><thead><tr><th>일시</th><th>관찰한 모습</th></tr></thead><tbody>' + rows + "</tbody></table>" : '<p class="none">조건에 맞는 성장 기록이 없어요.</p>') +
       '<p class="foot">이 문서는 교사가 수업과 생활 속에서 관찰해 고래실록에 남긴 학생의 노력, 변화, 좋은 모습을 날짜순으로 옮긴 것입니다. 각 기록은 남긴 시점의 원본 그대로이며, 이후 덧붙인 내용은 메모로 구분했습니다.</p>';
   }
+  function renderPick() {
+    var list = $("s_pickList"), items = [];
+    if (sumMode === "cases") items = summaryCasesBase().map(function (c) { return { id: "c_" + c.id, at: c.createdAt, tag: "응대", text: c.student + " 학생 보호자 응대 · 주고받은 말 " + c.turns.length + "번" }; });
+    else {
+      var rs = sumMode === "grow" ? growthBase() : summaryBase();
+      items = rs.map(function (r) { var fm = filled(r); return { id: r.id, at: r.eventAt || r.createdAt, tag: typeInfo(r).t || "", text: fm ? fm.text : r.text }; });
+      if (sumMode === "all" && casesOn()) items = items.concat(summaryCasesBase().map(function (c) { return { id: "c_" + c.id, at: c.createdAt, tag: "응대", text: c.student + " 학생 보호자 응대" }; }));
+    }
+    var on = items.filter(function (x) { return !sumExcl[x.id]; }).length;
+    $("s_pickN").textContent = items.length ? on + " / " + items.length : "";
+    $("s_pick").hidden = !items.length;
+    list.innerHTML = items.map(function (x) {
+      var d = new Date(x.at);
+      return '<label class="pk' + (sumExcl[x.id] ? " off" : "") + '"><input type="checkbox" data-id="' + esc(x.id) + '"' + (sumExcl[x.id] ? "" : " checked") + '>' +
+        '<span class="pk-d">' + (d.getMonth() + 1) + "/" + d.getDate() + "</span>" + (x.tag ? '<span class="pk-t" data-type="' + esc(x.tag) + '">' + esc(x.tag) + "</span>" : "") +
+        '<span class="pk-x' + (pickShow ? "" : " veil") + '">' + esc(String(x.text || "").replace(/\s+/g, " ").slice(0, 60)) + "</span></label>";
+    }).join("");
+  }
   function renderDoc() {
+    syncMode();
+    renderPick();
     if (sumMode === "grow") { renderGrowthDoc(); return; }
     if (sumMode === "cases") { renderCasesDoc(); return; }
     var rs = summaryRecords(), ts = splitTerms($("s_name").value);
     var from = $("s_from").value, to = $("s_to").value, now = new Date();
     var period = from || to ? (from ? from.replace(/-/g, ".") : "처음") + " ~ " + (to ? to.replace(/-/g, ".") : "오늘") : "전체 기간";
     if (rs.length && !from && !to) period = isoDay(new Date(rs[0].createdAt)).replace(/-/g, ".") + " ~ " + isoDay(new Date(rs[rs.length - 1].createdAt)).replace(/-/g, ".");
-    var cs = $("s_useCases").checked ? summaryCases() : [];
+    var cs = casesOn() ? summaryCases() : [];
     var nTurns = cs.reduce(function (n, c) { return n + c.turns.length; }, 0);
     $("s_count").textContent = rs.length + "건" + (cs.length ? " · 응대 " + cs.length + "건" : "");
     $("s_pdf").disabled = !rs.length && !cs.length;
@@ -3216,13 +3393,14 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       }
       var fm = filled(r), rest = r.memos || [];
       if (fm) { content = fm.text + "\n(" + timeStr(d) + " 시간 찍음, " + timeStr(new Date(fm.at)) + " 내용 채움)"; rest = r.memos.slice(1); }
+      if (r.source) content += "\n(출처: " + srcLabel(r.source) + ", " + r.source.url + ")";
       if (rest.length) content += "\n\n[추가 메모]\n" + rest.map(function (m) { return "- " + isoDay(new Date(m.at)).replace(/-/g, ".") + " " + m.text; }).join("\n");
       if (isGood(r)) content = "[성장]\n" + content;
       return "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "</td><td>" + esc(content) + "</td><td>" + esc(resp) + "</td></tr>";
     }).join("");
     $("doc").innerHTML =
-      "<h3>고래실록 기록 요약</h3>" +
-      '<div class="meta"><b>대상</b><span>' + esc(ts.length ? ts.join(" ") + " 관련 기록" : "전체 기록") + "</span>" +
+      "<h3>" + (sumTypes.length === 1 && sumTypes[0] === "갑질" ? "고래실록 갑질 피해 기록" : "고래실록 기록 요약") + "</h3>" +
+      '<div class="meta"><b>대상</b><span>' + esc((ts.length ? ts.join(" ") + " 관련 기록" : "전체 기록") + (sumTypes.length ? " · 유형: " + sumTypes.join(", ") : "")) + "</span>" +
       "<b>기간</b><span>" + period + "</span><b>기록 수</b><span>" + rs.length + "건</span>" +
       "<b>작성일</b><span>" + dateStr(now, true) + "</span><b>작성자</b><span>" + esc(authorName() || "[교사 이름]") + "</span></div>" +
       (rs.length ? '<table><thead><tr><th>일시</th><th>기록 내용</th><th>교사 대응</th></tr></thead><tbody>' + rows + "</tbody></table>"
@@ -3233,6 +3411,29 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       (cs.length ? " 보호자 응대 기록은 교사가 고래실록에 남긴 대화 기록을 간추린 것이며, 교사 응대란은 추천 문구 또는 교사가 고친 문구입니다." : "") +
       (anySum ? ' "(정리본)" 표시가 있는 기록은 원본을 바탕으로 AI가 육하원칙에 맞춰 정리하고 교사가 확인한 것이며, 원본은 고래실록에 그대로 보존되어 있습니다.' : "") + "</p>";
   }
+  qsa("#s_types button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var t = b.dataset.t;
+      if (!t) sumTypes = [];
+      else { var i = sumTypes.indexOf(t); if (i === -1) sumTypes.push(t); else sumTypes.splice(i, 1); }
+      qsa("#s_types button").forEach(function (x) { x.setAttribute("aria-pressed", (x.dataset.t ? sumTypes.indexOf(x.dataset.t) !== -1 : !sumTypes.length) ? "true" : "false"); });
+      renderDoc();
+    });
+  });
+  var pickShow = false;
+  $("s_pickEye").addEventListener("click", function () {
+    pickShow = !pickShow; $("s_pickEye").setAttribute("aria-pressed", pickShow ? "true" : "false");
+    $("s_pickEye").textContent = pickShow ? "🙈 내용 가리기" : "👁 내용 보기";
+    qsa("#s_pickList .pk-x").forEach(function (x) { x.classList.toggle("veil", !pickShow); });
+  });
+  $("s_pickList").addEventListener("change", function (e) {
+    var cb = e.target; if (!cb.dataset || !cb.dataset.id) return;
+    if (cb.checked) delete sumExcl[cb.dataset.id]; else sumExcl[cb.dataset.id] = 1;
+    cb.closest(".pk").classList.toggle("off", !cb.checked);
+    var open = $("s_pick").open; renderDoc(); $("s_pick").open = open;
+  });
+  $("s_pickAll").addEventListener("click", function () { sumExcl = {}; renderDoc(); });
+  $("s_pickNone").addEventListener("click", function () { qsa("#s_pickList input").forEach(function (cb) { sumExcl[cb.dataset.id] = 1; }); renderDoc(); });
   qsa("#s_period button").forEach(function (b) {
     b.addEventListener("click", function () {
       qsa("#s_period button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
@@ -3528,6 +3729,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   tickNow(); setInterval(tickNow, 15000);
   loadCases();
   setClass(false); renderLock(); cover(true); maybeIntro();
+  try { if (window.parent && window.parent !== window) window.parent.postMessage({ source: "goraesillok", type: "ready" }, "*"); } catch (e) {}
   applyUI();
   setTimeout(function () { sampleChecked = true; aiNote(); }, 11000);
   loadNotes();
