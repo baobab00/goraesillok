@@ -2292,11 +2292,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     window.claude.use("sample").then(function (fn) { sampleFn = fn; sampleChecked = true; aiNote(); }, function () { sampleChecked = true; aiNote(); });
   } else sampleChecked = true;
   var IN_CLAUDE = !!(window.claude && typeof window.claude.use === "function");
+  $("maskBox").hidden = !IN_CLAUDE; // 이름 가림은 AI에 보낼 때만 쓰이므로 웹에서는 감춘다
   function aiNote() {
     var n = document.getElementById("aiNote"); if (!n) return;
     n.innerHTML = IN_CLAUDE ? "지금은 AI 없이 <b>기본 틀</b>로 도와드려요. Claude에 로그인하면 상황에 맞춘 추천을 받을 수 있어요."
       : "이 웹 버전은 AI 없이 <b>기본 틀</b>과 위험 표현 감지로 도와드려요. 공식 지침에 맞춘 문구가 나와요.";
-    n.hidden = !(sampleChecked && !sampleFn);
+    // 웹에서는 응대를 시작하기 전 빈 화면에서만 알린다
+    n.hidden = !(sampleChecked && !sampleFn) || (!IN_CLAUDE && !!currentCase);
   }
 
   function nameList(v) {
@@ -2441,7 +2443,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       return;
     }
     if (!sampleFn) {
-      if (sampleChecked) el.innerHTML = '<p class="sum-note">' + (window.claude ? "Claude에 로그인하면 AI로 육하원칙 정리를 할 수 있어요." : "AI 육하원칙 정리는 Claude 버전에서 쓸 수 있어요.") + '</p>';
+      if (sampleChecked && IN_CLAUDE) el.innerHTML = '<p class="sum-note">Claude에 로그인하면 AI로 육하원칙 정리를 할 수 있어요.</p>';
       return;
     }
     var a2 = document.createElement("div"); a2.className = "acts aiacts";
@@ -2507,7 +2509,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var hits = pool.filter(function (r) { return matches(r, ts); }).sort(byOld);
       $("listTitle").textContent = (ts.length ? "‘" + ts.join(" ") + "’ " : "") + (ft ? (ft === "good" ? "성장" : ft) + " " : "") + "타임라인";
       $("listMeta").textContent = hits.length ? "오래된 순 " + hits.length + "건" : "";
-      if (!hits.length) { list.innerHTML = '<p class="empty">' + (ft && !ts.length ? "이 유형으로 표시된 기록이 없어요.<br>꼼꼼 모드에서 유형을 고르거나, AI 정리본을 만들면 유형이 붙어요." : "이 말이 들어간 기록이 없어요.<br>이름 일부만 넣어 보세요. 예: 고래") + "</p>"; return; }
+      if (!hits.length) { list.innerHTML = '<p class="empty">' + (ft && !ts.length ? "이 유형으로 표시된 기록이 없어요.<br>꼼꼼 모드에서 유형을 고르거나, " + (IN_CLAUDE ? "AI 정리본을 만들면 유형이 붙어요." : "기록을 펼쳐 유형을 눌러 주세요.") : "이 말이 들어간 기록이 없어요.<br>이름 일부만 넣어 보세요. 예: 고래") + "</p>"; return; }
       var w = document.createElement("div"); w.className = "list";
       hits.forEach(function (r) { w.appendChild(recEl(r, ts, true)); });
       list.appendChild(w); return;
@@ -2756,12 +2758,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       var nm = splitTerms($("r_name").value).join(" ");
       var cnt = replyHits().filter(function (r) { return picked[r.id]; }).length;
       $("barName").textContent = nm ? nm + " 학생" : "학생을 골라 주세요";
-      $("barMeta").textContent = nm ? "근거 기록 " + cnt + "건 · 이름 가림 " + nameList($("r_mask").value).length + "명" : "근거 기록과 이름 가림 설정";
+      $("barMeta").textContent = nm ? "근거 기록 " + cnt + "건" + (IN_CLAUDE ? " · 이름 가림 " + nameList($("r_mask").value).length + "명" : "") : IN_CLAUDE ? "근거 기록과 이름 가림 설정" : "근거로 쓸 기록 고르기";
       if (!nm && document.activeElement !== $("r_name")) p.classList.add("bar-open");
     }
     var w = WX[wx] || WX["없음"];
     $("barWx").textContent = w[0]; $("barWx").className = "cb-wx " + w[1];
     $("chatBar").setAttribute("aria-expanded", p.classList.contains("bar-open") ? "true" : "false");
+    aiNote();
   }
   $("r_name").addEventListener("input", function () { setTimeout(updateBar, 0); });
   $("r_mask").addEventListener("input", updateBar);
