@@ -3642,12 +3642,16 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     $("s_count").textContent = rs.length + "건" + (cs.length ? " · 응대 " + cs.length + "건" : "");
     $("s_pdf").disabled = !rs.length && !cs.length;
     function cut(t, n) { t = String(t || "").replace(/\s+/g, " ").trim(); return t.length > n ? t.slice(0, n) + "…" : t; }
+    // 보호자 말과 교사가 먼저 한 연락을 시간순으로 섞어 싣는다 (보호자 응대 문서와 같은 구성)
     var caseRows = cs.map(function (c) {
-      return c.turns.map(function (t, i) {
-        var d = new Date(t.at), v = t.res.교권침해 || {};
-        return "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "<br>" + (t.way === "call" ? "통화" : "문자") + "</td>" +
-          "<td>" + (i === 0 ? "<b>" + esc(c.student) + " 학생 건</b>\n" : "") + esc(cut(t.parent, 140)) + (v.판단 === "높음" ? "\n[교권침해 가능성]" : "") + "</td>" +
-          "<td>" + esc(cut(t.sent, 160)) + "</td></tr>";
+      var items = c.turns.map(function (t) { var v = t.res.교권침해 || {}; return { at: t.at, way: t.way, left: esc(cut(t.parent, 140)) + (v.판단 === "높음" ? "\n[교권침해 가능성]" : ""), right: t.sent }; })
+        .concat((c.outs || []).map(function (o) { return { at: o.at, way: o.way, left: "(교사가 먼저 연락)", right: o.sent }; }))
+        .sort(function (x, y) { return x.at < y.at ? -1 : 1; });
+      return items.map(function (x, i) {
+        var d = new Date(x.at);
+        return "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "<br>" + (x.way === "call" ? "통화" : "문자") + "</td>" +
+          "<td>" + (i === 0 ? "<b>" + esc(c.student) + " 학생 건</b>\n" : "") + x.left + "</td>" +
+          "<td>" + esc(cut(x.right, 160)) + "</td></tr>";
       }).join("");
     }).join("");
     var useSum = $("s_useSum").checked, anySum = false;
