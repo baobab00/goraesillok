@@ -461,7 +461,8 @@ input[type="date"].textfield { padding: 0 8px; }
 }
 .cb-who { display: flex; align-items: center; gap: 9px; flex: 1; min-width: 0; }
 .cb-av { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: color-mix(in srgb, var(--whale) 22%, var(--paper)); font-size: 18px; flex-shrink: 0; }
-.cb-who b { display: block; font-family: "Gowun Batang", serif; font-size: 15px; }
+.cb-who > span:last-child { min-width: 0; }
+.cb-who b { display: block; font-family: "Gowun Batang", serif; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cb-who small { display: block; font-size: 12px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cb-wx { font-size: 12px; padding: 3px 8px; border-radius: 7px; background: color-mix(in srgb, var(--whale) 16%, var(--paper)); white-space: nowrap; }
 .cb-wx.wave { background: color-mix(in srgb, #E0A93A 20%, var(--paper)); }
