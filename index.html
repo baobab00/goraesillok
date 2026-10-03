@@ -3335,6 +3335,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var fresh = !currentCase, c = currentCase || makeCase();
     if (!c.outs) c.outs = [];
     function commit(res, tpl) {
+      if (!c.outs) c.outs = [];
       c.outs.push({ at: new Date().toISOString(), purpose: outPurpose, note: note, way: way, res: res, sent: res.초안, template: !!tpl });
       c.updatedAt = new Date().toISOString();
       if (fresh) { cases.push(c); currentCase = c; $("pastBtn").textContent = "지난 응대 (" + cases.length + ")"; }
@@ -3957,6 +3958,49 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     if (cur === "reply") renderReplyList();
     if (cur === "summary") renderDoc();
   }
+
+  /* ---------- 여러 탭 맞추기 ----------
+     다른 탭에서 저장하면 이 탭도 바로 따라 읽는다. 안 그러면 이 탭이 예전 내용으로 덮어써서 그 기록이 사라진다. */
+  function readList(key) {
+    try { var d = JSON.parse(localStorage.getItem(key) || "[]"); return Array.isArray(d) ? d.filter(function (x) { return x && typeof x === "object"; }) : null; }
+    catch (e) { return null; }
+  }
+  // 같은 id는 원래 객체에 내용만 옮겨 담는다. 화면에 걸린 버튼들이 그 객체를 쥐고 있어서다.
+  function adopt(old, fresh) {
+    var byId = {}; old.forEach(function (x) { byId[x.id] = x; });
+    return fresh.map(function (n) {
+      var o = byId[n.id]; if (!o) return n;
+      Object.keys(o).forEach(function (k) { delete o[k]; });
+      Object.keys(n).forEach(function (k) { o[k] = n[k]; });
+      return o;
+    });
+  }
+  window.addEventListener("storage", function (e) {
+    var k = e.key, fresh;
+    if (k === null) { location.reload(); return; }
+    if (k === KEY) {
+      if (!(fresh = readList(KEY))) return;
+      records = adopt(records, fresh);
+      // 타임라인을 보며 메모를 쓰던 중이면 목록은 그대로 둔다 (다시 그리면 쓰던 글이 날아간다)
+      if (!$("p-timeline").hidden && qsa("#list textarea").some(function (t) { return t.value.trim(); })) { renderToday(); renderBackup(); }
+      else afterChange();
+    } else if (k === CASE_KEY) {
+      if (!(fresh = readList(CASE_KEY))) return;
+      cases = adopt(cases, fresh);
+      if (currentCase && cases.indexOf(currentCase) === -1) currentCase = null;
+      $("pastBtn").textContent = "지난 응대" + (cases.length ? " (" + cases.length + ")" : "");
+      renderThread();
+      if (!$("replyPast").hidden) renderCaseList();
+      if (!$("p-summary").hidden) renderDoc();
+    } else if (k === NOTE_KEY) {
+      fresh = readList(NOTE_KEY);
+      if (fresh) notes = fresh;
+    } else if (k === LOCK_KEY) {
+      renderLock();
+      if (!lockData()) $("ctLock").hidden = true;
+      else if (document.hidden) { unlocked = false; cover(true); }
+    } else if (k === BACKUP_KEY) renderBackup();
+  });
 
   if ("ontouchstart" in window) $("hint").textContent = "원본은 저장 후 고칠 수 없어요";
   load();
