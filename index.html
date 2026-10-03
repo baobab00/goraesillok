@@ -2574,7 +2574,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   });
   function updateMaskPreview() {
     var ns = nameList($("r_mask").value);
-    $("maskPreview").textContent = ns.length ? ns.map(function (n, i) { return n + "→학생" + "ABCDEFGH"[i]; }).join(", ") : "없음";
+    $("maskPreview").textContent = ns.length ? ns.map(function (n, i) { return n + "→학생" + ("ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i] || (i + 1)); }).join(", ") : "없음";
   }
   $("r_mask").addEventListener("input", function () { $("r_mask").dataset.touched = "1"; updateMaskPreview(); });
   $("r_name").addEventListener("input", updateMaskPreview);
