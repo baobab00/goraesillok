@@ -366,7 +366,7 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .doc table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .doc th { text-align: left; font-weight: 700; border-bottom: 1.5px solid #15304A; padding: 6px 6px; color: #15304A; }
 .doc td { vertical-align: top; border-bottom: 1px solid #dde3e8; padding: 7px 6px; white-space: pre-wrap; word-break: keep-all; overflow-wrap: anywhere; }
-.doc td.when { white-space: nowrap; color: #3b4a5a; width: 1%; }
+.doc td.when { white-space: nowrap; color: #3b4a5a; }
 .doc h4.sub { font-size: 13px; margin: 20px 0 6px; color: #15304A; }
 .doc .foot { margin-top: 16px; font-size: 11px; color: #6b7a88; line-height: 1.6; }
 .doc .none { color: #6b7a88; padding: 18px 0; text-align: center; }
@@ -634,8 +634,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 .daysep span { font-family: "Gowun Batang", serif; font-weight: 700; }
 .case .tx { padding: 2px 4px 10px; }
 .doc table { table-layout: fixed; }
-.doc th:first-child { width: 22%; }
-.doc table.grow th:first-child { width: 24%; }
+.doc th:first-child { width: 78px; }
 #s_mode button { font-size: 13px; padding: 7px 4px; }
 #authorShow { color: var(--ink); font-weight: 500; }
 
@@ -3657,14 +3656,17 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       if (r.source) content += "\n(출처: " + srcLabel(r.source) + ", " + r.source.url + ")";
       if (rest.length) content += "\n\n[추가 메모]\n" + rest.map(function (m) { return "- " + isoDay(new Date(m.at)).replace(/-/g, ".") + " " + m.text; }).join("\n");
       if (isGood(r)) content = "[성장]\n" + content;
-      return "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "</td><td>" + esc(content) + "</td><td>" + esc(resp) + "</td></tr>";
-    }).join("");
+      return { when: isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d), content: content, resp: resp };
+    });
+    // 교사 대응이 한 건도 없으면 그 열을 싣지 않는다 (표 복사·PDF·인쇄가 모두 이 표를 그대로 쓴다)
+    var anyResp = rows.some(function (x) { return x.resp; });
+    var rowsHtml = rows.map(function (x) { return '<tr><td class="when">' + x.when + "</td><td>" + esc(x.content) + "</td>" + (anyResp ? "<td>" + esc(x.resp) + "</td>" : "") + "</tr>"; }).join("");
     $("doc").innerHTML =
       "<h3>" + (sumTypes.length === 1 && sumTypes[0] === "갑질" ? "고래실록 갑질 피해 기록" : "고래실록 기록 요약") + "</h3>" +
       '<div class="meta"><b>대상</b><span>' + esc((ts.length ? ts.join(" ") + " 관련 기록" : "전체 기록") + (sumTypes.length ? " · 유형: " + sumTypes.join(", ") : "")) + "</span>" +
       "<b>기간</b><span>" + period + "</span><b>기록 수</b><span>" + rs.length + "건</span>" +
       "<b>작성일</b><span>" + dateStr(now, true) + "</span><b>작성자</b><span>" + esc(authorName() || "[교사 이름]") + "</span></div>" +
-      (rs.length ? '<table><thead><tr><th>일시</th><th>기록 내용</th><th>교사 대응</th></tr></thead><tbody>' + rows + "</tbody></table>"
+      (rs.length ? "<table><thead><tr><th>일시</th><th>기록 내용</th>" + (anyResp ? "<th>교사 대응</th>" : "") + "</tr></thead><tbody>" + rowsHtml + "</tbody></table>"
         : '<p class="none">조건에 맞는 기록이 없어요.</p>') +
       (cs.length ? '<h4 class="sub">보호자 응대 기록 (' + cs.length + "건, 주고받은 말 " + nTurns + "번)</h4>" +
         '<table><thead><tr><th>일시</th><th>보호자 말</th><th>교사 응대</th></tr></thead><tbody>' + caseRows + "</tbody></table>" : "") +
