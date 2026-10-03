@@ -373,6 +373,19 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .doc h4.sub { font-size: 13px; margin: 20px 0 6px; color: #15304A; }
 .doc .foot { margin-top: 16px; font-size: 11px; color: #6b7a88; line-height: 1.6; }
 .doc .none { color: #6b7a88; padding: 18px 0; text-align: center; }
+.printlink { border: 0; background: none; color: var(--tide); font: inherit; font-weight: 500; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+/* '종이로 바로 인쇄'를 눌렀을 때만: 문서만 A4에 */
+@media print {
+  html.print-doc, html.print-doc body { background: #fff !important; }
+  html.print-doc body > *:not(.wrap), html.print-doc .wrap > *:not(#p-summary), html.print-doc #p-summary > *:not(.doc-wrap) { display: none !important; }
+  html.print-doc .wrap { max-width: none; padding: 0; }
+  html.print-doc .doc-wrap { max-height: none !important; overflow: visible !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
+  html.print-doc .doc { padding: 0; min-width: 0; }
+  html.print-doc .doc.veil { filter: none !important; transition: none !important; }
+  html.print-doc .doc thead { display: table-header-group; }
+  html.print-doc .doc tr, html.print-doc .doc .meta { break-inside: avoid; }
+  html.print-doc .doc h4 { break-after: avoid; }
+}
 input[type="date"].textfield { padding: 0 8px; }
 
 /* toast */
@@ -1553,7 +1566,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     </div>
     <div class="pvhead"><span>미리보기 · A4</span><small>누르면 보이고, 다시 누르면 가려져요</small></div>
     <div class="doc-wrap" id="docWrap" tabindex="0"><div class="doc veil" id="doc"></div></div>
-    <p class="desc" style="margin:8px 2px 0;font-size:12.5px">PDF에는 가림 없이 저장돼요.</p>
+    <p class="desc" style="margin:8px 2px 0;font-size:12.5px">PDF에는 가림 없이 저장돼요. <button type="button" class="printlink" id="s_print">종이로 바로 인쇄</button></p>
   </section>
 
   <!-- 백업 -->
@@ -3798,6 +3811,15 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       showToast("PDF를 만들지 못했어요. 인터넷 연결을 확인하고 다시 시도해 주세요.", false);
     }).then(function () { btn.disabled = sumMode === "grow" ? !growthRecords().length : sumMode === "cases" ? !summaryCases().length : (!summaryRecords().length && !summaryCases().length); btn.textContent = "PDF로 저장"; });
   });
+
+  /* 인쇄: 누를 때만 문서 한 장짜리 인쇄 모양으로 바꾼다 (평소 Ctrl+P는 그대로) */
+  $("s_print").hidden = IN_CLAUDE;
+  $("s_print").addEventListener("click", function () {
+    if (!$("doc").querySelector("tbody tr")) { showToast("인쇄할 내용이 없어요.", false); return; }
+    document.documentElement.classList.add("print-doc");
+    try { window.print(); } catch (e) { document.documentElement.classList.remove("print-doc"); }
+  });
+  window.addEventListener("afterprint", function () { document.documentElement.classList.remove("print-doc"); });
 
   /* ---------- 백업 ---------- */
   function getLastBackup() {
