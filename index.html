@@ -376,6 +376,8 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 .printlink { border: 0; background: none; color: var(--tide); font: inherit; font-weight: 500; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 /* '종이로 바로 인쇄'를 눌렀을 때만: 문서만 A4에 */
 @media print {
+  /* 가림 화면이 떠 있으면 평소 인쇄에도 내용을 싣지 않는다 */
+  html:not(.print-doc) .wrap[aria-hidden="true"] { display: none !important; }
   html.print-doc, html.print-doc body { background: #fff !important; }
   html.print-doc body > *:not(.wrap), html.print-doc .wrap > *:not(#p-summary), html.print-doc #p-summary > *:not(.doc-wrap) { display: none !important; }
   html.print-doc .wrap { max-width: none; padding: 0; }
