@@ -1083,6 +1083,11 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 #p-summary > .fcard { margin-top: 0 !important; }
 #p-backup > .bkstatus { margin-top: 0 !important; }
 .lk-msg, .lk-desc { white-space: pre-line; word-break: keep-all; }
+/* PC: 넓은 화면에서는 타임라인과 한눈에 쏙만 넓게 쓴다 (나머지 탭은 폰과 같은 폭) */
+@media screen and (min-width: 800px) {
+  .wrap { max-width: 720px; }
+  #p-quick, #p-reply, #p-backup { max-width: 448px; margin-left: auto; margin-right: auto; }
+}
 </style>
 </head>
 <body>
