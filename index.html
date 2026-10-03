@@ -1065,6 +1065,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 .pickeye { flex-shrink: 0; border: 1px solid var(--line); background: var(--paper); color: var(--ink-soft); border-radius: 12px; padding: 2px 9px; font: inherit; font-size: 11.5px; cursor: pointer; }
 .pickeye[aria-pressed="true"] { border-color: var(--lilac); color: var(--ink); }
 .pk .pk-x.veil { pointer-events: none; }
+
+/* 모든 탭 위쪽 여백 통일 (머리띠 아래 14px) */
+.panel, #p-quick { padding-top: 14px !important; }
+#p-quick > #isle { margin-top: 0 !important; }
+#p-summary > .fcard { margin-top: 0 !important; }
+#p-backup > .bkstatus { margin-top: 0 !important; }
+.lk-msg, .lk-desc { white-space: pre-line; word-break: keep-all; }
 </style>
 </head>
 <body>
@@ -1257,13 +1264,13 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         <div class="pchips" id="s_types">
           <button type="button" data-t="" aria-pressed="true">전체</button>
           <button type="button" data-t="성장" aria-pressed="false">성장</button>
+          <button type="button" data-t="응대" aria-pressed="false">보호자 응대</button>
           <button type="button" data-t="학폭" aria-pressed="false">학폭</button>
           <button type="button" data-t="교권" aria-pressed="false">교권</button>
           <button type="button" data-t="민원" aria-pressed="false">민원</button>
           <button type="button" data-t="생활지도" aria-pressed="false">생활지도</button>
           <button type="button" data-t="갑질" aria-pressed="false">갑질</button>
           <button type="button" data-t="기타" aria-pressed="false">기타</button>
-          <button type="button" data-t="응대" aria-pressed="false">보호자 응대</button>
         </div>
       </div>
       <div class="frow"><span class="fl">기간</span>
@@ -1970,7 +1977,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var salt = Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
     sha(salt + a).then(function (h) {
       try { localStorage.setItem(LOCK_KEY, JSON.stringify({ salt: salt, hash: h })); } catch (e) {}
-      unlocked = true; renderLock(); lockMsg("잠금을 켰어요. 비밀번호는 되찾을 수 없으니 꼭 기억해 두세요.", true);
+      unlocked = true; renderLock(); lockMsg("잠금을 켰어요.\n비밀번호는 되찾을 수 없으니\n꼭 기억해 두세요.", true);
     });
   });
   ["lockPin", "lockPin2"].forEach(function (id) { $(id).addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); $("lockToggle").click(); } }); });
