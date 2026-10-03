@@ -1258,7 +1258,10 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var re = new RegExp("(" + ts.map(reEsc).join("|") + ")", "gi");
     return text.split(re).map(function (p, i) { return i % 2 ? "<mark>" + esc(p) + "</mark>" : esc(p); }).join("");
   }
+  function filled(r) { return r.timeOnly && r.memos && r.memos.length ? r.memos[0] : null; }
   function bodyHtml(r, ts) {
+    var fm = filled(r);
+    if (fm) return highlight(fm.text, ts);
     if (!r.fields) return highlight(r.text, ts);
     var f = r.fields, out = [];
     if (f.type) out.push('<span class="lbl">유형</span>' + highlight(f.type, ts));
@@ -1620,8 +1623,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var d = new Date(r.createdAt), item = document.createElement("div"), b = document.createElement("button"), extra = document.createElement("div");
     item.className = "item"; extra.className = "extra";
     b.className = "rec" + (isGood(r) ? " good" : "") + (r.timeOnly && !(r.memos && r.memos.length) ? " tonly" : ""); b.type = "button"; b.setAttribute("aria-expanded", "false");
-    b.innerHTML = '<span class="time">' + (showDate ? dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " : "") + (r.eventAt ? timeStr(new Date(r.eventAt)) + " 일 (" + timeStr(d) + " 기록)" : timeStr(d)) + (r.inClass ? " · 🤫" : "") +
-      (recType(r) ? " · " + esc(recType(r)) + (typeInfo(r).src === "auto" ? " 후보" : "") : "") + (r.summary ? " · 정리본 있음" : "") + (r.memos && r.memos.length ? " · 메모 " + r.memos.length : "") + "</span>" +
+    b.innerHTML = '<span class="time">' + (showDate ? dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " : "") + (filled(r) ? timeStr(d) + " 시간 찍음 · " + timeStr(new Date(filled(r).at)) + " 내용 채움" : r.eventAt ? timeStr(new Date(r.eventAt)) + " 일 (" + timeStr(d) + " 기록)" : timeStr(d)) + (r.inClass ? " · 🤫" : "") +
+      (recType(r) ? " · " + esc(recType(r)) + (typeInfo(r).src === "auto" ? " 후보" : "") : "") + (r.summary ? " · 정리본 있음" : "") + (r.memos && r.memos.length > (filled(r) ? 1 : 0) ? " · 메모 " + (r.memos.length - (filled(r) ? 1 : 0)) : "") + "</span>" +
       '<span class="text veil">' + bodyHtml(r, ts) + "</span>";
     b.addEventListener("click", function () {
       var o = b.classList.toggle("open"); item.classList.toggle("open", o);
@@ -1739,7 +1742,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var ms = r.memos || [];
     el.className = "memos";
     el.innerHTML = '<div class="memo-h"><b>추가 메모</b><small>원본은 그대로, 이후 경과는 여기에</small></div>' +
-      ms.map(function (m) { var d = new Date(m.at); return '<div class="memo"><span class="time">' + dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " + timeStr(d) + '</span><div class="mt">' + esc(m.text) + "</div></div>"; }).join("") +
+      ms.map(function (m, k) { var d = new Date(m.at); return '<div class="memo"><span class="time">' + (r.timeOnly && k === 0 ? "채운 내용 · " : "") + dateStr(d, d.getFullYear() !== new Date().getFullYear()) + " " + timeStr(d) + '</span><div class="mt">' + esc(m.text) + "</div></div>"; }).join("") +
       '<textarea class="textfield" rows="2" placeholder="이후 경과, 추가로 알게 된 일, 보호자와 나눈 이야기…"></textarea>' +
       '<div class="acts"><button type="button" class="go" disabled>메모 남기기</button><span class="hint" style="align-self:center">메모도 남긴 뒤엔 고칠 수 없어요</span></div>';
     var ta = el.querySelector("textarea"), bt = el.querySelector(".go");
@@ -1747,12 +1750,16 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     bt.addEventListener("click", function () {
       var t = ta.value.trim(); if (!t) return;
       r.memos = (r.memos || []).concat([{ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), at: new Date().toISOString(), text: t }]);
+      if (r.timeOnly && r.memos.length === 1 && r.userType === undefined) { r.autoType = classify(t); r.cv = 2; }
       if (!persist()) { r.memos.pop(); showToast("저장 공간에 쓸 수 없어요.", false); return; }
-      renderMemos(r, el);
-      var tl = el.closest(".item") && el.closest(".item").querySelector(".time");
-      if (tl) tl.textContent = tl.textContent.replace(/ · 메모 \d+/, "") + " · 메모 " + r.memos.length;
-      showToast("메모를 남겼어요", false);
-      var rb = el.closest(".item") && el.closest(".item").querySelector(".rec"); if (rb) rb.classList.remove("tonly");
+      var item = el.closest(".item");
+      if (item && item.parentNode) {
+        var showDate = /월 \d+일/.test((item.querySelector(".time") || {}).textContent || "");
+        var ni = recEl(r, splitTerms($("q").value), showDate);
+        item.parentNode.replaceChild(ni, item);
+        var nb = ni.querySelector(".rec"); if (nb) nb.click();
+      } else renderMemos(r, el);
+      showToast(r.timeOnly && r.memos.length === 1 ? "내용을 채웠어요" : "메모를 남겼어요", false);
       renderToday();
     });
   }
@@ -1913,7 +1920,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
   $("r_mask").addEventListener("input", function () { $("r_mask").dataset.touched = "1"; updateMaskPreview(); });
   $("r_name").addEventListener("input", updateMaskPreview);
 
-  function recordText(r) { var base = recordTextBase(r), ms = r.memos || [];
+  function recordText(r) { var base = recordTextBase(r), ms = filled(r) ? r.memos.slice(1) : (r.memos || []);
     return ms.length ? base + "\n  추가 메모: " + ms.map(function (m) { return shortDate(new Date(m.at)) + " " + m.text; }).join(" / ") : base; }
   function recordTextBase(r) {
     var d = new Date(r.createdAt), head = dateStr(d, true) + " " + timeStr(d);
@@ -1922,6 +1929,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
       return head + " (정리본)\n" + KEYS.filter(function (k) { return it[k] && it[k] !== "기록 없음"; }).map(function (k) { return "  " + k + ": " + it[k]; }).join("\n");
     }
     if (r.fields) return head + "\n" + FIELDS.map(function (f) { return r.fields[f.key] ? "  " + f.label + ": " + r.fields[f.key] : ""; }).concat(r.fields.type ? ["  유형: " + r.fields.type] : []).filter(Boolean).join("\n");
+    var fm2 = filled(r);
+    if (fm2) return head + " (시간만 찍고 " + timeStr(new Date(fm2.at)) + "에 내용 채움)\n  " + fm2.text.replace(/\n/g, "\n  ");
     return head + (isGood(r) ? " [성장 기록]" : "") + "\n  " + r.text.replace(/\n/g, "\n  ");
   }
 
@@ -2916,7 +2925,9 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         content = f ? [f.type ? "[" + f.type + "]" : "", f.students ? "관련 학생: " + f.students : "", f.place ? "장소·시간: " + f.place : "", f.situation].filter(Boolean).join("\n") : r.text;
         resp = f && f.response ? f.response : "";
       }
-      if (r.memos && r.memos.length) content += "\n\n[추가 메모]\n" + r.memos.map(function (m) { return "- " + isoDay(new Date(m.at)).replace(/-/g, ".") + " " + m.text; }).join("\n");
+      var fm = filled(r), rest = r.memos || [];
+      if (fm) { content = fm.text + "\n(" + timeStr(d) + " 시간 찍음, " + timeStr(new Date(fm.at)) + " 내용 채움)"; rest = r.memos.slice(1); }
+      if (rest.length) content += "\n\n[추가 메모]\n" + rest.map(function (m) { return "- " + isoDay(new Date(m.at)).replace(/-/g, ".") + " " + m.text; }).join("\n");
       if (isGood(r)) content = "[성장]\n" + content;
       return "<tr><td class=\"when\">" + isoDay(d).replace(/-/g, ".") + "<br>" + timeStr(d) + "</td><td>" + esc(content) + "</td><td>" + esc(resp) + "</td></tr>";
     }).join("");
