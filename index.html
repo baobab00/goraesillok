@@ -491,7 +491,8 @@ input[type="date"].textfield { padding: 0 8px; }
 .wnote.storm .wb small { color: var(--storm); font-weight: 700; }
 .wnote.storm .wa { background: color-mix(in srgb, var(--storm) 25%, var(--paper)); }
 .wnote.wave .wb small { color: #B77E14; font-weight: 700; }
-:root:not([data-theme="light"]) .wnote.wave .wb small { color: #F2C35B; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .wnote.wave .wb small { color: #F2C35B; } }
+:root[data-theme="dark"] .wnote.wave .wb small { color: #F2C35B; }
 
 #p-reply.chat .composer {
   position: sticky; bottom: 0; z-index: 4; margin: 14px -16px 0; padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
