@@ -2343,7 +2343,8 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
     var changed = false;
     records.forEach(function (r) {
       if (r.cv === 2 || r.userType !== undefined) return;
-      r.autoType = classify(r.text); r.cv = 2; changed = true;
+      var fm = filled(r); // 시간만 찍고 나중에 채운 기록은 채운 내용으로 분류한다
+      r.autoType = classify(fm ? fm.text : r.text); r.cv = 2; changed = true;
     });
     if (changed) persist();
   }
@@ -3960,6 +3961,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         if (r.inClass === true) c.inClass = true;
         if (r.timeOnly === true) c.timeOnly = true;
         if (typeof r.userType === "string") c.userType = r.userType;
+        if (r.cv === 2 && ["", "교권", "학폭", "민원", "성장", "생활지도", "갑질"].indexOf(r.autoType) !== -1) { c.cv = 2; c.autoType = r.autoType; }
         if (r.fields) { c.fields = { type: String(r.fields.type || "") }; FIELDS.forEach(function (f) { c.fields[f.key] = String(r.fields[f.key] || ""); }); }
         if (Array.isArray(r.memos)) c.memos = r.memos.filter(function (m) { return m && typeof m.text === "string"; }).map(function (m) { return { id: String(m.id || ""), at: String(m.at || r.createdAt), text: m.text }; });
         if (r.summary && typeof r.summary === "object" && r.summary.items && typeof r.summary.items === "object") {
@@ -3986,6 +3988,7 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
         if (noteAdded) persistNotes();
       }
       if (added && !persist()) { load(); showToast("저장 공간에 쓸 수 없어서 불러오지 못했어요.", false); return; }
+      if (added) autoClassifyAll();
       if (added || caseAdded || noteAdded) askKeep();
       if (caseAdded) { if (!$("replyPast").hidden) renderCaseList(); else $("pastBtn").textContent = "지난 응대 (" + cases.length + ")"; }
       afterChange();
