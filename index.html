@@ -389,15 +389,15 @@ mark { background: var(--mark); color: inherit; border-radius: 3px; padding: 0 1
 }
 input[type="date"].textfield { padding: 0 8px; }
 
-/* toast */
+/* toast: 헤더 바로 아래에 잠깐 떴다 사라지는 안내. 누를 것이 없으므로 아래 화면의 손길을 막지 않는다 */
 .toast {
-  position: fixed; left: 50%; bottom: 0; transform: translate(-50%, 140%);
-  margin-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  background: var(--ink); color: var(--paper); border-radius: 12px; padding: 10px 10px 10px 16px;
-  display: flex; align-items: center; gap: 12px; font-size: 14px; transition: transform .25s ease;
-  width: max-content; max-width: calc(100% - 32px); line-height: 1.45; z-index: 10;
+  position: fixed; left: 50%; top: 0; transform: translateX(-50%);
+  background: var(--ink); color: var(--paper); border-radius: 12px; padding: 10px 16px; text-align: center;
+  font-size: 14px; width: max-content; max-width: calc(100% - 32px); line-height: 1.45; z-index: 30;
+  box-shadow: 0 6px 18px rgba(12, 16, 44, .22);
+  opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .2s ease, visibility 0s .2s;
 }
-.toast.show { transform: translate(-50%, 0); }
+.toast.show { opacity: 1; visibility: visible; transition: opacity .2s ease; }
 @media (prefers-reduced-motion: reduce) {
   .seal.on { animation: none; opacity: 0; }
   .veil, .toast { transition: none; }
@@ -4095,10 +4095,12 @@ mark.kw-mild { background: color-mix(in srgb, #E0A93A 30%, transparent); color: 
 
   /* ---------- common ---------- */
   function showToast(msg, canUndo) {
+    var t = $("toast");
     $("toastText").textContent = msg;
-    $("toast").classList.add("show");
+    t.style.top = (document.querySelector(".top").getBoundingClientRect().bottom + 8) + "px"; // 헤더 바로 아래
+    t.classList.add("show");
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { $("toast").classList.remove("show"); }, 4500);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 4500);
   }
   function afterChange() {
     shown = PAGE;
